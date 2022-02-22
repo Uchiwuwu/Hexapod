@@ -26,6 +26,6 @@ include_directories(
   ${Boost_INCLUDE_DIRS}
 )
 
-add_executable(hexapod src/Hexapod_handler.cpp src/Main.cpp)
+add_executable(hexapod src/config.cpp src/Hexapod_handler.cpp src/Main.cpp)
 add_dependencies(hexapod ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(hexapod ${catkin_LIBRARIES} -lwiringPi)

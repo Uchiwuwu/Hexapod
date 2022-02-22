@@ -117,9 +117,6 @@ void portSetup()
 
 void Setup()
 {
-	//Declare extern variable in config.h
-	leg_config << 52, 66.11, 160.77, 39.39, 29, 44.05, 134.17;
-	
 	//Setting FSR GPIOs
 	pinMode(FS_Leg_1, INPUT);
 	pinMode(FS_Leg_2, INPUT);
@@ -267,7 +264,7 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 int main(int argc, char* argv[])
 {
 	//Set up port connecting with Dynamixel
-	portSetup();
+	//portSetup();
 	//Set up Hexapod before starting operation
 	Setup();
 
