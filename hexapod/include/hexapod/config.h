@@ -78,7 +78,7 @@ Eigen::Vector3f const relative_body_position_5(-118.5, 0, 0);                   
 Eigen::Vector3f const relative_body_position_6(-75.91, -140.91, 0);                              //Preset this vector 
 
 //Leg configuration
-Eigen::VectorXf leg_config(6);
+Eigen::MatrixXf leg_config(6,1);
 
 const double LEG_MAX = 0;	//Update it with equation
 const int leg_ang_3 = 30;	//Existed due to the leg configuration
