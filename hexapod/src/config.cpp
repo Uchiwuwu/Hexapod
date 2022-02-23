@@ -53,24 +53,6 @@ const float angle_bit_calibration = 3.41333;          //Calibration to convert a
 const float max_time = 2;		//time of swinging and standing phase, in seconds
 const int n = 10;				//number of discretization, max = n*increment
 
-Eigen::Matrix3f const rot_mat_1((Eigen::Matrix3f() << cos(deg2rad(45)), -sin(deg2rad(45)), 0, sin(deg2rad(45)), cos(deg2rad(45)), 0, 0, 0, 1).finished());          //Rotation Matrix of Leg 1
-Eigen::Matrix3f const rot_mat_2((Eigen::Matrix3f() << cos(deg2rad(0)), -sin(deg2rad(0)), 0, sin(deg2rad(0)), cos(deg2rad(0)), 0, 0, 0, 1).finished());          //Rotation Matrix of Leg 2
-Eigen::Matrix3f const rot_mat_3((Eigen::Matrix3f() << cos(deg2rad(-45)), -sin(deg2rad(-45)), 0, sin(deg2rad(-45)), cos(deg2rad(-45)), 0, 0, 0, 1).finished());          //Rotation Matrix of Leg 3
-Eigen::Matrix3f const rot_mat_4((Eigen::Matrix3f() << cos(deg2rad(135)), -sin(deg2rad(135)), 0, sin(deg2rad(135)), cos(deg2rad(135)), 0, 0, 0, 1).finished());          //Rotation Matrix of Leg 4
-Eigen::Matrix3f const rot_mat_5((Eigen::Matrix3f() << cos(deg2rad(180)), -sin(deg2rad(180)), 0, sin(deg2rad(180)), cos(deg2rad(180)), 0, 0, 0, 1).finished());          //Rotation Matrix of Leg 5
-Eigen::Matrix3f const rot_mat_6((Eigen::Matrix3f() << cos(deg2rad(225)), -sin(deg2rad(225)), 0, sin(deg2rad(225)), cos(deg2rad(225)), 0, 0, 0, 1).finished());          //Rotation Matrix of Leg 6
-
-//Relative Positions of Leg joints on Body, respected on body relative reference frame
-Eigen::Vector3f const relative_body_position_1(75.91, 140.91, 0);                              //Preset this vector
-Eigen::Vector3f const relative_body_position_2(118.5, 0, 0);                                   //Preset this vector
-Eigen::Vector3f const relative_body_position_3(75.91, -140.91, 0);                              //Preset this vector
-Eigen::Vector3f const relative_body_position_4(-75.91, 140.91, 0);                              //Preset this vector
-Eigen::Vector3f const relative_body_position_5(-118.5, 0, 0);                                   //Preset this vector
-Eigen::Vector3f const relative_body_position_6(-75.91, -140.91, 0);                              //Preset this vector 
-
-//Leg configuration
-Eigen::VectorXf leg_config((Eigen::VectorXf() <<  52, 66.11, 160.77, 39.39, 29, 44.05, 134.17).finished());
-
 const double LEG_MAX = 0;	//Update it with equation
 const int leg_ang_3 = 30;	//Exsted due to the leg configuration
 const int leg_ang_5 = 60;	//Existed due to the leg configuration

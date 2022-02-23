@@ -5,7 +5,6 @@
 #include <geometry_msgs/Twist.h>
 #include <thread>
 
-
 // Setup Legs and Hexapod
 Hexaleg Leg_1(Servo_1, Servo_2, Servo_3, FS_Leg_1, leg1);
 Hexaleg Leg_2(Servo_4, Servo_5, Servo_6, FS_Leg_2, leg2);
@@ -15,6 +14,46 @@ Hexaleg Leg_5(Servo_13, Servo_14, Servo_15, FS_Leg_5, leg5);
 Hexaleg Leg_6(Servo_16, Servo_17, Servo_18, FS_Leg_6, leg6);
 
 Hexapod hexapod(&Leg_1, &Leg_2, &Leg_3, &Leg_4, &Leg_5, &Leg_6);
+
+
+Eigen::Matrix3f rot_mat_1;          //Rotation Matrix of Leg 1
+Eigen::Matrix3f rot_mat_2;          //Rotation Matrix of Leg 2
+Eigen::Matrix3f rot_mat_3;          //Rotation Matrix of Leg 3
+Eigen::Matrix3f rot_mat_4;          //Rotation Matrix of Leg 4
+Eigen::Matrix3f rot_mat_5;          //Rotation Matrix of Leg 5
+Eigen::Matrix3f rot_mat_6;          //Rotation Matrix of Leg 6
+
+//Relative Positions of Leg joints on Body, respected on body relative reference frame
+Eigen::Vector3f relative_body_position_1;                              //Preset this vector
+Eigen::Vector3f relative_body_position_2;                                   //Preset this vector
+Eigen::Vector3f relative_body_position_3;                              //Preset this vector
+Eigen::Vector3f relative_body_position_4;                              //Preset this vector
+Eigen::Vector3f relative_body_position_5;                                   //Preset this vector
+Eigen::Vector3f relative_body_position_6;                              //Preset this vector 
+
+//Leg configuration
+Eigen::VectorXf leg_config(7);
+
+void mat_init()
+{
+	rot_mat_1 << cos(deg2rad(45)), -sin(deg2rad(45)), 0, sin(deg2rad(45)), cos(deg2rad(45)), 0, 0, 0, 1;          //Rotation Matrix of Leg 1
+	rot_mat_2 << cos(deg2rad(0)), -sin(deg2rad(0)), 0, sin(deg2rad(0)), cos(deg2rad(0)), 0, 0, 0, 1;          //Rotation Matrix of Leg 2
+	rot_mat_3 << cos(deg2rad(-45)), -sin(deg2rad(-45)), 0, sin(deg2rad(-45)), cos(deg2rad(-45)), 0, 0, 0, 1;          //Rotation Matrix of Leg 3
+	rot_mat_4 << cos(deg2rad(135)), -sin(deg2rad(135)), 0, sin(deg2rad(135)), cos(deg2rad(135)), 0, 0, 0, 1;          //Rotation Matrix of Leg 4
+	rot_mat_5 << cos(deg2rad(180)), -sin(deg2rad(180)), 0, sin(deg2rad(180)), cos(deg2rad(180)), 0, 0, 0, 1;          //Rotation Matrix of Leg 5
+	rot_mat_6 << cos(deg2rad(225)), -sin(deg2rad(225)), 0, sin(deg2rad(225)), cos(deg2rad(225)), 0, 0, 0, 1;          //Rotation Matrix of Leg 6
+
+	//Relative Positions of Leg joints on Body, respected on body relative reference frame
+	relative_body_position_1 << 75.91, 140.91, 0;                              //Preset this vector
+	relative_body_position_2 << 118.5, 0, 0;                                   //Preset this vector
+	relative_body_position_3 << 75.91, -140.91, 0;                              //Preset this vector
+	relative_body_position_4 << -75.91, 140.91, 0;                              //Preset this vector
+	relative_body_position_5 << -118.5, 0, 0;                                   //Preset this vector
+	relative_body_position_6 << -75.91, -140.91, 0;                              //Preset this vector 
+
+	//Leg configuration
+	leg_config <<  52, 66.11, 160.77, 39.39, 29, 44.05, 134.17;
+}
 
 void portSetup()
 {
@@ -263,8 +302,10 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 
 int main(int argc, char* argv[])
 {
+	//Initialize hexapod configuration matrices
+	mat_init();
 	//Set up port connecting with Dynamixel
-	//portSetup();
+	portSetup();
 	//Set up Hexapod before starting operation
 	Setup();
 
@@ -272,4 +313,5 @@ int main(int argc, char* argv[])
 	ros::NodeHandle n;
 	ros::Subscriber sub = n.subscribe("keyboard_control", 1, readCommand);
 	ros::spin();
+	return 0;
 }

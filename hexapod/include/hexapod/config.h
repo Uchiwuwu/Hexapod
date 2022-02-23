@@ -5,7 +5,7 @@
 #include <vector>
 #include "../include/hexapod/Hexapod_handler.h"
 #include "../include/dynamixel_sdk/dynamixel_sdk.h"
-#include <eigen3/Eigen/Dense>
+#include <Eigen/Dense>
 #include <math.h>
 
 
@@ -62,25 +62,8 @@ extern const float angle_bit_calibration;          //Calibration to convert angl
 extern const float max_time;		//time of swinging and standing phase, in seconds
 extern const int n;				//number of discretization, max = n*increment
 
-extern Eigen::Matrix3f const rot_mat_1;          //Rotation Matrix of Leg 1
-extern Eigen::Matrix3f const rot_mat_2;          //Rotation Matrix of Leg 2
-extern Eigen::Matrix3f const rot_mat_3;          //Rotation Matrix of Leg 3
-extern Eigen::Matrix3f const rot_mat_4;          //Rotation Matrix of Leg 4
-extern Eigen::Matrix3f const rot_mat_5;          //Rotation Matrix of Leg 5
-extern Eigen::Matrix3f const rot_mat_6;          //Rotation Matrix of Leg 6
-
-//Relative Positions of Leg joints on Body, respected on body relative reference frame
-extern Eigen::Vector3f const relative_body_position_1;                              //Preset this vector
-extern Eigen::Vector3f const relative_body_position_2;                                   //Preset this vector
-extern Eigen::Vector3f const relative_body_position_3;                              //Preset this vector
-extern Eigen::Vector3f const relative_body_position_4;                              //Preset this vector
-extern Eigen::Vector3f const relative_body_position_5;                                   //Preset this vector
-extern Eigen::Vector3f const relative_body_position_6;                              //Preset this vector 
-
-//Leg configuration
-extern Eigen::VectorXf leg_config;
-
 extern const double LEG_MAX;	//Update it with equation
 extern const int leg_ang_3;	//Existed due to the leg configuration
 extern const int leg_ang_5;	//Existed due to the leg configuration
+
 #endif 
