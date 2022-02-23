@@ -24,7 +24,7 @@ uint16_t servo_dps_rpm_bit(double degs)
     return (uint16_t)(degs / 6 * 1023 / 114);
 }
 
-void Hexaleg::matricesSetup(Eigen::Vector3f body_position, Eigen::Matrix3f rotation, Eigen::VectorXf configuration, int n, int ang3, int ang5)
+void Hexaleg::matricesSetup(const Eigen::Vector3f& body_position, const Eigen::Matrix3f& rotation, Eigen::VectorXf configuration, int n, int ang3, int ang5)
 {
     relative_body_position = body_position;
     rotation_matrix = rotation;
@@ -275,16 +275,17 @@ void Hexaleg::angleGenerator(bool pair, int n)
 }
 
 //Generate desired relative planning positions for each leg with linear and angular commands, the number of positions generated based on the number of discretization
-void Hexaleg::planningStepGenerator(Eigen::Vector3f ang, Eigen::Vector3f linear, bool pair, int n)
+void Hexaleg::planningStepGenerator(const Eigen::Vector3f& ang, const Eigen::Vector3f& linear, bool pair, int n)
 {
+    Eigen::Vector3f temp_ang = ang;
     Eigen::MatrixXf rpy;
     desired_relative_planning_position.resize(3, n);
     if (pair == true)
     {
         for (int i = 0 ; i < n; i++)
         {
-            ang = ang * i / n;
-            rpy = updateRollPitchYaw(ang(0), ang(1), ang(2));
+            temp_ang = temp_ang * i / n;
+            rpy = updateRollPitchYaw(temp_ang(0), temp_ang(1), temp_ang(2));
             desired_relative_planning_position.col(i) = rotation_matrix.transpose() * (linear * i / n + rpy * (relative_body_position + rotation_matrix * relative_current_position) - relative_body_position);
         }
         relative_planning_position = desired_relative_planning_position.col(n-1);
@@ -293,8 +294,8 @@ void Hexaleg::planningStepGenerator(Eigen::Vector3f ang, Eigen::Vector3f linear,
     {
         for (int i = 1 ; i < n + 1; i++)
         {
-            ang = ang * i / n;
-            rpy = updateRollPitchYaw(ang(0), ang(1), ang(2));
+            temp_ang = temp_ang * i / n;
+            rpy = updateRollPitchYaw(temp_ang(0), temp_ang(1), temp_ang(2));
             desired_relative_planning_position.col(i) = rotation_matrix.transpose() * (rpy.transpose() * (relative_body_position + rotation_matrix * relative_current_position - linear * i / n) - relative_body_position);
         }
         relative_planning_position = desired_relative_planning_position.col(n-1);
