@@ -47,8 +47,22 @@ public:
     Eigen::MatrixXf desired_angle;                      //In degree
     Eigen::MatrixXf desired_velocity;                   //In mm/s
     Eigen::MatrixXf desired_relative_planning_position; //Matrix containing discreted planning position, size is updated when n is set
+    Eigen::VectorXf leg_configuration;                      //The configurations of the leg
 
-    Hexaleg(uint8_t s1, uint8_t s2, uint8_t s3, uint8_t fs,const char* leg) : first_Servo{ s1 }, second_Servo{ s2 }, third_Servo{ s3 }, force_sensor{ fs }, name{ leg } {}
+    Hexaleg(uint8_t s1, uint8_t s2, uint8_t s3, uint8_t fs,const char* leg) : 
+    first_Servo{ s1 }, second_Servo{ s2 }, third_Servo{ s3 }, force_sensor{ fs }, name{ leg } ,
+    desired_angle(1,1) , desired_velocity(1,1) , desired_relative_planning_position(1,1) , leg_configuration(1,1)
+    {
+        //Initialize matrices and vectors
+        desired_angle << 0;
+        desired_velocity << 0;
+        desired_relative_planning_position << 0;
+        leg_configuration << 0;
+        relative_body_position << 0,0,0;
+        rotation_matrix << 0,0,0,0,0,0,0,0,0;
+        relative_planning_position << 0,0,0;
+        relative_current_position << 0,0,0;
+    }
 
     Eigen::MatrixXf updateRollPitchYaw(float& roll, float& pitch, float& yaw);
     void matricesSetup(Eigen::Vector3f body_position, Eigen::Matrix3f rotation, Eigen::VectorXf configuration, int n, int ang3, int ang5);      //Set up and initialize all of matrices
@@ -65,7 +79,6 @@ private:
 
     Eigen::Vector3f relative_body_position;                 //The relative position of connecting joint
     Eigen::Matrix3f rotation_matrix;                        //the rotation matrix of the connecting joint between leg and body
-    Eigen::VectorXf leg_configuration;                      //The configurations of the leg
     Eigen::Vector3f relative_planning_position;             //The relative position of the tip of the Leg, respected to the connencting joint with the body
     Eigen::Vector3f relative_current_position;
     bool phase = false;                             // Detecting the current of phase of swinging or standing. False = 1st half, True = 2nd half

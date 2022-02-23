@@ -156,6 +156,7 @@ void portSetup()
 
 void Setup()
 {
+	wiringPiSetup();
 	//Setting FSR GPIOs
 	pinMode(FS_Leg_1, INPUT);
 	pinMode(FS_Leg_2, INPUT);
@@ -164,6 +165,7 @@ void Setup()
 	pinMode(FS_Leg_5, INPUT);
 	pinMode(FS_Leg_6, INPUT);
 
+	
 	// Initial Anngle for each servos, 0 = 0 degree, 1023 = 300 degree
 	Leg_1.matricesSetup(relative_body_position_1, rot_mat_1, leg_config, n, leg_ang_3, leg_ang_5);
 	Leg_2.matricesSetup(relative_body_position_2, rot_mat_2, leg_config, n, leg_ang_3, leg_ang_5);
