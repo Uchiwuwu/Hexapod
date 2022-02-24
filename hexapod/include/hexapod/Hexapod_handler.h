@@ -26,8 +26,6 @@
 
 #define ESC_ASCII_VALUE                 0x1b
 
-extern dynamixel::PortHandler* portHandler;
-extern dynamixel::PacketHandler* packetHandler;
 
 using namespace std;
 
@@ -53,6 +51,8 @@ public:
     first_Servo{ s1 }, second_Servo{ s2 }, third_Servo{ s3 }, force_sensor{ fs }, name{ leg } ,
     desired_angle(1,1) , desired_velocity(1,1) , desired_relative_planning_position(1,1) , leg_configuration(1)
     {
+        port = dynamixel::PortHandler::getPortHandler(DEVICENAME);
+        packet = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
         //Initialize matrices and vectors
         desired_angle << 0;
         desired_velocity << 0;
@@ -88,6 +88,8 @@ private:
     int q5;                                         //The angle existed due to the leg configuration
     uint8_t dxl_error = 0;                          // Dynamixel error
     uint16_t dxl_present_position = 0;              // Present position
+    dynamixel::PortHandler* port;
+    dynamixel::PacketHandler* packet;
 };
 
 class Hexapair {

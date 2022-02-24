@@ -60,6 +60,9 @@ void portSetup()
 	uint8_t error = 0;                          // Dynamixel error
 	int comm_result = COMM_TX_FAIL;
 
+	dynamixel::PortHandler* portHandler;
+	dynamixel::PacketHandler* packetHandler;
+
 	// Initialize PortHandler instance
 	// Set the port path
 	// Get methods and members of PortHandlerLinux or PortHandlerWindows
@@ -74,7 +77,7 @@ void portSetup()
 	if (!portHandler->openPort()) {
 		ROS_ERROR("Failed to open the port!");
 	}
-
+	//Set BaudRate
 	if (!portHandler->setBaudRate(BAUDRATE)) {
 		ROS_ERROR("Failed to set the baudrate!");
 	}
@@ -175,7 +178,7 @@ void Setup()
 	Leg_5.matricesSetup(relative_body_position_5, rot_mat_5, leg_config, leg_ang_3, leg_ang_5);
 	Leg_6.matricesSetup(relative_body_position_6, rot_mat_6, leg_config, leg_ang_3, leg_ang_5);
 
-	printf("Before initialize the leg");
+	printf("Before initialize the leg\n");
 	//Servo rotate from 0 to 300, 150 is in middle
 	//Initalize the leg
 	//Leg 1
