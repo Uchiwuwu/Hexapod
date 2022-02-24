@@ -24,7 +24,7 @@ uint16_t servo_dps_rpm_bit(double degs)
     return (uint16_t)(degs / 6 * 1023 / 114);
 }
 
-void Hexaleg::matricesSetup(const Eigen::Vector3f& body_position, const Eigen::Matrix3f& rotation, Eigen::VectorXf configuration, int& ang3, int& ang5)
+void Hexaleg::matricesSetup(const Eigen::Vector3f& body_position, const Eigen::Matrix3f& rotation, Eigen::VectorXf configuration, int ang3, int ang5)
 {
     relative_body_position = body_position;
     rotation_matrix = rotation;
