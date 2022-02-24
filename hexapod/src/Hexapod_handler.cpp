@@ -33,14 +33,14 @@ void Hexaleg::matricesSetup(const Eigen::Vector3f& body_position, const Eigen::M
 
 bool Hexaleg::checkServoStatus(uint8_t servo, uint16_t des_ang)
 {
-    dxl_comm_result = packetHandler->read2ByteTxRx(port, servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
+    dxl_comm_result = packet->read2ByteTxRx(port, servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
     if (dxl_comm_result != COMM_SUCCESS)
     { 
-        printf("%s\n", packetHandler->getTxRxResult(dxl_comm_result));
+        printf("%s\n", packet->getTxRxResult(dxl_comm_result));
     }
     else if (dxl_error != 0)
     {
-        printf("%s\n", packetHandler->getRxPacketError(dxl_error));
+        printf("%s\n", packet->getRxPacketError(dxl_error));
     }
 
     if (servo == first_Servo)
@@ -63,43 +63,43 @@ bool Hexaleg::moveToDesiredPosition(uint8_t servo, uint16_t position)
     //Move servo to the desired position, 1 = coxa servo, 2 = femur servo, 3 = tibia
     if (servo == first_Servo)
     {
-        dxl_comm_result = packetHandler->write2ByteTxRx(port, servo, ADDR_MX_GOAL_POSITION, position, &dxl_error);
+        dxl_comm_result = packet->write2ByteTxRx(port, servo, ADDR_MX_GOAL_POSITION, position, &dxl_error);
         if (dxl_comm_result != COMM_SUCCESS)
         {
-            printf("%s %s %i\n", packetHandler->getTxRxResult(dxl_comm_result), name, servo);
+            printf("%s %s %i\n", packet->getTxRxResult(dxl_comm_result), name, servo);
             return false;
         }
         else if (dxl_error != 0)
         {
-            printf("%s %s %i\n", packetHandler->getRxPacketError(dxl_error), name, servo);
+            printf("%s %s %i\n", packet->getRxPacketError(dxl_error), name, servo);
             return false;
         }
         return true;
     }
     else if (servo == second_Servo) {
-        dxl_comm_result = packetHandler->write2ByteTxRx(port, servo, ADDR_MX_GOAL_POSITION, position, &dxl_error);
+        dxl_comm_result = packet->write2ByteTxRx(port, servo, ADDR_MX_GOAL_POSITION, position, &dxl_error);
         if (dxl_comm_result != COMM_SUCCESS)
         {
-            printf("%s %s\n", packetHandler->getTxRxResult(dxl_comm_result), name);
+            printf("%s %s\n", packet->getTxRxResult(dxl_comm_result), name);
             return false;
         }
         else if (dxl_error != 0)
         {
-            printf("%s %s\n", packetHandler->getRxPacketError(dxl_error), name);
+            printf("%s %s\n", packet->getRxPacketError(dxl_error), name);
             return false;
         }
         return true;
     }
     else if (servo == third_Servo) {
-        dxl_comm_result = packetHandler->write2ByteTxRx(port, servo, ADDR_MX_GOAL_POSITION, position, &dxl_error);
+        dxl_comm_result = packet->write2ByteTxRx(port, servo, ADDR_MX_GOAL_POSITION, position, &dxl_error);
         if (dxl_comm_result != COMM_SUCCESS)
         {
-            printf("%s %s\n", packetHandler->getTxRxResult(dxl_comm_result), name);
+            printf("%s %s\n", packet->getTxRxResult(dxl_comm_result), name);
             return false;
         }
         else if (dxl_error != 0)
         {
-            printf("%s %s\n", packetHandler->getRxPacketError(dxl_error), name);
+            printf("%s %s\n", packet->getRxPacketError(dxl_error), name);
             return false;
         }
         return true;
@@ -119,20 +119,20 @@ bool Hexaleg::onGround()
 
 void Hexaleg::stop()
 {
-    dxl_comm_result = packetHandler->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
+    dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
     moveToDesiredPosition(first_Servo, dxl_present_position);
-    dxl_comm_result = packetHandler->read2ByteTxRx(port, second_Servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
+    dxl_comm_result = packet->read2ByteTxRx(port, second_Servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
     moveToDesiredPosition(second_Servo, dxl_present_position);
-    dxl_comm_result = packetHandler->read2ByteTxRx(portHandler, third_Servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
+    dxl_comm_result = packet->read2ByteTxRx(port, third_Servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
     moveToDesiredPosition(third_Servo, dxl_present_position);
 }
 
 void Hexaleg::update()
 {
     uint16_t s1,s2,s3;
-    dxl_comm_result = packetHandler->read2ByteTxRx(portHandler, first_Servo, ADDR_MX_PRESENT_POSITION, &s1, &dxl_error);
-    dxl_comm_result = packetHandler->read2ByteTxRx(portHandler, first_Servo, ADDR_MX_PRESENT_POSITION, &s2, &dxl_error);
-    dxl_comm_result = packetHandler->read2ByteTxRx(portHandler, first_Servo, ADDR_MX_PRESENT_POSITION, &s3, &dxl_error);
+    dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &s1, &dxl_error);
+    dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &s2, &dxl_error);
+    dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &s3, &dxl_error);
 
     relative_current_position(0) = leg_configuration(0) * cos(deg2rad(servo_bit2deg(s1))) + leg_configuration(3) * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2))) + leg_configuration(4) 
         * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(q3)) + leg_configuration(5) * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3))) 
