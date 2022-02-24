@@ -317,9 +317,9 @@ void Hexapair::setTetrapod(Hexaleg* f, Hexaleg* s)
 void Hexapair::resetPair()
 {
     //Reset all of pointer linking with legs;
-    fLeg = NULL;
-    sLeg = NULL;
-    tLeg = NULL;
+    fLeg = nullptr;
+    sLeg = nullptr;
+    tLeg = nullptr;
 }
 
 void Hexapair::pairPlanningStepGenerator(Eigen::Vector3f ang, Eigen::Vector3f linear, bool spair, int n)

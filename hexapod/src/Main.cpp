@@ -208,27 +208,27 @@ void Setup()
 	//Leg 1
 	Leg_1.moveToDesiredPosition(portHandler, packetHandler, Leg_1.first_Servo, servo_deg2bit(150));
 	Leg_1.moveToDesiredPosition(portHandler, packetHandler, Leg_1.second_Servo, servo_deg2bit(150 - leg_ang_3));
-	Leg_1.moveToDesiredPosition(portHandler, packetHandler, Leg_1.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
+	Leg_1.moveToDesiredPosition(portHandler, packetHandler, Leg_1.third_Servo, servo_deg2bit(150 - leg_ang_3 - leg_ang_5));
 	//Leg 2
 	Leg_2.moveToDesiredPosition(portHandler, packetHandler, Leg_2.first_Servo, servo_deg2bit(150));
 	Leg_2.moveToDesiredPosition(portHandler, packetHandler, Leg_2.second_Servo, servo_deg2bit(150 - leg_ang_3));
-	Leg_2.moveToDesiredPosition(portHandler, packetHandler, Leg_2.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
+	Leg_2.moveToDesiredPosition(portHandler, packetHandler, Leg_2.third_Servo, servo_deg2bit(150 - leg_ang_3 - leg_ang_5));
 	//Leg 3
 	Leg_3.moveToDesiredPosition(portHandler, packetHandler, Leg_3.first_Servo, servo_deg2bit(150));
 	Leg_3.moveToDesiredPosition(portHandler, packetHandler, Leg_3.second_Servo, servo_deg2bit(150 - leg_ang_3));
-	Leg_3.moveToDesiredPosition(portHandler, packetHandler, Leg_3.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
+	Leg_3.moveToDesiredPosition(portHandler, packetHandler, Leg_3.third_Servo, servo_deg2bit(150 - leg_ang_3 - leg_ang_5));
 	//Leg 4
 	Leg_4.moveToDesiredPosition(portHandler, packetHandler, Leg_4.first_Servo, servo_deg2bit(150));
 	Leg_4.moveToDesiredPosition(portHandler, packetHandler, Leg_4.second_Servo, servo_deg2bit(150 - leg_ang_3));
-	Leg_4.moveToDesiredPosition(portHandler, packetHandler, Leg_4.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
+	Leg_4.moveToDesiredPosition(portHandler, packetHandler, Leg_4.third_Servo, servo_deg2bit(150 - leg_ang_3 - leg_ang_5));
 	//Leg 5
 	Leg_5.moveToDesiredPosition(portHandler, packetHandler, Leg_5.first_Servo, servo_deg2bit(150));
 	Leg_5.moveToDesiredPosition(portHandler, packetHandler, Leg_5.second_Servo, servo_deg2bit(150 - leg_ang_3));
-	Leg_5.moveToDesiredPosition(portHandler, packetHandler, Leg_5.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
+	Leg_5.moveToDesiredPosition(portHandler, packetHandler, Leg_5.third_Servo, servo_deg2bit(150 - leg_ang_3 - leg_ang_5));
 	//Leg 6
 	Leg_6.moveToDesiredPosition(portHandler, packetHandler, Leg_6.first_Servo, servo_deg2bit(150));
 	Leg_6.moveToDesiredPosition(portHandler, packetHandler, Leg_6.second_Servo, servo_deg2bit(150 - leg_ang_3));
-	Leg_6.moveToDesiredPosition(portHandler, packetHandler, Leg_6.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
+	Leg_6.moveToDesiredPosition(portHandler, packetHandler, Leg_6.third_Servo, servo_deg2bit(150 - leg_ang_3 - leg_ang_5));
 
 	//Update the relative current position
 	Leg_1.update(portHandler, packetHandler);
