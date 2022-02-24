@@ -31,7 +31,7 @@ void Hexaleg::matricesSetup(const Eigen::Vector3f& body_position, const Eigen::M
     q5 = ang5;
 }
 
-bool Hexaleg::checkServoStatus(uint8_t servo, uint16_t des_ang)
+bool Hexaleg::checkServoStatus(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo, uint16_t des_ang)
 {
     dxl_comm_result = packet->read2ByteTxRx(port, servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
     if (dxl_comm_result != COMM_SUCCESS)
@@ -58,7 +58,7 @@ bool Hexaleg::checkServoStatus(uint8_t servo, uint16_t des_ang)
     else return false;
 }
 
-bool Hexaleg::moveToDesiredPosition(uint8_t servo, uint16_t position)
+bool Hexaleg::moveToDesiredPosition(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo, uint16_t position)
 {
     //Move servo to the desired position, 1 = coxa servo, 2 = femur servo, 3 = tibia
     if (servo == first_Servo)
@@ -117,17 +117,17 @@ bool Hexaleg::onGround()
     return (digitalRead(force_sensor)? true: false );
 }
 
-void Hexaleg::stop()
+void Hexaleg::stop(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
 {
     dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
-    moveToDesiredPosition(first_Servo, dxl_present_position);
+    moveToDesiredPosition(port, packet, first_Servo, dxl_present_position);
     dxl_comm_result = packet->read2ByteTxRx(port, second_Servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
-    moveToDesiredPosition(second_Servo, dxl_present_position);
+    moveToDesiredPosition(port, packet, second_Servo, dxl_present_position);
     dxl_comm_result = packet->read2ByteTxRx(port, third_Servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
-    moveToDesiredPosition(third_Servo, dxl_present_position);
+    moveToDesiredPosition(port, packet, third_Servo, dxl_present_position);
 }
 
-void Hexaleg::update()
+void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
 {
     uint16_t s1,s2,s3;
     dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &s1, &dxl_error);
@@ -341,7 +341,7 @@ void Hexapair::pairAngleGenerator(bool spair, int n)
     tLeg->angleGenerator(spair, n);
 }
 
-void Hexapair::movePair()
+void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
 {
     //Reason for this code is to have it pseudo-concurrently move three legs due to the lack of thread;
     bool leg1 = false;
@@ -353,21 +353,21 @@ void Hexapair::movePair()
     //A loop of moving legs. Exit when all legs reach their final desired angles.
     while (leg1 && leg2 && leg3)
     {
-        fLeg->moveToDesiredPosition(fLeg->first_Servo, servo_deg2bit(fLeg->desired_angle(0, col1)));
-        fLeg->moveToDesiredPosition(fLeg->second_Servo, servo_deg2bit(fLeg->desired_angle(1, col1)));
-        fLeg->moveToDesiredPosition(fLeg->third_Servo, servo_deg2bit(fLeg->desired_angle(2, col1)));
+        fLeg->moveToDesiredPosition(port, packet, fLeg->first_Servo, servo_deg2bit(fLeg->desired_angle(0, col1)));
+        fLeg->moveToDesiredPosition(port, packet, fLeg->second_Servo, servo_deg2bit(fLeg->desired_angle(1, col1)));
+        fLeg->moveToDesiredPosition(port, packet, fLeg->third_Servo, servo_deg2bit(fLeg->desired_angle(2, col1)));
 
-        sLeg->moveToDesiredPosition(sLeg->first_Servo, servo_deg2bit(sLeg->desired_angle(0, col2)));
-        sLeg->moveToDesiredPosition(sLeg->second_Servo, servo_deg2bit(sLeg->desired_angle(1, col2)));
-        sLeg->moveToDesiredPosition(sLeg->third_Servo, servo_deg2bit(sLeg->desired_angle(2, col2)));
+        sLeg->moveToDesiredPosition(port, packet, sLeg->first_Servo, servo_deg2bit(sLeg->desired_angle(0, col2)));
+        sLeg->moveToDesiredPosition(port, packet, sLeg->second_Servo, servo_deg2bit(sLeg->desired_angle(1, col2)));
+        sLeg->moveToDesiredPosition(port, packet, sLeg->third_Servo, servo_deg2bit(sLeg->desired_angle(2, col2)));
 
-        tLeg->moveToDesiredPosition(tLeg->first_Servo, servo_deg2bit(tLeg->desired_angle(0, col3)));
-        tLeg->moveToDesiredPosition(tLeg->second_Servo, servo_deg2bit(tLeg->desired_angle(1, col3)));
-        tLeg->moveToDesiredPosition(tLeg->third_Servo, servo_deg2bit(tLeg->desired_angle(2, col3)));
+        tLeg->moveToDesiredPosition(port, packet, tLeg->first_Servo, servo_deg2bit(tLeg->desired_angle(0, col3)));
+        tLeg->moveToDesiredPosition(port, packet, tLeg->second_Servo, servo_deg2bit(tLeg->desired_angle(1, col3)));
+        tLeg->moveToDesiredPosition(port, packet, tLeg->third_Servo, servo_deg2bit(tLeg->desired_angle(2, col3)));
 
-        if (fLeg->checkServoStatus(fLeg->first_Servo, servo_deg2bit(fLeg->desired_angle(0, col1)))
-            && fLeg->checkServoStatus(fLeg->second_Servo, servo_deg2bit(fLeg->desired_angle(1, col1)))
-            && fLeg->checkServoStatus(fLeg->third_Servo, servo_deg2bit(fLeg->desired_angle(2, col1))))                                             
+        if (fLeg->checkServoStatus(port, packet, fLeg->first_Servo, servo_deg2bit(fLeg->desired_angle(0, col1)))
+            && fLeg->checkServoStatus(port, packet, fLeg->second_Servo, servo_deg2bit(fLeg->desired_angle(1, col1)))
+            && fLeg->checkServoStatus(port, packet, fLeg->third_Servo, servo_deg2bit(fLeg->desired_angle(2, col1))))                                             
         {
             if(col1 < fLeg->desired_angle.cols()) 
                 col1++;
@@ -375,9 +375,9 @@ void Hexapair::movePair()
                 leg1 = true;
         }
 
-        if (sLeg->checkServoStatus(sLeg->first_Servo, servo_deg2bit(sLeg->desired_angle(0, col2)))
-            && sLeg->checkServoStatus(sLeg->second_Servo, servo_deg2bit(sLeg->desired_angle(1, col2)))
-            && sLeg->checkServoStatus(sLeg->third_Servo, servo_deg2bit(sLeg->desired_angle(2, col2))))
+        if (sLeg->checkServoStatus(port, packet, sLeg->first_Servo, servo_deg2bit(sLeg->desired_angle(0, col2)))
+            && sLeg->checkServoStatus(port, packet, sLeg->second_Servo, servo_deg2bit(sLeg->desired_angle(1, col2)))
+            && sLeg->checkServoStatus(port, packet, sLeg->third_Servo, servo_deg2bit(sLeg->desired_angle(2, col2))))
         {
             if (col2 < sLeg->desired_angle.cols())
                 col2++;
@@ -385,9 +385,9 @@ void Hexapair::movePair()
                 leg2 = true;
         }
 
-        if (tLeg->checkServoStatus(tLeg->first_Servo, servo_deg2bit(tLeg->desired_angle(0, col3)))
-            && tLeg->checkServoStatus(tLeg->second_Servo, servo_deg2bit(tLeg->desired_angle(1, col3)))
-            && tLeg->checkServoStatus(tLeg->third_Servo, servo_deg2bit(tLeg->desired_angle(2, col3))))
+        if (tLeg->checkServoStatus(port, packet, tLeg->first_Servo, servo_deg2bit(tLeg->desired_angle(0, col3)))
+            && tLeg->checkServoStatus(port, packet, tLeg->second_Servo, servo_deg2bit(tLeg->desired_angle(1, col3)))
+            && tLeg->checkServoStatus(port, packet, tLeg->third_Servo, servo_deg2bit(tLeg->desired_angle(2, col3))))
         {
             if (col3 < tLeg->desired_angle.cols())
                 col3++;
@@ -397,7 +397,7 @@ void Hexapair::movePair()
     }
 }
 
-void Hexapair::onGroundCheck()
+void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
 {
     //Lower the leg until it reach the ground
     bool leg1 = fLeg->onGround();
@@ -410,29 +410,29 @@ void Hexapair::onGroundCheck()
         leg3 = tLeg->onGround();
         if (!leg1)
         {
-            fLeg->moveToDesiredPosition(fLeg->third_Servo, servo_deg2bit(fLeg->desired_angle(2, fLeg->desired_angle.cols() - 1)++));
+            fLeg->moveToDesiredPosition(port, packet, fLeg->third_Servo, servo_deg2bit(fLeg->desired_angle(2, fLeg->desired_angle.cols() - 1)++));
         }
         else
         {
-            fLeg->stop();
+            fLeg->stop(port, packet);
         }
 
         if (!leg2)
         {
-            sLeg->moveToDesiredPosition(sLeg->third_Servo, servo_deg2bit(sLeg->desired_angle(2, sLeg->desired_angle.cols() - 1)++));
+            sLeg->moveToDesiredPosition(port, packet, sLeg->third_Servo, servo_deg2bit(sLeg->desired_angle(2, sLeg->desired_angle.cols() - 1)++));
         }
         else
         {
-            sLeg->stop();
+            sLeg->stop(port, packet);
         }
 
         if (!leg3)
         {
-            tLeg->moveToDesiredPosition(tLeg->third_Servo, servo_deg2bit(tLeg->desired_angle(2, tLeg->desired_angle.cols() - 1)++));
+            tLeg->moveToDesiredPosition(port, packet, tLeg->third_Servo, servo_deg2bit(tLeg->desired_angle(2, tLeg->desired_angle.cols() - 1)++));
         }
         else
         {
-            tLeg->stop();
+            tLeg->stop(port, packet);
         }
 
         if (leg1 && leg2 && leg3) break;

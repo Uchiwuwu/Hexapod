@@ -34,6 +34,9 @@ Eigen::Vector3f relative_body_position_6;                              //Preset 
 //Leg configuration
 Eigen::VectorXf leg_config(7);
 
+dynamixel::PortHandler* portHandler;
+dynamixel::PacketHandler* packetHandler;
+
 void mat_init()
 {
 	rot_mat_1 << cos(deg2rad(45)), -sin(deg2rad(45)), 0, sin(deg2rad(45)), cos(deg2rad(45)), 0, 0, 0, 1;          //Rotation Matrix of Leg 1
@@ -59,19 +62,6 @@ void portSetup()
 {
 	uint8_t error = 0;                          // Dynamixel error
 	int comm_result = COMM_TX_FAIL;
-
-	dynamixel::PortHandler* portHandler;
-	dynamixel::PacketHandler* packetHandler;
-
-	// Initialize PortHandler instance
-	// Set the port path
-	// Get methods and members of PortHandlerLinux or PortHandlerWindows
-	portHandler = dynamixel::PortHandler::getPortHandler(DEVICENAME);
-
-	// Initialize PacketHandler instance
-	// Set the protocol version
-	// Get methods and members of Protocol1PacketHandler or Protocol2PacketHandler
-	packetHandler = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
 
 	// Open port
 	if (!portHandler->openPort()) {
@@ -182,37 +172,37 @@ void Setup()
 	//Servo rotate from 0 to 300, 150 is in middle
 	//Initalize the leg
 	//Leg 1
-	Leg_1.moveToDesiredPosition(Leg_1.first_Servo, servo_deg2bit(150));
-	Leg_1.moveToDesiredPosition(Leg_1.second_Servo, servo_deg2bit(150 - leg_ang_3));
-	Leg_1.moveToDesiredPosition(Leg_1.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
+	Leg_1.moveToDesiredPosition(portHandler, packetHandler, Leg_1.first_Servo, servo_deg2bit(150));
+	Leg_1.moveToDesiredPosition(portHandler, packetHandler, Leg_1.second_Servo, servo_deg2bit(150 - leg_ang_3));
+	Leg_1.moveToDesiredPosition(portHandler, packetHandler, Leg_1.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
 	//Leg 2
-	Leg_2.moveToDesiredPosition(Leg_2.first_Servo, servo_deg2bit(150));
-	Leg_2.moveToDesiredPosition(Leg_2.second_Servo, servo_deg2bit(150 - leg_ang_3));
-	Leg_2.moveToDesiredPosition(Leg_2.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
+	Leg_2.moveToDesiredPosition(portHandler, packetHandler, Leg_2.first_Servo, servo_deg2bit(150));
+	Leg_2.moveToDesiredPosition(portHandler, packetHandler, Leg_2.second_Servo, servo_deg2bit(150 - leg_ang_3));
+	Leg_2.moveToDesiredPosition(portHandler, packetHandler, Leg_2.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
 	//Leg 3
-	Leg_3.moveToDesiredPosition(Leg_3.first_Servo, servo_deg2bit(150));
-	Leg_3.moveToDesiredPosition(Leg_3.second_Servo, servo_deg2bit(150 - leg_ang_3));
-	Leg_3.moveToDesiredPosition(Leg_3.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
+	Leg_3.moveToDesiredPosition(portHandler, packetHandler, Leg_3.first_Servo, servo_deg2bit(150));
+	Leg_3.moveToDesiredPosition(portHandler, packetHandler, Leg_3.second_Servo, servo_deg2bit(150 - leg_ang_3));
+	Leg_3.moveToDesiredPosition(portHandler, packetHandler, Leg_3.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
 	//Leg 4
-	Leg_4.moveToDesiredPosition(Leg_4.first_Servo, servo_deg2bit(150));
-	Leg_4.moveToDesiredPosition(Leg_4.second_Servo, servo_deg2bit(150 - leg_ang_3));
-	Leg_4.moveToDesiredPosition(Leg_4.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
+	Leg_4.moveToDesiredPosition(portHandler, packetHandler, Leg_4.first_Servo, servo_deg2bit(150));
+	Leg_4.moveToDesiredPosition(portHandler, packetHandler, Leg_4.second_Servo, servo_deg2bit(150 - leg_ang_3));
+	Leg_4.moveToDesiredPosition(portHandler, packetHandler, Leg_4.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
 	//Leg 5
-	Leg_5.moveToDesiredPosition(Leg_5.first_Servo, servo_deg2bit(150));
-	Leg_5.moveToDesiredPosition(Leg_5.second_Servo, servo_deg2bit(150 - leg_ang_3));
-	Leg_5.moveToDesiredPosition(Leg_5.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
+	Leg_5.moveToDesiredPosition(portHandler, packetHandler, Leg_5.first_Servo, servo_deg2bit(150));
+	Leg_5.moveToDesiredPosition(portHandler, packetHandler, Leg_5.second_Servo, servo_deg2bit(150 - leg_ang_3));
+	Leg_5.moveToDesiredPosition(portHandler, packetHandler, Leg_5.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
 	//Leg 6
-	Leg_6.moveToDesiredPosition(Leg_6.first_Servo, servo_deg2bit(150));
-	Leg_6.moveToDesiredPosition(Leg_6.second_Servo, servo_deg2bit(150 - leg_ang_3));
-	Leg_6.moveToDesiredPosition(Leg_6.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
+	Leg_6.moveToDesiredPosition(portHandler, packetHandler, Leg_6.first_Servo, servo_deg2bit(150));
+	Leg_6.moveToDesiredPosition(portHandler, packetHandler, Leg_6.second_Servo, servo_deg2bit(150 - leg_ang_3));
+	Leg_6.moveToDesiredPosition(portHandler, packetHandler, Leg_6.third_Servo, servo_deg2bit(150 + leg_ang_3 + leg_ang_5));
 
 	//Update the relative current position
-	Leg_1.update();
-	Leg_2.update();
-	Leg_3.update();
-	Leg_4.update();
-	Leg_5.update();
-	Leg_6.update();
+	Leg_1.update(portHandler, packetHandler);
+	Leg_2.update(portHandler, packetHandler);
+	Leg_3.update(portHandler, packetHandler);
+	Leg_4.update(portHandler, packetHandler);
+	Leg_5.update(portHandler, packetHandler);
+	Leg_6.update(portHandler, packetHandler);
 
 	//Set up pair mode
 	hexapod.tripodMode();
@@ -239,13 +229,13 @@ void trajectoryPlanning(Hexapair* pair, Eigen::Vector3f ang, Eigen::Vector3f lin
 void moveLeg(Hexapair* pair)
 {
 	//Move pairs to its desired positions
-	pair->movePair();
+	pair->movePair(portHandler, packetHandler);
 	//Check if all the legs are on the ground. If not, make it to the ground
-	pair->onGroundCheck();
+	pair->onGroundCheck(portHandler, packetHandler);
 	//Update current position
-	pair->fLeg->update();
-	pair->sLeg->update();
-	pair->tLeg->update();
+	pair->fLeg->update(portHandler, packetHandler);
+	pair->sLeg->update(portHandler, packetHandler);
+	pair->tLeg->update(portHandler, packetHandler);
 }
 
 void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
@@ -285,8 +275,8 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 		//Double check if all of the legs are on the ground
 		if (!legOnGround())
 		{
-			swinging_pair->onGroundCheck();
-			standing_pair->onGroundCheck();
+			swinging_pair->onGroundCheck(portHandler, packetHandler);
+			standing_pair->onGroundCheck(portHandler, packetHandler);
 		}
 		//Swap pairs of legs assigned
 		swap(swinging_pair, standing_pair);
@@ -311,6 +301,16 @@ int main(int argc, char* argv[])
 {
 	//Initialize hexapod configuration matrices
 	mat_init();
+
+	// Initialize PortHandler instance
+	// Set the port path
+	// Get methods and members of PortHandlerLinux or PortHandlerWindows
+	portHandler = dynamixel::PortHandler::getPortHandler(DEVICENAME);
+
+	// Initialize PacketHandler instance
+	// Set the protocol version
+	// Get methods and members of Protocol1PacketHandler or Protocol2PacketHandler
+	packetHandler = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
 	//Set up port connecting with Dynamixel
 	portSetup();
 	//Set up Hexapod before starting operation
@@ -318,7 +318,7 @@ int main(int argc, char* argv[])
 
 	ros::init(argc, argv, "hexapod");
 	ros::NodeHandle n;
-	ros::Subscriber sub = n.subscribe("keyboard_control", 1, readCommand);
+	ros::Subscriber sub = n.subscribe<geometry_msgs::Twist>("keyboard_control", 1, readCommand);
 	ros::spin();
 	return 0;
 }

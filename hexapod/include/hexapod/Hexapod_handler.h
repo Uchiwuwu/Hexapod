@@ -51,8 +51,6 @@ public:
         first_Servo{ s1 }, second_Servo{ s2 }, third_Servo{ s3 }, force_sensor{ fs }, name{ leg } ,
         desired_angle(1,1) , desired_velocity(1,1) , desired_relative_planning_position(1,1) , leg_configuration(1)
     {
-        port = dynamixel::PortHandler::getPortHandler(DEVICENAME);
-        packet = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
         //Initialize matrices and vectors
         desired_angle << 0;
         desired_velocity << 0;
@@ -69,11 +67,11 @@ public:
     void checkWorkspace(bool pair, int n);                                                                                                             //check if the desired position is in the workspace. Shift or modify the desired positions based on the pair
     void angleGenerator(bool pair, int n);                                                                                                             //Generate angle based on desired positions, using inverse kinematics
     void planningStepGenerator(const Eigen::Vector3f& ang, const Eigen::Vector3f& linear, bool pair, int n);                                                  //Generate desired positions with the commands
-    bool checkServoStatus(uint8_t servo, uint16_t des_ang);                                                                                     //Check if servo reachs its desired position
-    bool moveToDesiredPosition(uint8_t servo, uint16_t position);                                                                               //Move servos to their desired position
+    bool checkServoStatus(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo, uint16_t des_ang);                                                                                     //Check if servo reachs its desired position
+    bool moveToDesiredPosition(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo, uint16_t position);                                                                               //Move servos to their desired position
     bool onGround();                                                                                                                            //If on ground, return angle of 3rd servo. If not, return -1
-    void stop();                                                                                                                                //Stop at the current state
-    void update();                                                                                                                              //Update the relative current position
+    void stop(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet);                                                                                                                                //Stop at the current state
+    void update(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet);                                                                                                                              //Update the relative current position
 
 private:
 
@@ -88,8 +86,6 @@ private:
     int q5;                                         //The angle existed due to the leg configuration
     uint8_t dxl_error = 0;                          // Dynamixel error
     uint16_t dxl_present_position = 0;              // Present position
-    dynamixel::PortHandler* port;
-    dynamixel::PacketHandler* packet;
 };
 
 class Hexapair {
@@ -105,8 +101,8 @@ public:
     bool checkPairStatus();                                              //Check if all legs in the pair reach their desired position
     void resetPair();                                                   //Unpair legs
     void planningStepGenerator(Eigen::Matrix3f rpy, Eigen::Vector3f linear, bool pair);       //Generate the next step relative position based on current position and command given, True = Swinging & False = Standing
-    void movePair();                                                                            //Move all legs in pair until they all reaches their final desired positions
-    void onGroundCheck();                                                                       //Check if all legs are on the ground. If not, slowly lower the leg until it touches the ground
+    void movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet);                                                                            //Move all legs in pair until they all reaches their final desired positions
+    void onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet);                                                                       //Check if all legs are on the ground. If not, slowly lower the leg until it touches the ground
     void pairPlanningStepGenerator(Eigen::Vector3f ang, Eigen::Vector3f linear, bool spair, int n);
     void checkPairWorkSpace(bool spair, int n);
     void pairAngleGenerator(bool spair, int n);
