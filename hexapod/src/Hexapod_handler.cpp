@@ -66,12 +66,12 @@ bool Hexaleg::moveToDesiredPosition(uint8_t servo, uint16_t position)
         dxl_comm_result = packet->write2ByteTxRx(port, servo, ADDR_MX_GOAL_POSITION, position, &dxl_error);
         if (dxl_comm_result != COMM_SUCCESS)
         {
-            printf("%s %s %i\n", packet->getTxRxResult(dxl_comm_result), name, servo);
+            printf("%s %s %u\n", packet->getTxRxResult(dxl_comm_result), name, servo);
             return false;
         }
         else if (dxl_error != 0)
         {
-            printf("%s %s %i\n", packet->getRxPacketError(dxl_error), name, servo);
+            printf("%s %s %u\n", packet->getRxPacketError(dxl_error), name, servo);
             return false;
         }
         return true;
@@ -80,12 +80,12 @@ bool Hexaleg::moveToDesiredPosition(uint8_t servo, uint16_t position)
         dxl_comm_result = packet->write2ByteTxRx(port, servo, ADDR_MX_GOAL_POSITION, position, &dxl_error);
         if (dxl_comm_result != COMM_SUCCESS)
         {
-            printf("%s %s\n", packet->getTxRxResult(dxl_comm_result), name);
+            printf("%s %s %u\n", packet->getTxRxResult(dxl_comm_result), name, servo);
             return false;
         }
         else if (dxl_error != 0)
         {
-            printf("%s %s\n", packet->getRxPacketError(dxl_error), name);
+            printf("%s %s %u\n", packet->getRxPacketError(dxl_error), name, servo);
             return false;
         }
         return true;
@@ -94,12 +94,12 @@ bool Hexaleg::moveToDesiredPosition(uint8_t servo, uint16_t position)
         dxl_comm_result = packet->write2ByteTxRx(port, servo, ADDR_MX_GOAL_POSITION, position, &dxl_error);
         if (dxl_comm_result != COMM_SUCCESS)
         {
-            printf("%s %s\n", packet->getTxRxResult(dxl_comm_result), name);
+            printf("%s %s %u\n", packet->getTxRxResult(dxl_comm_result), name, servo);
             return false;
         }
         else if (dxl_error != 0)
         {
-            printf("%s %s\n", packet->getRxPacketError(dxl_error), name);
+            printf("%s %s %u\n", packet->getRxPacketError(dxl_error), name, servo);
             return false;
         }
         return true;

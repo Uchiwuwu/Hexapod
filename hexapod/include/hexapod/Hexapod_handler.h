@@ -47,9 +47,9 @@ public:
     Eigen::MatrixXf desired_relative_planning_position; //Matrix containing discreted planning position, size is updated when n is set
     Eigen::VectorXf leg_configuration;                      //The configurations of the leg
 
-    Hexaleg(uint8_t s1, uint8_t s2, uint8_t s3, uint8_t fs,const char* leg) : 
-    first_Servo{ s1 }, second_Servo{ s2 }, third_Servo{ s3 }, force_sensor{ fs }, name{ leg } ,
-    desired_angle(1,1) , desired_velocity(1,1) , desired_relative_planning_position(1,1) , leg_configuration(1)
+    Hexaleg(uint8_t& s1, uint8_t& s2, uint8_t& s3, uint8_t fs,const char* leg) : 
+        first_Servo{ s1 }, second_Servo{ s2 }, third_Servo{ s3 }, force_sensor{ fs }, name{ leg } ,
+        desired_angle(1,1) , desired_velocity(1,1) , desired_relative_planning_position(1,1) , leg_configuration(1)
     {
         port = dynamixel::PortHandler::getPortHandler(DEVICENAME);
         packet = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
