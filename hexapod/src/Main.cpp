@@ -37,6 +37,40 @@ Eigen::VectorXf leg_config(7);
 dynamixel::PortHandler* portHandler;
 dynamixel::PacketHandler* packetHandler;
 
+void mat_init();
+void portSetup();
+void Setup();
+bool legOnGround();
+void trajectoryPlanning(Hexapair* pair, Eigen::Vector3f ang, Eigen::Vector3f linear, bool spair, int n);
+void moveLeg(Hexapair* pair);
+void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg);
+
+int main(int argc, char* argv[])
+{
+	//Initialize hexapod configuration matrices
+	mat_init();
+
+	// Initialize PortHandler instance
+	// Set the port path
+	// Get methods and members of PortHandlerLinux or PortHandlerWindows
+	portHandler = dynamixel::PortHandler::getPortHandler(DEVICENAME);
+
+	// Initialize PacketHandler instance
+	// Set the protocol version
+	// Get methods and members of Protocol1PacketHandler or Protocol2PacketHandler
+	packetHandler = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
+	//Set up port connecting with Dynamixel
+	portSetup();
+	//Set up Hexapod before starting operation
+	Setup();
+
+	ros::init(argc, argv, "hexapod");
+	ros::NodeHandle n;
+	ros::Subscriber sub = n.subscribe<geometry_msgs::Twist>("keyboard_control", 1, readCommand);
+	ros::spin();
+	return 0;
+}
+
 void mat_init()
 {
 	rot_mat_1 << cos(deg2rad(45)), -sin(deg2rad(45)), 0, sin(deg2rad(45)), cos(deg2rad(45)), 0, 0, 0, 1;          //Rotation Matrix of Leg 1
@@ -295,30 +329,4 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 		th3.join();
 		th4.join();
 	}
-}
-
-int main(int argc, char* argv[])
-{
-	//Initialize hexapod configuration matrices
-	mat_init();
-
-	// Initialize PortHandler instance
-	// Set the port path
-	// Get methods and members of PortHandlerLinux or PortHandlerWindows
-	portHandler = dynamixel::PortHandler::getPortHandler(DEVICENAME);
-
-	// Initialize PacketHandler instance
-	// Set the protocol version
-	// Get methods and members of Protocol1PacketHandler or Protocol2PacketHandler
-	packetHandler = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
-	//Set up port connecting with Dynamixel
-	portSetup();
-	//Set up Hexapod before starting operation
-	Setup();
-
-	ros::init(argc, argv, "hexapod");
-	ros::NodeHandle n;
-	ros::Subscriber sub = n.subscribe<geometry_msgs::Twist>("keyboard_control", 1, readCommand);
-	ros::spin();
-	return 0;
 }
