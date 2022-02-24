@@ -96,9 +96,9 @@ public:
     bool pStatus{ false };
     Hexapair() 
     {
-        fLeg = nullptr;
-        sLeg = nullptr;
-        tLeg = nullptr;
+        fLeg = NULL;
+        sLeg = NULL;
+        tLeg = NULL;
     }
 
     void setTripod(Hexaleg* f, Hexaleg* s, Hexaleg* t);                 //Set pairs in order of tripod gait
@@ -125,9 +125,9 @@ public:
     
     Hexapod(Hexaleg* fR, Hexaleg* sR, Hexaleg* tR, Hexaleg* fL, Hexaleg* sL, Hexaleg* tL) : firstRightLeg{ *fR }, secondRightLeg{ *sR }, thirdRightLeg{ *tR }, firstLeftLeg{ *fL }, secondLeftLeg{ *sL }, thirdLeftLeg{ *tL } 
     {
-        firstPair = nullptr;
-        secondPair = nullptr;
-        thirdPair = nullptr;
+        firstPair = NULL;
+        secondPair = NULL;
+        thirdPair = NULL;
     }
 
     void tripodMode();                                                       //Setup for tripod gait perfomance
