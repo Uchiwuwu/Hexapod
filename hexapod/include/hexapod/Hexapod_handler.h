@@ -51,7 +51,7 @@ public:
 
     Hexaleg(uint8_t s1, uint8_t s2, uint8_t s3, uint8_t fs,const char* leg) : 
     first_Servo{ s1 }, second_Servo{ s2 }, third_Servo{ s3 }, force_sensor{ fs }, name{ leg } ,
-    desired_angle(1,1) , desired_velocity(1,1) , desired_relative_planning_position(1,1) , leg_configuration(1,1)
+    desired_angle(1,1) , desired_velocity(1,1) , desired_relative_planning_position(1,1) , leg_configuration(1)
     {
         //Initialize matrices and vectors
         desired_angle << 0;
@@ -59,13 +59,13 @@ public:
         desired_relative_planning_position << 0;
         leg_configuration << 0;
         relative_body_position << 0,0,0;
-        rotation_matrix << 0,0,0,0,0,0,0,0,0;
+        rotation_matrix << 0,0,0 ,0,0,0 ,0,0,0;
         relative_planning_position << 0,0,0;
         relative_current_position << 0,0,0;
     }
 
     Eigen::MatrixXf updateRollPitchYaw(float& roll, float& pitch, float& yaw);
-    void matricesSetup(const Eigen::Vector3f& body_position, const Eigen::Matrix3f& rotation, Eigen::VectorXf configuration, int n, int ang3, int ang5);      //Set up and initialize all of matrices
+    void matricesSetup(const Eigen::Vector3f& body_position, const Eigen::Matrix3f& rotation, Eigen::VectorXf configuration, int& ang3, int& ang5);      //Set up and initialize all of matrices
     void checkWorkspace(bool pair, int n);                                                                                                             //check if the desired position is in the workspace. Shift or modify the desired positions based on the pair
     void angleGenerator(bool pair, int n);                                                                                                             //Generate angle based on desired positions, using inverse kinematics
     void planningStepGenerator(const Eigen::Vector3f& ang, const Eigen::Vector3f& linear, bool pair, int n);                                                  //Generate desired positions with the commands

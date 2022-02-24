@@ -156,6 +156,7 @@ void portSetup()
 
 void Setup()
 {
+	printf("In setup\n");
 	wiringPiSetup();
 	//Setting FSR GPIOs
 	pinMode(FS_Leg_1, INPUT);
@@ -165,15 +166,16 @@ void Setup()
 	pinMode(FS_Leg_5, INPUT);
 	pinMode(FS_Leg_6, INPUT);
 
-	
+	printf("Before matricesSetup\n");
 	// Initial Anngle for each servos, 0 = 0 degree, 1023 = 300 degree
-	Leg_1.matricesSetup(relative_body_position_1, rot_mat_1, leg_config, n, leg_ang_3, leg_ang_5);
-	Leg_2.matricesSetup(relative_body_position_2, rot_mat_2, leg_config, n, leg_ang_3, leg_ang_5);
-	Leg_3.matricesSetup(relative_body_position_3, rot_mat_3, leg_config, n, leg_ang_3, leg_ang_5);
-	Leg_4.matricesSetup(relative_body_position_4, rot_mat_4, leg_config, n, leg_ang_3, leg_ang_5);
-	Leg_5.matricesSetup(relative_body_position_5, rot_mat_5, leg_config, n, leg_ang_3, leg_ang_5);
-	Leg_6.matricesSetup(relative_body_position_6, rot_mat_6, leg_config, n, leg_ang_3, leg_ang_5);
+	Leg_1.matricesSetup(relative_body_position_1, rot_mat_1, leg_config, leg_ang_3, leg_ang_5);
+	Leg_2.matricesSetup(relative_body_position_2, rot_mat_2, leg_config, leg_ang_3, leg_ang_5);
+	Leg_3.matricesSetup(relative_body_position_3, rot_mat_3, leg_config, leg_ang_3, leg_ang_5);
+	Leg_4.matricesSetup(relative_body_position_4, rot_mat_4, leg_config, leg_ang_3, leg_ang_5);
+	Leg_5.matricesSetup(relative_body_position_5, rot_mat_5, leg_config, leg_ang_3, leg_ang_5);
+	Leg_6.matricesSetup(relative_body_position_6, rot_mat_6, leg_config, leg_ang_3, leg_ang_5);
 
+	printf("Before initialize the leg");
 	//Servo rotate from 0 to 300, 150 is in middle
 	//Initalize the leg
 	//Leg 1
