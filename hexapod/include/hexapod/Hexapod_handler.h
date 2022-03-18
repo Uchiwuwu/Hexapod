@@ -1,6 +1,6 @@
 #ifndef HEXAPOD_H
 #define HEXAPOD_H
-#include "../include/dynamixel_sdk/dynamixel_sdk.h"
+#include "dynamixel_sdk/dynamixel_sdk.h"
 #include <stdio.h>
 #include <wiringPi.h>
 #include <iostream>
@@ -62,7 +62,6 @@ public:
         relative_current_position << 0,0,0;
     }
 
-    ~Hexaleg();
     Hexaleg(const Hexaleg &L);
     Hexaleg & operator=(const Hexaleg &L);
 
@@ -100,7 +99,6 @@ public:
     bool pStatus{ false };
     Hexapair() {}
 
-    ~Hexapair();
     Hexapair(const Hexapair &L);
     Hexapair& operator=(const Hexapair &L);
 
@@ -130,7 +128,6 @@ public:
                                                                                             thirdRightLeg{ *tR }, firstLeftLeg{ *fL },
                                                                                             secondLeftLeg{ *sL }, thirdLeftLeg{ *tL } {}
 
-    ~Hexapod();
     Hexapod(const Hexapod &L);
     Hexapod& operator=(const Hexapod &L);
 

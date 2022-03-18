@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
-#include "../include/hexapod/Hexapod_handler.h"
-#include "../include/dynamixel_sdk/dynamixel_sdk.h"
+#include "Hexapod_handler.h"
+#include "dynamixel_sdk/dynamixel_sdk.h"
 #include <Eigen/Dense>
 #include <math.h>
 

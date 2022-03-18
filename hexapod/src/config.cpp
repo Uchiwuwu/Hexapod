@@ -1,4 +1,4 @@
-#include "../include/hexapod/config.h"
+#include "config.h"
 
 // Default setting
 uint8_t Servo_1 = 1;					// Dynamixel ID: 1

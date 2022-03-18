@@ -17,20 +17,18 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 find_package(Eigen3 REQUIRED)
-MESSAGE( [Main] " EIGEN3_INCLUDE_DIRS = ${EIGEN3_INCLUDE_DIRS}") 
-
 
 catkin_package(
   INCLUDE_DIRS include
   CATKIN_DEPENDS  geometry_msgs roscpp dynamixel_sdk
 )
 include_directories(
-  include
+  include/hexapod
   ${catkin_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
 )
 
-add_executable(hexapod src/config.cpp src/Hexapod_handler.cpp src/Main.cpp)
-add_dependencies(hexapod ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(hexapod ${catkin_LIBRARIES} -lwiringPi -fsanitize=address -static-libasan -g)
+add_executable(hexbot src/config.cpp src/Hexapod_handler.cpp src/Main.cpp)
+add_dependencies(hexbot ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(hexbot ${catkin_LIBRARIES} -lwiringPi -fsanitize=address -static-libasan -g)
