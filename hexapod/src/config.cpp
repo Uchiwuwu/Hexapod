@@ -44,8 +44,8 @@ int8_t ang_vel = 0;
 using namespace std;
 
 //Moving Setting
-Hexapair* swinging_pair = NULL;
-Hexapair* standing_pair = NULL;
+Hexapair* swinging_pair;
+Hexapair* standing_pair;
 
 //Hexapod Caculation Settup
 int16_t primitive_rising = 20;                        //In degree

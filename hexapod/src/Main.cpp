@@ -13,7 +13,7 @@ Hexaleg Leg_4(Servo_10, Servo_11, Servo_12, FS_Leg_4, leg4);
 Hexaleg Leg_5(Servo_13, Servo_14, Servo_15, FS_Leg_5, leg5);
 Hexaleg Leg_6(Servo_16, Servo_17, Servo_18, FS_Leg_6, leg6);
 
-Hexapod hexapod(&Leg_1, &Leg_2, &Leg_3, &Leg_4, &Leg_5, &Leg_6);
+Hexapod hex(&Leg_1, &Leg_2, &Leg_3, &Leg_4, &Leg_5, &Leg_6);
 
 
 Eigen::Matrix3f rot_mat_1;          //Rotation Matrix of Leg 1
@@ -239,7 +239,7 @@ void Setup()
 	Leg_6.update(portHandler, packetHandler);
 
 	//Set up pair mode
-	hexapod.tripodMode();
+	hex.tripodMode();
 }
 
 bool legOnGround()
@@ -287,8 +287,8 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 
 	if (swinging_pair == NULL || standing_pair == NULL)
 	{
-		swinging_pair = hexapod.firstPair;
-		standing_pair = hexapod.secondPair;
+		swinging_pair = hex.firstPair;
+		standing_pair = hex.secondPair;
 		
 		//Create desired trajectory for each legs
 		thread th1(trajectoryPlanning, swinging_pair, rotation_command, translation_command, true, n);

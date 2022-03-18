@@ -62,6 +62,10 @@ public:
         relative_current_position << 0,0,0;
     }
 
+    ~Hexaleg();
+    Hexaleg(const Hexaleg &L);
+    Hexaleg & operator=(const Hexaleg &L);
+
     Eigen::MatrixXf updateRollPitchYaw(float& roll, float& pitch, float& yaw);
     void matricesSetup(const Eigen::Vector3f& body_position, const Eigen::Matrix3f& rotation, Eigen::VectorXf configuration, int ang3, int ang5);      //Set up and initialize all of matrices
     void checkWorkspace(bool pair, int n);                                                                                                             //check if the desired position is in the workspace. Shift or modify the desired positions based on the pair
@@ -71,7 +75,7 @@ public:
     bool moveToDesiredPosition(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo, uint16_t position);                                                                               //Move servos to their desired position
     bool onGround();                                                                                                                            //If on ground, return angle of 3rd servo. If not, return -1
     void stop(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet);                                                                                                                                //Stop at the current state
-    void update(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet);                                                                                                                              //Update the relative current position
+    void update(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet);                                                                //Update relative_current_position                                                                                                           //Update the relative current position
 
 private:
 
@@ -94,12 +98,11 @@ public:
     Hexaleg* sLeg;                                                      //Second leg
     Hexaleg* tLeg;                                                      //Third leg
     bool pStatus{ false };
-    Hexapair() 
-    {
-        fLeg = NULL;
-        sLeg = NULL;
-        tLeg = NULL;
-    }
+    Hexapair() {}
+
+    ~Hexapair();
+    Hexapair(const Hexapair &L);
+    Hexapair& operator=(const Hexapair &L);
 
     void setTripod(Hexaleg* f, Hexaleg* s, Hexaleg* t);                 //Set pairs in order of tripod gait
     void setTetrapod(Hexaleg* f, Hexaleg* s);                           //Set pairs in order of tetrapod gait
@@ -123,12 +126,13 @@ public:
     Hexapair* secondPair;
     Hexapair* thirdPair;
     
-    Hexapod(Hexaleg* fR, Hexaleg* sR, Hexaleg* tR, Hexaleg* fL, Hexaleg* sL, Hexaleg* tL) : firstRightLeg{ *fR }, secondRightLeg{ *sR }, thirdRightLeg{ *tR }, firstLeftLeg{ *fL }, secondLeftLeg{ *sL }, thirdLeftLeg{ *tL } 
-    {
-        firstPair = NULL;
-        secondPair = NULL;
-        thirdPair = NULL;
-    }
+    Hexapod(Hexaleg* fR, Hexaleg* sR, Hexaleg* tR, Hexaleg* fL, Hexaleg* sL, Hexaleg* tL) : firstRightLeg{ *fR }, secondRightLeg{ *sR },
+                                                                                            thirdRightLeg{ *tR }, firstLeftLeg{ *fL },
+                                                                                            secondLeftLeg{ *sL }, thirdLeftLeg{ *tL } {}
+
+    ~Hexapod();
+    Hexapod(const Hexapod &L);
+    Hexapod& operator=(const Hexapod &L);
 
     void tripodMode();                                                       //Setup for tripod gait perfomance
     void tetrapodMode();                                                     //Setup for tetrapod gait perfomance

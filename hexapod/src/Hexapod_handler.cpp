@@ -21,6 +21,15 @@ uint16_t servo_dps_rpm_bit(double degs)
     return (uint16_t)(degs / 6 * 1023 / 114);
 }
 
+Hexaleg::Hexaleg(const Hexaleg &L): first_Servo(L.first_Servo), second_Servo(L.second_Servo),
+                                    third_Servo(L.third_Servo), force_sensor(L.force_sensor),
+                                    desired_angle(L.desired_angle),desired_velocity(L.desired_velocity),
+                                    desired_relative_planning_position(L.desired_relative_planning_position),leg_configuration(L.leg_configuration),
+                                    relative_body_position(L.relative_body_position),relative_current_position(L.relative_current_position),
+                                    relative_planning_position(L.relative_planning_position),rotation_matrix(L.rotation_matrix),
+                                    phase(L.phase),name(L.name),dxl_comm_result(L.dxl_comm_result),q3(L.q3),q5(L.q5),
+                                    dxl_error(L.dxl_error),dxl_present_position(L.dxl_present_position) {}
+
 void Hexaleg::matricesSetup(const Eigen::Vector3f& body_position, const Eigen::Matrix3f& rotation, Eigen::VectorXf configuration, int ang3, int ang5)
 {
     relative_body_position = body_position;
@@ -131,8 +140,8 @@ void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* pac
 {
     uint16_t s1,s2,s3;
     dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &s1, &dxl_error);
-    dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &s2, &dxl_error);
-    dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &s3, &dxl_error);
+    dxl_comm_result = packet->read2ByteTxRx(port, second_Servo, ADDR_MX_PRESENT_POSITION, &s2, &dxl_error);
+    dxl_comm_result = packet->read2ByteTxRx(port, third_Servo, ADDR_MX_PRESENT_POSITION, &s3, &dxl_error);
 
     relative_current_position(0) = leg_configuration(0) * cos(deg2rad(servo_bit2deg(s1))) + leg_configuration(3) * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2))) + leg_configuration(4) 
         * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(q3)) + leg_configuration(5) * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3))) 
@@ -295,6 +304,8 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f& ang, const Eigen::Vec
     }
 }
 
+Hexapair::Hexapair(const Hexapair &L): fLeg(L.fLeg), sLeg(L.sLeg), tLeg(L.tLeg), pStatus(L.pStatus), tripod(L.tripod), tetrapod(L.tetrapod) {}
+
 void Hexapair::setTripod(Hexaleg* f, Hexaleg* s, Hexaleg* t)
 {
     //Turn on Tripod mode, turn off Tetrapod mode
@@ -438,6 +449,10 @@ void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHand
         if (leg1 && leg2 && leg3) break;
     }
 }
+
+Hexapod::Hexapod(const Hexapod &L):firstPair(L.firstPair),secondPair(L.secondPair),thirdPair(L.thirdPair),firstRightLeg(L.firstRightLeg),
+                                    secondRightLeg(L.secondRightLeg),thirdRightLeg(L.thirdRightLeg),firstLeftLeg(L.firstLeftLeg),
+                                    secondLeftLeg(L.secondLeftLeg),thirdLeftLeg(L.thirdLeftLeg) {}
 
 void Hexapod::tripodMode()
 {
