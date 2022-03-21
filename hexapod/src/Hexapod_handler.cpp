@@ -306,7 +306,7 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f& ang, const Eigen::Vec
 
 Hexapair::Hexapair(const Hexapair &L): fLeg(L.fLeg), sLeg(L.sLeg), tLeg(L.tLeg), pStatus(L.pStatus), tripod(L.tripod), tetrapod(L.tetrapod) {}
 
-void Hexapair::setTripod(Hexaleg f, Hexaleg s, Hexaleg t)
+void Hexapair::setTripod(Hexaleg& f, Hexaleg& s, Hexaleg& t)
 {
     //Turn on Tripod mode, turn off Tetrapod mode
     fLeg = &f;
@@ -316,7 +316,7 @@ void Hexapair::setTripod(Hexaleg f, Hexaleg s, Hexaleg t)
     tetrapod = false;
 }
 
-void Hexapair::setTetrapod(Hexaleg f, Hexaleg s)
+void Hexapair::setTetrapod(Hexaleg& f, Hexaleg& s)
 {
     //Turn on Tetrapod mode, turn off Tripod mode
     fLeg = &f;

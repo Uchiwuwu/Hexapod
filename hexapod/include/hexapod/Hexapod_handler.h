@@ -63,7 +63,7 @@ public:
     }
 
     Hexaleg(const Hexaleg &L);
-    Hexaleg & operator=(const Hexaleg &L);
+    Hexaleg& operator=(const Hexaleg &L);
 
     Eigen::MatrixXf updateRollPitchYaw(float& roll, float& pitch, float& yaw);
     void matricesSetup(const Eigen::Vector3f& body_position, const Eigen::Matrix3f& rotation, Eigen::VectorXf configuration, int ang3, int ang5);      //Set up and initialize all of matrices
@@ -102,8 +102,8 @@ public:
     Hexapair(const Hexapair &L);
     Hexapair& operator=(const Hexapair &L);
 
-    void setTripod(Hexaleg f, Hexaleg s, Hexaleg t);                 //Set pairs in order of tripod gait
-    void setTetrapod(Hexaleg f, Hexaleg s);                           //Set pairs in order of tetrapod gait
+    void setTripod(Hexaleg& f, Hexaleg& s, Hexaleg& t);                 //Set pairs in order of tripod gait
+    void setTetrapod(Hexaleg& f, Hexaleg& s);                           //Set pairs in order of tetrapod gait
     bool checkPairStatus();                                              //Check if all legs in the pair reach their desired position
     void resetPair();                                                   //Unpair legs
     void planningStepGenerator(Eigen::Matrix3f rpy, Eigen::Vector3f linear, bool pair);       //Generate the next step relative position based on current position and command given, True = Swinging & False = Standing
