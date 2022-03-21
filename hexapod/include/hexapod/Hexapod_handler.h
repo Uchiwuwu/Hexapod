@@ -102,8 +102,8 @@ public:
     Hexapair(const Hexapair &L);
     Hexapair& operator=(const Hexapair &L);
 
-    void setTripod(Hexaleg* f, Hexaleg* s, Hexaleg* t);                 //Set pairs in order of tripod gait
-    void setTetrapod(Hexaleg* f, Hexaleg* s);                           //Set pairs in order of tetrapod gait
+    void setTripod(Hexaleg f, Hexaleg s, Hexaleg t);                 //Set pairs in order of tripod gait
+    void setTetrapod(Hexaleg f, Hexaleg s);                           //Set pairs in order of tetrapod gait
     bool checkPairStatus();                                              //Check if all legs in the pair reach their desired position
     void resetPair();                                                   //Unpair legs
     void planningStepGenerator(Eigen::Matrix3f rpy, Eigen::Vector3f linear, bool pair);       //Generate the next step relative position based on current position and command given, True = Swinging & False = Standing
@@ -124,9 +124,9 @@ public:
     Hexapair* secondPair;
     Hexapair* thirdPair;
     
-    Hexapod(Hexaleg* fR, Hexaleg* sR, Hexaleg* tR, Hexaleg* fL, Hexaleg* sL, Hexaleg* tL) : firstRightLeg{ *fR }, secondRightLeg{ *sR },
-                                                                                            thirdRightLeg{ *tR }, firstLeftLeg{ *fL },
-                                                                                            secondLeftLeg{ *sL }, thirdLeftLeg{ *tL } {}
+    Hexapod(Hexaleg& fR, Hexaleg& sR, Hexaleg& tR, Hexaleg& fL, Hexaleg& sL, Hexaleg& tL) : firstRightLeg{ fR }, secondRightLeg{ sR },
+                                                                                            thirdRightLeg{ tR }, firstLeftLeg{ fL },
+                                                                                            secondLeftLeg{ sL }, thirdLeftLeg{ tL } {}
 
     Hexapod(const Hexapod &L);
     Hexapod& operator=(const Hexapod &L);

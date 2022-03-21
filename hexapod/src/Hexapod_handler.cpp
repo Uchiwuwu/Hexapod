@@ -1,4 +1,4 @@
-#include "Hexapod_handler.h"
+#include "  Hexapod_handler.h"
 
 //Declare variables and functions
 double deg2rad(double deg) {
@@ -306,23 +306,23 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f& ang, const Eigen::Vec
 
 Hexapair::Hexapair(const Hexapair &L): fLeg(L.fLeg), sLeg(L.sLeg), tLeg(L.tLeg), pStatus(L.pStatus), tripod(L.tripod), tetrapod(L.tetrapod) {}
 
-void Hexapair::setTripod(Hexaleg* f, Hexaleg* s, Hexaleg* t)
+void Hexapair::setTripod(Hexaleg f, Hexaleg s, Hexaleg t)
 {
     //Turn on Tripod mode, turn off Tetrapod mode
-    fLeg = f;
-    sLeg = s;
-    tLeg = t;
+    fLeg = &f;
+    sLeg = &s;
+    tLeg = &t;
     tripod = true;
     tetrapod = false;
 }
 
-void Hexapair::setTetrapod(Hexaleg* f, Hexaleg* s)
+void Hexapair::setTetrapod(Hexaleg f, Hexaleg s)
 {
     //Turn on Tetrapod mode, turn off Tripod mode
-    fLeg = f;
-    sLeg = s;
-    tripod = true;
-    tetrapod = false;
+    fLeg = &f;
+    sLeg = &s;
+    tripod = false;
+    tetrapod = true;
 }
 
 void Hexapair::resetPair()
@@ -456,17 +456,17 @@ Hexapod::Hexapod(const Hexapod &L):firstPair(L.firstPair),secondPair(L.secondPai
 
 void Hexapod::tripodMode()
 {
-    firstPair->setTripod(&firstRightLeg, &thirdRightLeg, &secondLeftLeg);
-    secondPair->setTripod(&secondRightLeg, &firstLeftLeg, &thirdLeftLeg);
+    firstPair->setTripod(firstRightLeg, thirdRightLeg, secondLeftLeg);
+    secondPair->setTripod(secondRightLeg, firstLeftLeg, thirdLeftLeg);
     tripod = true;
     tetrapod = false;
 }
 
 void Hexapod::tetrapodMode()
 {
-    firstPair->setTetrapod(&thirdRightLeg, &secondLeftLeg);
-    secondPair->setTetrapod(&secondRightLeg, &firstLeftLeg);
-    thirdPair->setTetrapod(&firstRightLeg, &thirdLeftLeg);
+    firstPair->setTetrapod(thirdRightLeg, secondLeftLeg);
+    secondPair->setTetrapod(secondRightLeg, firstLeftLeg);
+    thirdPair->setTetrapod(firstRightLeg, thirdLeftLeg);
     tetrapod = true;
     tripod = false;
 }
