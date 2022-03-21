@@ -1,4 +1,4 @@
-#include "  Hexapod_handler.h"
+#include "Hexapod_handler.h"
 
 //Declare variables and functions
 double deg2rad(double deg) {
