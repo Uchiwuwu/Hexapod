@@ -55,4 +55,4 @@ const int n = 10;				//number of discretization, max = n*increment
 
 const double LEG_MAX = 0;	//Update it with equation
 const int leg_ang_3 = 30;	//Exsted due to the leg configuration
-const int leg_ang_5 = 60;	//Existed due to the leg configuration
+const int leg_ang_5 = -60;	//Existed due to the leg configuration
