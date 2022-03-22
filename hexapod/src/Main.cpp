@@ -183,7 +183,7 @@ void portSetup()
 
 void Setup()
 {
-	printf("In setup\n");
+	//printf("In setup\n");
 	wiringPiSetup();
 	//Setting FSR GPIOs
 	pinMode(FS_Leg_1, INPUT);
@@ -193,7 +193,7 @@ void Setup()
 	pinMode(FS_Leg_5, INPUT);
 	pinMode(FS_Leg_6, INPUT);
 
-	printf("Before matricesSetup\n");
+	//printf("Before matricesSetup\n");
 	// Initial Anngle for each servos, 0 = 0 degree, 1023 = 300 degree
 	Leg_1.matricesSetup(relative_body_position_1, rot_mat_1, leg_config, leg_ang_3, leg_ang_5);
 	Leg_2.matricesSetup(relative_body_position_2, rot_mat_2, leg_config, leg_ang_3, leg_ang_5);
@@ -202,7 +202,7 @@ void Setup()
 	Leg_5.matricesSetup(relative_body_position_5, rot_mat_5, leg_config, leg_ang_3, leg_ang_5);
 	Leg_6.matricesSetup(relative_body_position_6, rot_mat_6, leg_config, leg_ang_3, leg_ang_5);
 
-	printf("Before initialize the leg\n");
+	//printf("Before initialize the leg\n");
 	//Servo rotate from 0 to 300, 150 is in middle
 	//Initalize the leg
 	//Leg 1
@@ -230,7 +230,7 @@ void Setup()
 	Leg_6.moveToDesiredPosition(portHandler, packetHandler, Leg_6.second_Servo, servo_deg2bit(150 + leg_ang_3));
 	Leg_6.moveToDesiredPosition(portHandler, packetHandler, Leg_6.third_Servo, servo_deg2bit(150 + leg_ang_5));
 
-	printf("update current positions\n");
+	//printf("update current positions\n");
 	//Update the relative current position
 	Leg_1.update(portHandler, packetHandler);
 	Leg_2.update(portHandler, packetHandler);
@@ -240,9 +240,9 @@ void Setup()
 	Leg_6.update(portHandler, packetHandler);
 
 	//Set up pair mode
-	printf("setup tripod mode\n");
+	//printf("setup tripod mode\n");
 	hexbot.tripodMode();
-	printf("DOne setting mode\n");
+	//printf("DOne setting mode\n");
 }
 
 bool legOnGround()
@@ -277,6 +277,7 @@ void moveLeg(Hexapair* pair)
 
 void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 {
+	printf("In readCommand\n");
 	Eigen::Vector3f translation_command(0, 0, 0);
 	Eigen::Vector3f rotation_command(0, 0, 0);
 
@@ -290,9 +291,11 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 
 	if (swinging_pair == NULL || standing_pair == NULL)
 	{
+		printf("setup swinging_pair and standing_pair\n");
 		swinging_pair = &hexbot.firstPair;
 		standing_pair = &hexbot.secondPair;
 		
+		printf("set TrajectoryPlanning\n");
 		//Create desired trajectory for each legs
 		thread th1(trajectoryPlanning, swinging_pair, rotation_command, translation_command, true, n);
 		thread th2(trajectoryPlanning, standing_pair, rotation_command, translation_command, true, n);
@@ -300,6 +303,7 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 		th1.join();
 		th2.join();
 
+		printf("Move leg\n");
 		//Move leg along the trajectories
 		thread th3(moveLeg, swinging_pair);
 		thread th4(moveLeg, swinging_pair);
@@ -309,15 +313,19 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 	}
 	else
 	{
+		printf("check if all legs on ground\n");
 		//Double check if all of the legs are on the ground
 		if (!legOnGround())
 		{
 			swinging_pair->onGroundCheck(portHandler, packetHandler);
 			standing_pair->onGroundCheck(portHandler, packetHandler);
 		}
+
+		printf("swap pairs\n");
 		//Swap pairs of legs assigned
 		swap(swinging_pair, standing_pair);
 
+		printf("set TrajectoryPlanning\n");
 		//Create desired trajectory for each legs
 		thread th1(trajectoryPlanning, swinging_pair, rotation_command, translation_command, true, n);
 		thread th2(trajectoryPlanning, standing_pair, rotation_command, translation_command, true, n);
@@ -325,6 +333,7 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 		th1.join();
 		th2.join();
 
+		printf("Move leg\n");
 		//Move leg along the trajectories
 		thread th3(moveLeg, swinging_pair);
 		thread th4(moveLeg, swinging_pair);
