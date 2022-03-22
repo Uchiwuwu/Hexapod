@@ -473,7 +473,7 @@ void Hexapod::tetrapodMode()
 
 void Hexapod::resetPair()
 {
-    firstPair->resetPair();
-    secondPair->resetPair();
-    thirdPair->resetPair();
+    firstPair.resetPair();
+    secondPair.resetPair();
+    thirdPair.resetPair();
 }
