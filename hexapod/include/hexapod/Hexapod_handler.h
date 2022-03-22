@@ -120,9 +120,9 @@ private:
 
 class Hexapod {
 public:
-    Hexapair* firstPair;
-    Hexapair* secondPair;
-    Hexapair* thirdPair;
+    Hexapair firstPair;
+    Hexapair secondPair;
+    Hexapair thirdPair;
     
     Hexapod(Hexaleg& fR, Hexaleg& sR, Hexaleg& tR, Hexaleg& fL, Hexaleg& sL, Hexaleg& tL) : firstRightLeg{ fR }, secondRightLeg{ sR },
                                                                                             thirdRightLeg{ tR }, firstLeftLeg{ fL },

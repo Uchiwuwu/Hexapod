@@ -456,17 +456,17 @@ Hexapod::Hexapod(const Hexapod &L):firstPair(L.firstPair),secondPair(L.secondPai
 
 void Hexapod::tripodMode()
 {
-    firstPair->setTripod(firstRightLeg, thirdRightLeg, secondLeftLeg);
-    secondPair->setTripod(secondRightLeg, firstLeftLeg, thirdLeftLeg);
+    firstPair.setTripod(firstRightLeg, thirdRightLeg, secondLeftLeg);
+    secondPair.setTripod(secondRightLeg, firstLeftLeg, thirdLeftLeg);
     tripod = true;
     tetrapod = false;
 }
 
 void Hexapod::tetrapodMode()
 {
-    firstPair->setTetrapod(thirdRightLeg, secondLeftLeg);
-    secondPair->setTetrapod(secondRightLeg, firstLeftLeg);
-    thirdPair->setTetrapod(firstRightLeg, thirdLeftLeg);
+    firstPair.setTetrapod(thirdRightLeg, secondLeftLeg);
+    secondPair.setTetrapod(secondRightLeg, firstLeftLeg);
+    thirdPair.setTetrapod(firstRightLeg, thirdLeftLeg);
     tetrapod = true;
     tripod = false;
 }
