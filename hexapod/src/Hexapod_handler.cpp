@@ -153,7 +153,7 @@ void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* pac
         * sin(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3))) - leg_configuration(6) * sin(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3)) + deg2rad(q5));
 }
 
-Eigen::MatrixXf Hexaleg::updateRollPitchYaw(float& roll, float& pitch, float& yaw)
+Eigen::Matrix3f Hexaleg::updateRollPitchYaw(float& roll, float& pitch, float& yaw)
 {
     Eigen::Matrix3f yaw_pitch_row((Eigen::Matrix3f() << 0, 0, 0, 0, 0, 0, 0, 0, 0).finished());
     yaw_pitch_row << cos(deg2rad(yaw)) * cos(deg2rad(pitch)),
@@ -277,10 +277,10 @@ void Hexaleg::angleGenerator(bool pair, int n)
 }
 
 //Generate desired relative planning positions for each leg with linear and angular commands, the number of positions generated based on the number of discretization
-void Hexaleg::planningStepGenerator(const Eigen::Vector3f& ang, const Eigen::Vector3f& linear, bool pair, int n)
+void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vector3f linear, bool pair, int n)
 {
-    Eigen::Vector3f temp_ang = ang;
-    Eigen::MatrixXf rpy;
+    Eigen::Vector3f temp_ang;
+    Eigen::Matrix3f rpy;
     printf("before resize desired_relative_planning_position\n");
     desired_relative_planning_position.resize(3, n);
     printf("Use linear and angular command to calculate the desired relative planning position\n");
@@ -288,7 +288,7 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f& ang, const Eigen::Vec
     {
         for (int i = 0 ; i < n; i++)
         {
-            temp_ang = temp_ang * i / n;
+            temp_ang = ang * i / n;
             rpy = updateRollPitchYaw(temp_ang(0), temp_ang(1), temp_ang(2));
             desired_relative_planning_position.col(i) = rotation_matrix.transpose() * (linear * i / n + rpy * (relative_body_position + rotation_matrix * relative_current_position) - relative_body_position);
         }
@@ -298,7 +298,7 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f& ang, const Eigen::Vec
     {
         for (int i = 1 ; i < n + 1; i++)
         {
-            temp_ang = temp_ang * i / n;
+            temp_ang = ang * i / n;
             rpy = updateRollPitchYaw(temp_ang(0), temp_ang(1), temp_ang(2));
             desired_relative_planning_position.col(i) = rotation_matrix.transpose() * (rpy.transpose() * (relative_body_position + rotation_matrix * relative_current_position - linear * i / n) - relative_body_position);
         }
