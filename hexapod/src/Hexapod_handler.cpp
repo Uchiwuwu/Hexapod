@@ -281,7 +281,9 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f& ang, const Eigen::Vec
 {
     Eigen::Vector3f temp_ang = ang;
     Eigen::MatrixXf rpy;
+    printf("before resize desired_relative_planning_position\n");
     desired_relative_planning_position.resize(3, n);
+    printf("Use linear and angular command to calculate the desired relative planning position\n");
     if (pair == true)
     {
         for (int i = 0 ; i < n; i++)
@@ -302,6 +304,7 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f& ang, const Eigen::Vec
         }
         relative_planning_position = desired_relative_planning_position.col(n-1);
     }
+    printf("DOne planningStepGenerator\n");
 }
 
 Hexapair::Hexapair(const Hexapair &L): fLeg(L.fLeg), sLeg(L.sLeg), tLeg(L.tLeg), pStatus(L.pStatus), tripod(L.tripod), tetrapod(L.tetrapod) {}
@@ -335,6 +338,7 @@ void Hexapair::resetPair()
 
 void Hexapair::pairPlanningStepGenerator(Eigen::Vector3f ang, Eigen::Vector3f linear, bool spair, int n)
 {
+    printf("Before 1st leg planningStepGenerator\n");
     fLeg->planningStepGenerator(ang, linear, spair, n);
     sLeg->planningStepGenerator(ang, linear, spair, n);
     tLeg->planningStepGenerator(ang, linear, spair, n);
