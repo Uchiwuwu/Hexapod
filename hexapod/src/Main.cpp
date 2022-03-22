@@ -290,8 +290,8 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 
 	if (swinging_pair == NULL || standing_pair == NULL)
 	{
-		swinging_pair = hexbot.firstPair;
-		standing_pair = hexbot.secondPair;
+		swinging_pair = &hexbot.firstPair;
+		standing_pair = &hexbot.secondPair;
 		
 		//Create desired trajectory for each legs
 		thread th1(trajectoryPlanning, swinging_pair, rotation_command, translation_command, true, n);
