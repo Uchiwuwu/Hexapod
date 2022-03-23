@@ -314,8 +314,8 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vect
         }
         relative_planning_position = desired_relative_planning_position.col(n-1);
     }
-    printf("DOne planningStepGenerator %d\n",pair);
-    //cout << desired_relative_planning_position.cols() << endl;
+    printf("DOne planningStepGenerator %d %s\n",pair, name);
+    cout << desired_relative_planning_position.cols() << endl;
 }
 
 Hexapair::Hexapair(const Hexapair &L): fLeg(L.fLeg), sLeg(L.sLeg), tLeg(L.tLeg), pStatus(L.pStatus), tripod(L.tripod), tetrapod(L.tetrapod) {}
