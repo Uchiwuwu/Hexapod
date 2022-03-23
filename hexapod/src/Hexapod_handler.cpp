@@ -174,7 +174,7 @@ void Hexaleg::checkWorkspace(bool pair, int n)
     float ang = deg2rad(40) - acos((pow(leg_configuration(2), 2) + pow(leg_configuration(6), 2) - pow(leg_configuration(5), 2)) / (2 * leg_configuration(2) * leg_configuration(6)));
     Eigen::Vector3f LEG_MAX(leg_configuration(0) + leg_configuration(2) * cos(ang) + sqrt(pow(leg_configuration(1), 2) + pow(sin(ang) - abs(relative_planning_position(2)), 2)), 0, relative_planning_position(2));
     //True = swinging, False = standing
-    printf("Before checking pairs");
+    printf("Before checking pairs\n");
     if (pair)
     {
         //For swinging pair,if it is out of workspace, shift all of desired planning position back inside the workspace
