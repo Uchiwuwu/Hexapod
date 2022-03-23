@@ -255,6 +255,7 @@ void Hexaleg::angleGenerator(bool pair, int n)
             x = desired_relative_planning_position(0, i);
             y = desired_relative_planning_position(1, i);
             z = desired_relative_planning_position(2, i);
+            q1 = atan2(y, x);
             a = x / cos(q1) - leg_configuration(0);
             q2 = abs(atan2(z, a)) - acos((pow(leg_configuration(1), 2) + pow(z, 2) + pow(a, 2) - pow(leg_configuration(2), 2)) / (2 * leg_configuration(1) * sqrt(pow(a, 2) + pow(z, 2))))
                 - acos((pow(leg_configuration(1), 2) + pow(leg_configuration(3), 2) - pow(leg_configuration(4), 2)) / (2 * leg_configuration(1) * leg_configuration(3)));  
