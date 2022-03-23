@@ -170,11 +170,11 @@ Eigen::Matrix3f Hexaleg::updateRollPitchYaw(float& roll, float& pitch, float& ya
 
 void Hexaleg::checkWorkspace(bool pair, int n)
 {
-    printf("calculate ang\n");
+    printf("calculate ang %d\n", pair);
     float ang = deg2rad(40) - acos((pow(leg_configuration(2), 2) + pow(leg_configuration(6), 2) - pow(leg_configuration(5), 2)) / (2 * leg_configuration(2) * leg_configuration(6)));
     Eigen::Vector3f LEG_MAX(leg_configuration(0) + leg_configuration(2) * cos(ang) + sqrt(pow(leg_configuration(1), 2) + pow(sin(ang) - abs(relative_planning_position(2)), 2)), 0, relative_planning_position(2));
     //True = swinging, False = standing
-    printf("Before checking pairs\n");
+    printf("Before checking pairs %d\n", pair);
     if (pair)
     {
         //For swinging pair,if it is out of workspace, shift all of desired planning position back inside the workspace
@@ -283,9 +283,9 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vect
 {
     Eigen::Vector3f temp_ang;
     Eigen::Matrix3f rpy;
-    printf("before resize desired_relative_planning_position\n");
+    printf("before resize desired_relative_planning_position %d\n",pair);
     desired_relative_planning_position.resize(3, n);
-    printf("Use linear and angular command to calculate the desired relative planning position\n");
+    printf("Use linear and angular command to calculate the desired relative planning position %d\n",pair);
     if (pair == true)
     {
         for (int i = 0 ; i < n; i++)
@@ -306,7 +306,7 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vect
         }
         relative_planning_position = desired_relative_planning_position.col(n-1);
     }
-    printf("DOne planningStepGenerator\n");
+    printf("DOne planningStepGenerator %d\n",pair);
 }
 
 Hexapair::Hexapair(const Hexapair &L): fLeg(L.fLeg), sLeg(L.sLeg), tLeg(L.tLeg), pStatus(L.pStatus), tripod(L.tripod), tetrapod(L.tetrapod) {}
@@ -340,14 +340,14 @@ void Hexapair::resetPair()
 
 void Hexapair::pairPlanningStepGenerator(Eigen::Vector3f ang, Eigen::Vector3f linear, bool spair, int n)
 {
-    printf("Before 1st leg planningStepGenerator\n");
+    printf("Before 1st leg planningStepGenerator %d\n", spair);
     fLeg->planningStepGenerator(ang, linear, spair, n);
     sLeg->planningStepGenerator(ang, linear, spair, n);
     tLeg->planningStepGenerator(ang, linear, spair, n);
 }
 void Hexapair::checkPairWorkSpace(bool spair, int n)
 {
-    printf("check 1st work space\n");
+    printf("check 1st work space %d\n",spair);
     fLeg->checkWorkspace(spair, n);
     sLeg->checkWorkspace(spair, n);
     tLeg->checkWorkspace(spair, n);
