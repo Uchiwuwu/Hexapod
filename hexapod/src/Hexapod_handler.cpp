@@ -218,7 +218,7 @@ void Hexaleg::angleGenerator(bool pair, int n)
     float x, y, z, a;
     float q11, q12, q13;
     cout << desired_relative_planning_position.cols() << endl;
-    printf("Before resize matrices %d \n", pair);
+    printf("Before resize matrices %d %s\n", pair, name);
     desired_angle.resize(3, this->desired_relative_planning_position.cols() - 1);
     desired_velocity.resize(3, this->desired_relative_planning_position.cols() - 1);
     printf("done resizing %d\n", pair);
@@ -291,7 +291,7 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vect
     Eigen::Matrix3f rpy;
     printf("before resize desired_relative_planning_position %d\n",pair);
     desired_relative_planning_position.resize(3, n);
-    cout << desired_relative_planning_position.cols() << endl;
+    //cout << desired_relative_planning_position.cols() << endl;
     printf("Use linear and angular command to calculate the desired relative planning position %d\n",pair);
     if (pair == true)
     {
@@ -315,7 +315,7 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vect
         relative_planning_position = desired_relative_planning_position.col(n-1);
     }
     printf("DOne planningStepGenerator %d\n",pair);
-    cout << desired_relative_planning_position.cols() << endl;
+    //cout << desired_relative_planning_position.cols() << endl;
 }
 
 Hexapair::Hexapair(const Hexapair &L): fLeg(L.fLeg), sLeg(L.sLeg), tLeg(L.tLeg), pStatus(L.pStatus), tripod(L.tripod), tetrapod(L.tetrapod) {}
