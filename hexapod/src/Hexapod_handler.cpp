@@ -298,7 +298,7 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vect
     }
     else
     {
-        for (int i = 1 ; i < n + 1; i++)
+        for (int i = 0 ; i < n; i++)
         {
             temp_ang = ang * i / n;
             rpy = updateRollPitchYaw(temp_ang(0), temp_ang(1), temp_ang(2));
