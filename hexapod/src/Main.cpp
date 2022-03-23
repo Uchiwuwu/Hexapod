@@ -300,10 +300,10 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 		
 		printf("set TrajectoryPlanning\n");
 		//Create desired trajectory for each legs
-		thread th1(trajectoryPlanning, swinging_pair, rotation_command, translation_command, true, n);
+		//thread th1(trajectoryPlanning, swinging_pair, rotation_command, translation_command, true, n);
 		thread th2(trajectoryPlanning, standing_pair, rotation_command, translation_command, false, n);
 
-		th1.join();
+		//th1.join();
 		th2.join();
 
 		printf("Move leg\n");
