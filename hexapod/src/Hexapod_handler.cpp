@@ -299,6 +299,7 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vect
     }
     else
     {
+        printf("in false\n");
         for (int i = 0 ; i < n; i++)
         {
             temp_ang = ang * i / n;
