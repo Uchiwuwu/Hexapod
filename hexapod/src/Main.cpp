@@ -254,15 +254,15 @@ bool legOnGround()
 
 void trajectoryPlanning(Hexapair* pair, Eigen::Vector3f ang, Eigen::Vector3f linear, bool spair, int n)
 {
-	printf("before pairPlanningStepGenerator\n");
+	printf("before pairPlanningStepGenerator %d\n",spair);
 	//Getting new planning position commanded
 	pair->pairPlanningStepGenerator(ang, linear, spair, n);
 	//Check whether the new positions are in the workspace. If not, caclculate the new feasible planning position
-	printf("before checkPairWorkSpace\n");
+	printf("before checkPairWorkSpace %d\n", spair);
 	pair->checkPairWorkSpace(spair, n);
 	//Get discreted positions planned for legs, then converts it to angles
 	//Calculate servo angles for legs
-	printf("before pairAngleGenerator\n");
+	printf("before pairAngleGenerator %d\n", spair);
 	pair->pairAngleGenerator(spair, n);
 }
 
