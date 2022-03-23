@@ -170,9 +170,11 @@ Eigen::Matrix3f Hexaleg::updateRollPitchYaw(float& roll, float& pitch, float& ya
 
 void Hexaleg::checkWorkspace(bool pair, int n)
 {
+    printf("calculate ang\n");
     float ang = deg2rad(40) - acos((pow(leg_configuration(2), 2) + pow(leg_configuration(6), 2) - pow(leg_configuration(5), 2)) / (2 * leg_configuration(2) * leg_configuration(6)));
-    Eigen::Vector3f LEG_MAX(leg_configuration(0) + leg_configuration(2) * cos(ang) + sqrt(pow(leg_configuration(1), 2) + pow(sin(ang) - abs(relative_planning_position(3)), 2)), 0, relative_planning_position(3));
+    Eigen::Vector3f LEG_MAX(leg_configuration(0) + leg_configuration(2) * cos(ang) + sqrt(pow(leg_configuration(1), 2) + pow(sin(ang) - abs(relative_planning_position(2)), 2)), 0, relative_planning_position(2));
     //True = swinging, False = standing
+    printf("Before checking pairs");
     if (pair)
     {
         //For swinging pair,if it is out of workspace, shift all of desired planning position back inside the workspace
@@ -345,6 +347,7 @@ void Hexapair::pairPlanningStepGenerator(Eigen::Vector3f ang, Eigen::Vector3f li
 }
 void Hexapair::checkPairWorkSpace(bool spair, int n)
 {
+    printf("check 1st work space\n");
     fLeg->checkWorkspace(spair, n);
     sLeg->checkWorkspace(spair, n);
     tLeg->checkWorkspace(spair, n);
