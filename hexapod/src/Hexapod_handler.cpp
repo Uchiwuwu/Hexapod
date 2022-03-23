@@ -218,8 +218,9 @@ void Hexaleg::angleGenerator(bool pair, int n)
     float x, y, z, a;
     float q11, q12, q13;
     printf("Before resize matrices %d\n", pair);
-    desired_angle.resize(3, desired_relative_planning_position.cols() - 1);
-    desired_velocity.resize(3, desired_relative_planning_position.cols() - 1);
+    desired_angle.resize(3, this->desired_relative_planning_position.cols() - 1);
+    desired_velocity.resize(3, this->desired_relative_planning_position.cols() - 1);
+    printf("done resizing %d\n", pair);
     if (pair)
     {
         printf("in %d\n", pair);
