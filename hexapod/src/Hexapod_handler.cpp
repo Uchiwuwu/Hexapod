@@ -208,7 +208,7 @@ void Hexaleg::checkWorkspace(bool pair, int n)
         for (int j = 0; j < i; j++)
             desired_relative_planning_position.col(j) = temp.col(j);
     }
-
+    cout << desired_relative_planning_position.cols() << endl;
 }
 
 //Generate desired angle from all of desired relative planning position, and calculate the velocity needed;
