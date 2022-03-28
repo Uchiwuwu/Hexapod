@@ -41,7 +41,7 @@ void mat_init();
 void portSetup();
 void Setup();
 bool legOnGround();
-void trajectoryPlanning(Hexapair* pair, Eigen::Vector3f ang, Eigen::Vector3f linear, bool spair, int n);
+void trajectoryPlanning(Hexapair& pair, Eigen::Vector3f ang, Eigen::Vector3f linear, bool spair, int n);
 void moveLeg(Hexapair* pair);
 void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg);
 
@@ -252,18 +252,18 @@ bool legOnGround()
 		Leg_4.onGround() && Leg_5.onGround() && Leg_6.onGround()) ? true : false;
 }
 
-void trajectoryPlanning(Hexapair* pair, Eigen::Vector3f ang, Eigen::Vector3f linear, bool spair, int n)
+void trajectoryPlanning(Hexapair& pair, Eigen::Vector3f ang, Eigen::Vector3f linear, bool spair, int n)
 {
 	printf("before pairPlanningStepGenerator %d\n",spair);
 	//Getting new planning position commanded
-	pair->pairPlanningStepGenerator(ang, linear, spair, n);
+	pair.pairPlanningStepGenerator(ang, linear, spair, n);
 	//Check whether the new positions are in the workspace. If not, caclculate the new feasible planning position
 	printf("before checkPairWorkSpace %d\n", spair);
-	pair->checkPairWorkSpace(spair, n);
+	pair.checkPairWorkSpace(spair, n);
 	//Get discreted positions planned for legs, then converts it to angles
 	//Calculate servo angles for legs
 	printf("before pairAngleGenerator %d\n", spair);
-	pair->pairAngleGenerator(spair, n);
+	pair.pairAngleGenerator(spair, n);
 }
 
 void moveLeg(Hexapair* pair)
@@ -301,7 +301,7 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 		printf("set TrajectoryPlanning\n");
 		//Create desired trajectory for each legs
 		//thread th1(trajectoryPlanning, swinging_pair, rotation_command, translation_command, true, n);
-		thread th2(trajectoryPlanning, standing_pair, rotation_command, translation_command, false, n);
+		thread th2(trajectoryPlanning, ref(*standing_pair), rotation_command, translation_command, false, n);
 
 		//th1.join();
 		th2.join();
@@ -330,10 +330,10 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 
 		printf("set TrajectoryPlanning\n");
 		//Create desired trajectory for each legs
-		thread th1(trajectoryPlanning, swinging_pair, rotation_command, translation_command, true, n);
-		thread th2(trajectoryPlanning, standing_pair, rotation_command, translation_command, false, n);
+		//thread th1(trajectoryPlanning, ref(swinging_pair), rotation_command, translation_command, true, n);
+		thread th2(trajectoryPlanning, ref(*standing_pair), rotation_command, translation_command, false, n);
 
-		th1.join();
+		//th1.join();
 		th2.join();
 
 		printf("Move leg\n");
