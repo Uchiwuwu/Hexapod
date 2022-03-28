@@ -174,6 +174,7 @@ void Hexaleg::checkWorkspace(bool pair, int n)
     float ang = deg2rad(40) - acos((pow(leg_configuration(2), 2) + pow(leg_configuration(6), 2) - pow(leg_configuration(5), 2)) / (2 * leg_configuration(2) * leg_configuration(6)));
     Eigen::Vector3f LEG_MAX(leg_configuration(0) + leg_configuration(2) * cos(ang) + sqrt(pow(leg_configuration(1), 2) + pow(sin(ang) - abs(relative_planning_position(2)), 2)), 0, relative_planning_position(2));
     //True = swinging, False = standing
+    cout << desired_relative_planning_position.cols() << endl;
     printf("Before checking pairs %d\n", pair);
     if (pair)
     {
@@ -196,6 +197,8 @@ void Hexaleg::checkWorkspace(bool pair, int n)
             //Current position will replace desired positions that passed it
             for (int a = 0; a < n - ceil(d * n) + 1; a++)
                 desired_relative_planning_position.col(a) = relative_current_position;
+            
+             cout << desired_relative_planning_position.cols() << endl;
         }
     }
     else
@@ -207,8 +210,8 @@ void Hexaleg::checkWorkspace(bool pair, int n)
         desired_relative_planning_position.resize(3, i);
         for (int j = 0; j < i; j++)
             desired_relative_planning_position.col(j) = temp.col(j);
+        cout << desired_relative_planning_position.cols() << endl;
     }
-    cout << desired_relative_planning_position.cols() << endl;
 }
 
 //Generate desired angle from all of desired relative planning position, and calculate the velocity needed;
