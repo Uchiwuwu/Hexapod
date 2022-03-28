@@ -190,6 +190,7 @@ void Hexaleg::checkWorkspace(bool pair, int n)
             if (d < 0 && d >= -1)
             {  
                 d = (-b - sqrt(pow(b, 2) - 4 * a * c)) / (2 * a);
+                cout << d << endl;
             }
             relative_planning_position = d * distance_vector + relative_current_position;
             for (int i = 0; i < desired_relative_planning_position.cols(); i++)
