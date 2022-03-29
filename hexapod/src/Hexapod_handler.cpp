@@ -40,6 +40,13 @@ void Hexaleg::matricesSetup(const Eigen::Vector3f& body_position, const Eigen::M
     q5 = ang5;
 }
 
+void Hexaleg::speedSetup(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
+{
+    dxl_comm_result = packet->write2ByteTxRx(port, first_Servo, ADDR_MX_MOVING_SPEED, 300 , &dxl_error);
+    dxl_comm_result = packet->write2ByteTxRx(port, second_Servo, ADDR_MX_MOVING_SPEED, 300 , &dxl_error);
+    dxl_comm_result = packet->write2ByteTxRx(port, third_Servo, ADDR_MX_MOVING_SPEED, 300 , &dxl_error);
+}
+
 bool Hexaleg::checkServoStatus(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo, uint16_t des_ang)
 {
     dxl_comm_result = packet->read2ByteTxRx(port, servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
@@ -239,7 +246,7 @@ void Hexaleg::angleGenerator(bool pair, int n)
             x = desired_relative_planning_position(0, i);
             y = desired_relative_planning_position(1, i);
             z = desired_relative_planning_position(2, i);
-            q1 = atan2(y, x);
+            q1 = atan2(y, desired_relative_planning_position(0, desired_relative_planning_position.cols()-1));
             a = x / cos(q1) - leg_configuration(0);
             q2 = abs(atan2(z, a)) - acos((pow(leg_configuration(1), 2) + pow(z, 2) + pow(a, 2) - pow(leg_configuration(2), 2)) / (2 * leg_configuration(1) * sqrt(pow(a, 2) + pow(z, 2)))) 
                 - acos((pow(leg_configuration(1), 2) + pow(leg_configuration(3), 2) - pow(leg_configuration(4), 2)) / (2 * leg_configuration(1) * leg_configuration(3)))
@@ -270,7 +277,7 @@ void Hexaleg::angleGenerator(bool pair, int n)
             x = desired_relative_planning_position(0, i);
             y = desired_relative_planning_position(1, i);
             z = desired_relative_planning_position(2, i);
-            q1 = atan2(y, x);   
+            q1 = atan2(y, desired_relative_planning_position(0, desired_relative_planning_position.cols()-1));
             a = x / cos(q1) - leg_configuration(0);
             q2 = abs(atan2(z, a)) - acos((pow(leg_configuration(1), 2) + pow(z, 2) + pow(a, 2) - pow(leg_configuration(2), 2)) / (2 * leg_configuration(1) * sqrt(pow(a, 2) + pow(z, 2))))
                 - acos((pow(leg_configuration(1), 2) + pow(leg_configuration(3), 2) - pow(leg_configuration(4), 2)) / (2 * leg_configuration(1) * leg_configuration(3)));  

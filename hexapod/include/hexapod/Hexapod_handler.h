@@ -10,6 +10,7 @@
 #define ADDR_MX_TORQUE_ENABLE           24                  // Control table address is different in Dynamixel model
 #define ADDR_MX_GOAL_POSITION           30
 #define ADDR_MX_PRESENT_POSITION        36
+#define ADDR_MX_MOVING_SPEED            32
 
 // Protocol version
 #define PROTOCOL_VERSION                1.0                 // See which protocol version is used in the Dynamixel
@@ -75,6 +76,7 @@ public:
     bool onGround();                                                                                                                            //If on ground, return angle of 3rd servo. If not, return -1
     void stop(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet);                                                                                                                                //Stop at the current state
     void update(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet);                                                                //Update relative_current_position                                                                                                           //Update the relative current position
+    void speedSetup(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet);
 
 private:
 
