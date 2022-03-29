@@ -280,7 +280,7 @@ void moveLeg(Hexapair* pair)
 
 void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 {
-	printf("In readCommand\n");
+	//printf("In readCommand\n");
 	Eigen::Vector3f translation_command(0, 0, 0);
 	Eigen::Vector3f rotation_command(0, 0, 0);
 
@@ -291,6 +291,8 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 	rotation_command(0) = vel_msg->angular.x;
 	rotation_command(1) = vel_msg->angular.y;
 	rotation_command(2) = vel_msg->angular.z;
+	printf("Input: \n");
+	cout << translation_command << '\n' << rotation_command << '\n';
 
 	if (swinging_pair == NULL || standing_pair == NULL)
 	{
