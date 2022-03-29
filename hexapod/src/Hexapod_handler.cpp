@@ -160,7 +160,7 @@ void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* pac
     relative_current_position(1) = leg_configuration(0) * sin(deg2rad(servo_bit2deg(s1))) + leg_configuration(3) * sin(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2))) + leg_configuration(4)
         * sin(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(q3)) + leg_configuration(5) * sin(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3)))
         + leg_configuration(6) * sin(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3)) + deg2rad(q5));
-    relative_current_position(1) = - leg_configuration(3) * sin(deg2rad(servo_bit2deg(s2))) - leg_configuration(4) * sin(deg2rad(servo_bit2deg(s2)) + deg2rad(q3)) - leg_configuration(5) 
+    relative_current_position(2) = - leg_configuration(3) * sin(deg2rad(servo_bit2deg(s2))) - leg_configuration(4) * sin(deg2rad(servo_bit2deg(s2)) + deg2rad(q3)) - leg_configuration(5) 
         * sin(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3))) - leg_configuration(6) * sin(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3)) + deg2rad(q5));
     cout << relative_current_position << '\n';
 }
