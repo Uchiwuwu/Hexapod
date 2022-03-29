@@ -172,9 +172,10 @@ void Hexaleg::checkWorkspace(bool pair, int n)
 {
     printf("calculate ang %d\n", pair);
     float ang = deg2rad(40) - acos((pow(leg_configuration(2), 2) + pow(leg_configuration(6), 2) - pow(leg_configuration(5), 2)) / (2 * leg_configuration(2) * leg_configuration(6)));
-    Eigen::Vector3f LEG_MAX(leg_configuration(0) + leg_configuration(2) * cos(ang) + sqrt(pow(leg_configuration(1), 2) + pow(sin(ang) - abs(relative_planning_position(2)), 2)), 0, relative_planning_position(2));
+    Eigen::Vector3f LEG_MAX;
+    LEG_MAX << leg_configuration(0) + leg_configuration(2) * cos(ang) + sqrt(pow(leg_configuration(1), 2) + pow(sin(ang) - abs(relative_planning_position(2)), 2)), 0, relative_planning_position(2);
     //True = swinging, False = standing
-    cout << desired_relative_planning_position.cols() << endl;
+    cout << LEG_MAX << endl;
     printf("Before checking pairs %d\n", pair);
     if (pair)
     {
@@ -190,7 +191,6 @@ void Hexaleg::checkWorkspace(bool pair, int n)
             if (d < 0 && d >= -1)
             {  
                 d = (-b - sqrt(pow(b, 2) - 4 * a * c)) / (2 * a);
-                cout << d << endl;
             }
             relative_planning_position = d * distance_vector + relative_current_position;
             for (int i = 0; i < desired_relative_planning_position.cols(); i++)
@@ -206,9 +206,13 @@ void Hexaleg::checkWorkspace(bool pair, int n)
     {
         //For standing pair, if it is out of workspace, cut down the out-of-bound desired positions
         int i = 0;
-        while ((desired_relative_planning_position.col(i).norm() > LEG_MAX.norm()) || (i == desired_relative_planning_position.cols()-1)) i++;
+        while ((desired_relative_planning_position.col(i).norm() > LEG_MAX.norm()) || (i == desired_relative_planning_position.cols())) i++;
         Eigen::MatrixXf temp = desired_relative_planning_position;
-        desired_relative_planning_position.resize(3, i);
+        if(i == 0) printf("checkWorkSpace: i == 0, invalid");
+        else
+        {
+            desired_relative_planning_position.resize(3, i);
+        }
         for (int j = 0; j < i; j++)
             desired_relative_planning_position.col(j) = temp.col(j);
         cout << desired_relative_planning_position.cols() << endl;
