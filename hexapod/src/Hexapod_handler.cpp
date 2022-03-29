@@ -223,7 +223,7 @@ void Hexaleg::checkWorkspace(bool pair, int n)
         }
         //for (int j = 0; j < i; j++)
         //    desired_relative_planning_position.col(j) = temp.col(j);
-        cout << desired_relative_planning_position << endl;
+        //cout << desired_relative_planning_position << "\n";
     }
 }
 
@@ -333,7 +333,7 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vect
         relative_planning_position = desired_relative_planning_position.col(n-1);
     }
     //printf("DOne planningStepGenerator %d %s\n",pair, name);
-    //cout << desired_relative_planning_position.cols() << endl;
+    cout << desired_relative_planning_position << 'n';
 }
 
 Hexapair::Hexapair(const Hexapair &L): fLeg(L.fLeg), sLeg(L.sLeg), tLeg(L.tLeg), pStatus(L.pStatus), tripod(L.tripod), tetrapod(L.tetrapod) {}
