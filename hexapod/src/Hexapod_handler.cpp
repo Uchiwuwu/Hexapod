@@ -170,13 +170,13 @@ Eigen::Matrix3f Hexaleg::updateRollPitchYaw(float& roll, float& pitch, float& ya
 
 void Hexaleg::checkWorkspace(bool pair, int n)
 {
-    printf("calculate ang %d\n", pair);
+    //printf("calculate ang %d\n", pair);
     float ang = deg2rad(40) - acos((pow(leg_configuration(2), 2) + pow(leg_configuration(6), 2) - pow(leg_configuration(5), 2)) / (2 * leg_configuration(2) * leg_configuration(6)));
     Eigen::Vector3f LEG_MAX;
     LEG_MAX << leg_configuration(0) + leg_configuration(2) * cos(ang) + sqrt(pow(leg_configuration(1), 2) + pow(sin(ang) - abs(relative_planning_position(2)), 2)), 0, relative_planning_position(2);
     //True = swinging, False = standing
-    cout << LEG_MAX << endl;
-    printf("Before checking pairs %d\n", pair);
+    //cout << LEG_MAX << endl;
+    //printf("Before checking pairs %d\n", pair);
     if (pair)
     {
         //For swinging pair,if it is out of workspace, shift all of desired planning position back inside the workspace
@@ -199,14 +199,14 @@ void Hexaleg::checkWorkspace(bool pair, int n)
             for (int a = 0; a < n - ceil(d * n) + 1; a++)
                 desired_relative_planning_position.col(a) = relative_current_position;
             
-             cout << desired_relative_planning_position.cols() << endl;
+             //cout << desired_relative_planning_position.cols() << endl;
         }
     }
     else
     {
         //For standing pair, if it is out of workspace, cut down the out-of-bound desired positions
         int i = 0;
-        cout << desired_relative_planning_position.col(i) << endl;
+        //cout << desired_relative_planning_position.col(i) << endl;
         while ((desired_relative_planning_position.col(i).norm() > LEG_MAX.norm()) || (i == desired_relative_planning_position.cols())) i++;
         Eigen::MatrixXf temp = desired_relative_planning_position;
         if(i == 0) printf("checkWorkSpace: i == 0, invalid\n");
@@ -216,7 +216,7 @@ void Hexaleg::checkWorkspace(bool pair, int n)
         }
         for (int j = 0; j < i; j++)
             desired_relative_planning_position.col(j) = temp.col(j);
-        cout << desired_relative_planning_position.cols() << endl;
+        //cout << desired_relative_planning_position.cols() << endl;
     }
 }
 
@@ -255,7 +255,9 @@ void Hexaleg::angleGenerator(bool pair, int n)
                 desired_velocity(0, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q1 - q11)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(1, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q2 - q12)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(2, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q3 - q13)) / (n / desired_relative_planning_position.cols()));
-            cout << desired_angle.col(i-1) << endl;
+            cout << 150 + rad2deg(q1) << endl;
+            cout << 150 + rad2deg(q2) << endl;
+            cout << 150 + rad2deg(q3) << endl;
             }
             q11 = q1;
             q12 = q2;
@@ -285,7 +287,9 @@ void Hexaleg::angleGenerator(bool pair, int n)
                 desired_velocity(0, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q1 - q11)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(1, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q2 - q12)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(2, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q3 - q13)) / (n / desired_relative_planning_position.cols()));
-            cout << desired_angle.col(i-1) << endl;
+            cout << 150 + rad2deg(q1) << endl;
+            cout << 150 + rad2deg(q2) << endl;
+            cout << 150 + rad2deg(q3) << endl;
             }
             q11 = q1;
             q12 = q2;
