@@ -51,7 +51,7 @@ Hexapair* standing_pair;
 int16_t primitive_rising = 20;                        //In degree
 const float angle_bit_calibration = 3.41333;          //Calibration to convert angle to 16 bit
 const float max_time = 2;		//time of swinging and standing phase, in seconds
-const int n = 10;				//number of discretization, max = n*increment
+const int n = 3;				//number of discretization, max = n*increment
 
 const double LEG_MAX = 0;	//Update it with equation
 const int leg_ang_3 = 30;	//Exsted due to the leg configuration
