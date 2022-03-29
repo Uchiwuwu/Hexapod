@@ -391,21 +391,21 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
     //A loop of moving legs. Exit when all legs reach their final desired angles.
     while (leg1 && leg2 && leg3)
     {
-        fLeg->moveToDesiredPosition(port, packet, fLeg->first_Servo, servo_deg2bit(fLeg->desired_angle(0, col1)));
-        fLeg->moveToDesiredPosition(port, packet, fLeg->second_Servo, servo_deg2bit(fLeg->desired_angle(1, col1)));
-        fLeg->moveToDesiredPosition(port, packet, fLeg->third_Servo, servo_deg2bit(fLeg->desired_angle(2, col1)));
+        fLeg->moveToDesiredPosition(port, packet, fLeg->first_Servo, fLeg->desired_angle(0, col1));
+        fLeg->moveToDesiredPosition(port, packet, fLeg->second_Servo, fLeg->desired_angle(1, col1));
+        fLeg->moveToDesiredPosition(port, packet, fLeg->third_Servo, fLeg->desired_angle(2, col1));
 
-        sLeg->moveToDesiredPosition(port, packet, sLeg->first_Servo, servo_deg2bit(sLeg->desired_angle(0, col2)));
-        sLeg->moveToDesiredPosition(port, packet, sLeg->second_Servo, servo_deg2bit(sLeg->desired_angle(1, col2)));
-        sLeg->moveToDesiredPosition(port, packet, sLeg->third_Servo, servo_deg2bit(sLeg->desired_angle(2, col2)));
+        sLeg->moveToDesiredPosition(port, packet, sLeg->first_Servo, sLeg->desired_angle(0, col2));
+        sLeg->moveToDesiredPosition(port, packet, sLeg->second_Servo, sLeg->desired_angle(1, col2));
+        sLeg->moveToDesiredPosition(port, packet, sLeg->third_Servo, sLeg->desired_angle(2, col2));
 
-        tLeg->moveToDesiredPosition(port, packet, tLeg->first_Servo, servo_deg2bit(tLeg->desired_angle(0, col3)));
-        tLeg->moveToDesiredPosition(port, packet, tLeg->second_Servo, servo_deg2bit(tLeg->desired_angle(1, col3)));
-        tLeg->moveToDesiredPosition(port, packet, tLeg->third_Servo, servo_deg2bit(tLeg->desired_angle(2, col3)));
+        tLeg->moveToDesiredPosition(port, packet, tLeg->first_Servo, tLeg->desired_angle(0, col3));
+        tLeg->moveToDesiredPosition(port, packet, tLeg->second_Servo, tLeg->desired_angle(1, col3));
+        tLeg->moveToDesiredPosition(port, packet, tLeg->third_Servo, tLeg->desired_angle(2, col3));
 
-        if (fLeg->checkServoStatus(port, packet, fLeg->first_Servo, servo_deg2bit(fLeg->desired_angle(0, col1)))
-            && fLeg->checkServoStatus(port, packet, fLeg->second_Servo, servo_deg2bit(fLeg->desired_angle(1, col1)))
-            && fLeg->checkServoStatus(port, packet, fLeg->third_Servo, servo_deg2bit(fLeg->desired_angle(2, col1))))                                             
+        if (fLeg->checkServoStatus(port, packet, fLeg->first_Servo, fLeg->desired_angle(0, col1))
+            && fLeg->checkServoStatus(port, packet, fLeg->second_Servo, fLeg->desired_angle(1, col1))
+            && fLeg->checkServoStatus(port, packet, fLeg->third_Servo, fLeg->desired_angle(2, col1)))                                             
         {
             if(col1 < fLeg->desired_angle.cols()) 
                 col1++;
@@ -413,9 +413,9 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
                 leg1 = true;
         }
 
-        if (sLeg->checkServoStatus(port, packet, sLeg->first_Servo, servo_deg2bit(sLeg->desired_angle(0, col2)))
-            && sLeg->checkServoStatus(port, packet, sLeg->second_Servo, servo_deg2bit(sLeg->desired_angle(1, col2)))
-            && sLeg->checkServoStatus(port, packet, sLeg->third_Servo, servo_deg2bit(sLeg->desired_angle(2, col2))))
+        if (sLeg->checkServoStatus(port, packet, sLeg->first_Servo, sLeg->desired_angle(0, col2))
+            && sLeg->checkServoStatus(port, packet, sLeg->second_Servo, sLeg->desired_angle(1, col2))
+            && sLeg->checkServoStatus(port, packet, sLeg->third_Servo, sLeg->desired_angle(2, col2)))
         {
             if (col2 < sLeg->desired_angle.cols())
                 col2++;
@@ -423,9 +423,9 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
                 leg2 = true;
         }
 
-        if (tLeg->checkServoStatus(port, packet, tLeg->first_Servo, servo_deg2bit(tLeg->desired_angle(0, col3)))
-            && tLeg->checkServoStatus(port, packet, tLeg->second_Servo, servo_deg2bit(tLeg->desired_angle(1, col3)))
-            && tLeg->checkServoStatus(port, packet, tLeg->third_Servo, servo_deg2bit(tLeg->desired_angle(2, col3))))
+        if (tLeg->checkServoStatus(port, packet, tLeg->first_Servo, tLeg->desired_angle(0, col3))
+            && tLeg->checkServoStatus(port, packet, tLeg->second_Servo, tLeg->desired_angle(1, col3))
+            && tLeg->checkServoStatus(port, packet, tLeg->third_Servo, tLeg->desired_angle(2, col3)))
         {
             if (col3 < tLeg->desired_angle.cols())
                 col3++;
@@ -448,7 +448,7 @@ void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHand
         leg3 = tLeg->onGround();
         if (!leg1)
         {
-            fLeg->moveToDesiredPosition(port, packet, fLeg->third_Servo, servo_deg2bit(fLeg->desired_angle(2, fLeg->desired_angle.cols() - 1)++));
+            fLeg->moveToDesiredPosition(port, packet, fLeg->third_Servo, fLeg->desired_angle(2, fLeg->desired_angle.cols() - 1)+= 10);
         }
         else
         {
@@ -457,7 +457,7 @@ void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHand
 
         if (!leg2)
         {
-            sLeg->moveToDesiredPosition(port, packet, sLeg->third_Servo, servo_deg2bit(sLeg->desired_angle(2, sLeg->desired_angle.cols() - 1)++));
+            sLeg->moveToDesiredPosition(port, packet, sLeg->third_Servo, sLeg->desired_angle(2, sLeg->desired_angle.cols() - 1)+=10);
         }
         else
         {
@@ -466,7 +466,7 @@ void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHand
 
         if (!leg3)
         {
-            tLeg->moveToDesiredPosition(port, packet, tLeg->third_Servo, servo_deg2bit(tLeg->desired_angle(2, tLeg->desired_angle.cols() - 1)++));
+            tLeg->moveToDesiredPosition(port, packet, tLeg->third_Servo, tLeg->desired_angle(2, tLeg->desired_angle.cols() - 1)+=10);
         }
         else
         {
