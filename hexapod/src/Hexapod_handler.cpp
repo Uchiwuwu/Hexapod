@@ -206,9 +206,10 @@ void Hexaleg::checkWorkspace(bool pair, int n)
     {
         //For standing pair, if it is out of workspace, cut down the out-of-bound desired positions
         int i = 0;
+        cout << desired_relative_planning_position.col(i) << endl;
         while ((desired_relative_planning_position.col(i).norm() > LEG_MAX.norm()) || (i == desired_relative_planning_position.cols())) i++;
         Eigen::MatrixXf temp = desired_relative_planning_position;
-        if(i == 0) printf("checkWorkSpace: i == 0, invalid");
+        if(i == 0) printf("checkWorkSpace: i == 0, invalid\n");
         else
         {
             desired_relative_planning_position.resize(3, i);
