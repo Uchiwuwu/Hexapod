@@ -255,11 +255,11 @@ void Hexaleg::angleGenerator(bool pair, int n)
                 desired_velocity(0, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q1 - q11)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(1, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q2 - q12)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(2, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q3 - q13)) / (n / desired_relative_planning_position.cols()));
+            cout << desired_angle.col(i-1) << endl;
             }
             q11 = q1;
             q12 = q2;
             q13 = q3;
-            cout << desired_angle.col(i-1) << endl;
         }
     }
     else
@@ -285,11 +285,11 @@ void Hexaleg::angleGenerator(bool pair, int n)
                 desired_velocity(0, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q1 - q11)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(1, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q2 - q12)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(2, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q3 - q13)) / (n / desired_relative_planning_position.cols()));
+            cout << desired_angle.col(i-1) << endl;
             }
             q11 = q1;
             q12 = q2;
             q13 = q3;
-            cout << desired_angle.col(i-1) << endl;
         }
     }
 
