@@ -150,6 +150,10 @@ void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* pac
     dxl_comm_result = packet->read2ByteTxRx(port, second_Servo, ADDR_MX_PRESENT_POSITION, &s2, &dxl_error);
     dxl_comm_result = packet->read2ByteTxRx(port, third_Servo, ADDR_MX_PRESENT_POSITION, &s3, &dxl_error);
 
+    s1 = servo_bit2deg(s1) - 150;
+    s2 = servo_bit2deg(s2) - 150;
+    s3 = servo_bit2deg(s3) - 150;
+    
     relative_current_position(0) = leg_configuration(0) * cos(deg2rad(servo_bit2deg(s1))) + leg_configuration(3) * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2))) + leg_configuration(4) 
         * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(q3)) + leg_configuration(5) * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3))) 
         + leg_configuration(6) * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3)) + deg2rad(q5));
@@ -158,6 +162,7 @@ void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* pac
         + leg_configuration(6) * sin(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3)) + deg2rad(q5));
     relative_current_position(1) = - leg_configuration(3) * sin(deg2rad(servo_bit2deg(s2))) - leg_configuration(4) * sin(deg2rad(servo_bit2deg(s2)) + deg2rad(q3)) - leg_configuration(5) 
         * sin(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3))) - leg_configuration(6) * sin(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3)) + deg2rad(q5));
+    coout << relative_current_position << '\n';
 }
 
 Eigen::Matrix3f Hexaleg::updateRollPitchYaw(float& roll, float& pitch, float& yaw)
@@ -333,7 +338,7 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vect
         relative_planning_position = desired_relative_planning_position.col(n-1);
     }
     //printf("DOne planningStepGenerator %d %s\n",pair, name);
-    cout << desired_relative_planning_position << 'n';
+    cout << desired_relative_planning_position << '\n';
 }
 
 Hexapair::Hexapair(const Hexapair &L): fLeg(L.fLeg), sLeg(L.sLeg), tLeg(L.tLeg), pStatus(L.pStatus), tripod(L.tripod), tetrapod(L.tetrapod) {}
