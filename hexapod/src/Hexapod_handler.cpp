@@ -226,14 +226,14 @@ void Hexaleg::angleGenerator(bool pair, int n)
     float q1, q2, q3;
     float x, y, z, a;
     float q11, q12, q13;
-    cout << this->desired_relative_planning_position.cols() << endl;
-    printf("Before resize matrices %d %s\n", pair, name);
+    //cout << this->desired_relative_planning_position.cols() << endl;
+    //printf("Before resize matrices %d %s\n", pair, name);
     desired_angle.resize(3, this->desired_relative_planning_position.cols() - 1);
     desired_velocity.resize(3, this->desired_relative_planning_position.cols() - 1);
-    printf("done resizing %d\n", pair);
+    //printf("done resizing %d\n", pair);
     if (pair)
     {
-        printf("in %d\n", pair);
+        //printf("in %d\n", pair);
         for (int i = 0; i < desired_relative_planning_position.cols(); i++)
         {
             x = desired_relative_planning_position(0, i);
@@ -259,11 +259,12 @@ void Hexaleg::angleGenerator(bool pair, int n)
             q11 = q1;
             q12 = q2;
             q13 = q3;
+            cout << desired_angle.col(i-1) << endl;
         }
     }
     else
     {
-        printf("in %d\n", pair);
+        //printf("in %d\n", pair);
         for (int i = 0; i < desired_relative_planning_position.cols(); i++)
         {
             x = desired_relative_planning_position(0, i);
@@ -288,6 +289,7 @@ void Hexaleg::angleGenerator(bool pair, int n)
             q11 = q1;
             q12 = q2;
             q13 = q3;
+            cout << desired_angle.col(i-1) << endl;
         }
     }
 
@@ -298,10 +300,10 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vect
 {
     Eigen::Vector3f temp_ang;
     Eigen::Matrix3f rpy;
-    printf("before resize desired_relative_planning_position %d\n",pair);
+    //printf("before resize desired_relative_planning_position %d\n",pair);
     desired_relative_planning_position.resize(3, n);
     //cout << desired_relative_planning_position.cols() << endl;
-    printf("Use linear and angular command to calculate the desired relative planning position %d\n",pair);
+    //printf("Use linear and angular command to calculate the desired relative planning position %d\n",pair);
     if (pair == true)
     {
         for (int i = 0 ; i < n; i++)
@@ -314,7 +316,7 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vect
     }
     else
     {
-        printf("in false\n");
+        //printf("in false\n");
         for (int i = 0 ; i < n; i++)
         {
             temp_ang = ang * i / n;
@@ -323,8 +325,8 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vect
         }
         relative_planning_position = desired_relative_planning_position.col(n-1);
     }
-    printf("DOne planningStepGenerator %d %s\n",pair, name);
-    cout << desired_relative_planning_position.cols() << endl;
+    //printf("DOne planningStepGenerator %d %s\n",pair, name);
+    //cout << desired_relative_planning_position.cols() << endl;
 }
 
 Hexapair::Hexapair(const Hexapair &L): fLeg(L.fLeg), sLeg(L.sLeg), tLeg(L.tLeg), pStatus(L.pStatus), tripod(L.tripod), tetrapod(L.tetrapod) {}
@@ -358,14 +360,14 @@ void Hexapair::resetPair()
 
 void Hexapair::pairPlanningStepGenerator(Eigen::Vector3f ang, Eigen::Vector3f linear, bool spair, int n)
 {
-    printf("Before 1st leg planningStepGenerator %d\n", spair);
+    //printf("Before 1st leg planningStepGenerator %d\n", spair);
     fLeg->planningStepGenerator(ang, linear, spair, n);
     sLeg->planningStepGenerator(ang, linear, spair, n);
     tLeg->planningStepGenerator(ang, linear, spair, n);
 }
 void Hexapair::checkPairWorkSpace(bool spair, int n)
 {
-    printf("check 1st work space %d\n",spair);
+    //printf("check 1st work space %d\n",spair);
     fLeg->checkWorkspace(spair, n);
     sLeg->checkWorkspace(spair, n);
     tLeg->checkWorkspace(spair, n);
