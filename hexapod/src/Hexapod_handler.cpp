@@ -233,7 +233,7 @@ void Hexaleg::angleGenerator(bool pair, int n)
     //printf("done resizing %d\n", pair);
     if (pair)
     {
-        //printf("in %d\n", pair);
+        printf("in %d %s\n", pair, name);
         for (int i = 0; i < desired_relative_planning_position.cols(); i++)
         {
             x = desired_relative_planning_position(0, i);
@@ -264,7 +264,7 @@ void Hexaleg::angleGenerator(bool pair, int n)
     }
     else
     {
-        //printf("in %d\n", pair);
+        printf("in %d %s\n", pair, name);
         for (int i = 0; i < desired_relative_planning_position.cols(); i++)
         {
             x = desired_relative_planning_position(0, i);
