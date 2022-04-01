@@ -418,10 +418,10 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
         {
             if(col1 < fLeg->desired_angle.cols()) 
                 col1++;
-                printf('fleg %d \n', col1);
+                printf("fleg %d \n", col1);
             else
                 leg1 = true;
-                printf('fleg done\n');
+                printf("fleg done\n");
         }
 
         if (sLeg->checkServoStatus(port, packet, sLeg->first_Servo, sLeg->desired_angle(0, col2))
@@ -430,10 +430,10 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
         {
             if (col2 < sLeg->desired_angle.cols())
                 col2++;
-                printf('sleg %d \n', col2);
+                printf("sleg %d \n", col2);
             else
                 leg2 = true;
-                printf('sleg done\n');
+                printf("sleg done\n");
         }
 
         if (tLeg->checkServoStatus(port, packet, tLeg->first_Servo, tLeg->desired_angle(0, col3))
@@ -442,10 +442,10 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
         {
             if (col3 < tLeg->desired_angle.cols())
                 col3++;
-                printf('tleg %d \n', col3);
+                printf("tleg %d \n", col3);
             else
                 leg3 = true;
-                printf('tleg done\n');
+                printf("tleg done\n");
         }
     }
 }
