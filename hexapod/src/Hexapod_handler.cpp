@@ -20,7 +20,6 @@ uint16_t servo_dps_rpm_bit(double degs)
 {
     return (uint16_t)(degs / 6 * 1023 / 114);
 }
-
 Hexaleg::Hexaleg(const Hexaleg &L): first_Servo(L.first_Servo), second_Servo(L.second_Servo),
                                     third_Servo(L.third_Servo), force_sensor(L.force_sensor),
                                     desired_angle(L.desired_angle),desired_velocity(L.desired_velocity),
@@ -149,7 +148,11 @@ void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* pac
     dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &s1, &dxl_error);
     dxl_comm_result = packet->read2ByteTxRx(port, second_Servo, ADDR_MX_PRESENT_POSITION, &s2, &dxl_error);
     dxl_comm_result = packet->read2ByteTxRx(port, third_Servo, ADDR_MX_PRESENT_POSITION, &s3, &dxl_error);
-    printf("%x \t %x \t %x \n", s1,s2,s3);
+    s1 = s1 - servo_deg2bit(150);
+    s2 = s2 - servo_deg2bit(150);
+    s3 = s3 - servo_deg2bit(150);
+    
+    printf("%u \t %u \t %u \n", s1,s2,s3);
     
     relative_current_position(0) = leg_configuration(0) * cos(deg2rad(servo_bit2deg(s1))) + leg_configuration(3) * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2))) + leg_configuration(4) 
         * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(q3)) + leg_configuration(5) * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3))) 
