@@ -153,7 +153,7 @@ void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* pac
     a2 = servo_bit2deg(s2) - 150;
     a3 = servo_bit2deg(s3) - 150;
     
-    printf("%u \t %u \t %u \n", s1,s2,s3);
+    printf("%f \t %f \t %f \n", servo_bit2deg(s1),servo_bit2deg(s2),servo_bit2deg(s3));
     
     relative_current_position(0) = leg_configuration(0) * cos(deg2rad(a1)) + leg_configuration(3) * cos(deg2rad(a1)) * cos(deg2rad(a2)) + leg_configuration(4) 
         * cos(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(q3)) + leg_configuration(5) * cos(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(a3)) 
@@ -431,6 +431,8 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
                 printf("fleg done\n");
             }
         }
+        else
+            printf("Not meet the req yet fLeg\n");
 
         if (sLeg->checkServoStatus(port, packet, sLeg->first_Servo, sLeg->desired_angle(0, col2))
             && sLeg->checkServoStatus(port, packet, sLeg->second_Servo, sLeg->desired_angle(1, col2))
@@ -447,6 +449,8 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
                 printf("sleg done\n");
             }
         }
+        else
+            printf("Not meet the req yet sLeg\n");
 
         if (tLeg->checkServoStatus(port, packet, tLeg->first_Servo, tLeg->desired_angle(0, col3))
             && tLeg->checkServoStatus(port, packet, tLeg->second_Servo, tLeg->desired_angle(1, col3))
@@ -463,6 +467,8 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
                 printf("tleg done\n");
             }
         }
+        else
+            printf("Not meet the req yet tLeg\n");
     }
 }
 
