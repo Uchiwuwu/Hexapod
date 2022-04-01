@@ -7,18 +7,18 @@ double deg2rad(double deg) {
 double rad2deg(double rad) {
     return rad * 180.0 / atan2(0, -1);
 }
-uint16_t servo_deg2bit(float deg)
+uint16_t servo_deg2bit(double deg)
 {
     return (uint16_t)(1023 * deg / 300);
 }
-float servo_bit2deg(uint16_t bit)
+double servo_bit2deg(uint16_t bit)
 {
-    return (float)(300 * bit / 1023);
+    return (double)(300 * bit / 1023);
 }
 //Convert from degree per second to rpm and then to bit
 uint16_t servo_dps_rpm_bit(double degs)
 {
-    return (uint16_t)(degs / 6 * 1023 / 114);
+    return (uint16_t)(degs * 1023/ 684);
 }
 Hexaleg::Hexaleg(const Hexaleg &L): first_Servo(L.first_Servo), second_Servo(L.second_Servo),
                                     third_Servo(L.third_Servo), force_sensor(L.force_sensor),
@@ -148,20 +148,21 @@ void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* pac
     dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &s1, &dxl_error);
     dxl_comm_result = packet->read2ByteTxRx(port, second_Servo, ADDR_MX_PRESENT_POSITION, &s2, &dxl_error);
     dxl_comm_result = packet->read2ByteTxRx(port, third_Servo, ADDR_MX_PRESENT_POSITION, &s3, &dxl_error);
-    s1 = s1 - servo_deg2bit(150);
-    s2 = s2 - servo_deg2bit(150);
-    s3 = s3 - servo_deg2bit(150);
+    double a1, a2, a3;
+    a1 = servo_bit2deg(s1) - 150;
+    a2 = servo_bit2deg(s2) - 150;
+    a3 = servo_bit2deg(s3) - 150;
     
     printf("%u \t %u \t %u \n", s1,s2,s3);
     
-    relative_current_position(0) = leg_configuration(0) * cos(deg2rad(servo_bit2deg(s1))) + leg_configuration(3) * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2))) + leg_configuration(4) 
-        * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(q3)) + leg_configuration(5) * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3))) 
-        + leg_configuration(6) * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3)) + deg2rad(q5));
-    relative_current_position(1) = leg_configuration(0) * sin(deg2rad(servo_bit2deg(s1))) + leg_configuration(3) * sin(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2))) + leg_configuration(4)
-        * sin(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(q3)) + leg_configuration(5) * sin(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3)))
-        + leg_configuration(6) * sin(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3)) + deg2rad(q5));
-    relative_current_position(2) = - leg_configuration(3) * sin(deg2rad(servo_bit2deg(s2))) - leg_configuration(4) * sin(deg2rad(servo_bit2deg(s2)) + deg2rad(q3)) - leg_configuration(5) 
-        * sin(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3))) - leg_configuration(6) * sin(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3)) + deg2rad(q5));
+    relative_current_position(0) = leg_configuration(0) * cos(deg2rad(a1)) + leg_configuration(3) * cos(deg2rad(a1)) * cos(deg2rad(a2)) + leg_configuration(4) 
+        * cos(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(q3)) + leg_configuration(5) * cos(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(a3)) 
+        + leg_configuration(6) * cos(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(a3) + deg2rad(q5));
+    relative_current_position(1) = leg_configuration(0) * sin(deg2rad(a1)) + leg_configuration(3) * sin(deg2rad(a1)) * cos(deg2rad(a2)) + leg_configuration(4)
+        * sin(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(q3)) + leg_configuration(5) * sin(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(a3))
+        + leg_configuration(6) * sin(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(a3) + deg2rad(q5));
+    relative_current_position(2) = - leg_configuration(3) * sin(deg2rad(a2)) - leg_configuration(4) * sin(deg2rad(a2) + deg2rad(q3)) - leg_configuration(5) 
+        * sin(deg2rad(a2) + deg2rad(a3)) - leg_configuration(6) * sin(deg2rad(a2) + deg2rad(a3) + deg2rad(q5));
     cout << relative_current_position << '\n';
 }
 

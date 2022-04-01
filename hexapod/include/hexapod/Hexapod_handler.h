@@ -32,8 +32,8 @@ using namespace std;
 
 extern double deg2rad(double deg);
 extern double rad2deg(double rad);
-extern uint16_t servo_deg2bit(float deg);
-extern float servo_bit2deg(uint16_t bit);
+extern uint16_t servo_deg2bit(double deg);
+extern double servo_bit2deg(uint16_t bit);
 //Convert from degree per second to rpm and then to bit
 extern uint16_t servo_dps_rpm_bit(double degs);
 
