@@ -153,6 +153,7 @@ void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* pac
     s1 = servo_bit2deg(s1) - 150;
     s2 = servo_bit2deg(s2) - 150;
     s3 = servo_bit2deg(s3) - 150;
+    printf("%x \t %x \t %x \n", s1,s2,s3);
     
     relative_current_position(0) = leg_configuration(0) * cos(deg2rad(servo_bit2deg(s1))) + leg_configuration(3) * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2))) + leg_configuration(4) 
         * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(q3)) + leg_configuration(5) * cos(deg2rad(servo_bit2deg(s1))) * cos(deg2rad(servo_bit2deg(s2)) + deg2rad(servo_bit2deg(s3))) 
@@ -316,7 +317,7 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vect
     desired_relative_planning_position.resize(3, n);
     //cout << desired_relative_planning_position.cols() << endl;
     //printf("Use linear and angular command to calculate the desired relative planning position %d\n",pair);
-    if (pair == true)
+    if (pair)
     {
         for (int i = 0 ; i < n; i++)
         {
@@ -401,7 +402,7 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
     int col2 = 0;
     int col3 = 0;
     //A loop of moving legs. Exit when all legs reach their final desired angles.
-    while (leg1 && leg2 && leg3)
+    while (!leg1 && !leg2 && !leg3)
     {
         fLeg->moveToDesiredPosition(port, packet, fLeg->first_Servo, fLeg->desired_angle(0, col1));
         fLeg->moveToDesiredPosition(port, packet, fLeg->second_Servo, fLeg->desired_angle(1, col1));
