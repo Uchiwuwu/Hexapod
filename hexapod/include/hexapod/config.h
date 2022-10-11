@@ -60,7 +60,7 @@ extern Hexapair* standing_pair;
 extern int16_t primitive_rising;                        //In degree
 extern const float angle_bit_calibration;          //Calibration to convert angle to 16 bit
 extern const float max_time;		//time of swinging and standing phase, in seconds
-extern const int n;				//number of discretization, max = n*increment
+extern const int n_disc;				//number of discretization, max = n*increment
 
 extern const double LEG_MAX;	//Update it with equation
 extern const int leg_ang_3;	//Existed due to the leg configuration

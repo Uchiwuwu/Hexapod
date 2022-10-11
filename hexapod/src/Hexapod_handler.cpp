@@ -57,20 +57,7 @@ bool Hexaleg::checkServoStatus(dynamixel::PortHandler* port, dynamixel::PacketHa
     {
         printf("%s\n", packet->getRxPacketError(dxl_error));
     }
-
-    if (servo == first_Servo)
-    {
-        return (dxl_present_position == des_ang) ? true : false;
-    }
-    else if (servo == second_Servo)
-    {
-        return (dxl_present_position == des_ang) ? true : false;
-    }
-    else if (servo == third_Servo)
-    {
-        return (dxl_present_position == des_ang) ? true : false;
-    }
-    else return false;
+    return (abs(dxl_present_position - des_ang) <= EPS ) ? true : false;
 }
 
 bool Hexaleg::moveToDesiredPosition(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo, uint16_t position)
@@ -141,9 +128,31 @@ void Hexaleg::stop(dynamixel::PortHandler* port, dynamixel::PacketHandler* packe
     dxl_comm_result = packet->read2ByteTxRx(port, third_Servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
     moveToDesiredPosition(port, packet, third_Servo, dxl_present_position);
 }
+bool Hexaleg::isMoving(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo){
+    uint16_t s;
+    if(servo == first_Servo){
+        dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_MOVING_STATUS, &s, &dxl_error);
+        return s;
+    }
+    else if(servo == second_Servo){
+        dxl_comm_result = packet->read2ByteTxRx(port, second_Servo, ADDR_MX_MOVING_STATUS, &s, &dxl_error);
+        return s;
+    }
+    else if(servo == third_Servo){
+        dxl_comm_result = packet->read2ByteTxRx(port, third_Servo, ADDR_MX_MOVING_STATUS, &s, &dxl_error);
+        return s;
+    }
+    else{
+        printf("isMoving: check servo!!\n");
+        return false;
+    }
+        
 
+}
 void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
 {
+    while(isMoving(port,packet,first_Servo) || isMoving(port,packet,second_Servo) || isMoving(port,packet,third_Servo)) {}
+
     uint16_t s1,s2,s3;
     dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &s1, &dxl_error);
     dxl_comm_result = packet->read2ByteTxRx(port, second_Servo, ADDR_MX_PRESENT_POSITION, &s2, &dxl_error);
@@ -401,6 +410,7 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
     int col1 = 0;
     int col2 = 0;
     int col3 = 0;
+    printf("Before movePair loop\n");
     //A loop of moving legs. Exit when all legs reach their final desired angles.
     while (!leg1 && !leg2 && !leg3)
     {
@@ -470,14 +480,15 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
         else
             printf("Not meet the req yet tLeg\n");
     }
+    printf("Dont moving pair\n");
 }
 
 void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
 {
     //Lower the leg until it reach the ground
-    bool leg1 = fLeg->onGround();
-    bool leg2 = sLeg->onGround();
-    bool leg3 = tLeg->onGround();
+    bool leg1;
+    bool leg2;
+    bool leg3;
     while (true)
     {
         leg1 = fLeg->onGround();

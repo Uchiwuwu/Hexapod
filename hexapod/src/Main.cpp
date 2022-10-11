@@ -264,8 +264,8 @@ void trajectoryPlanning(Hexapair& pair, Eigen::Vector3f ang, Eigen::Vector3f lin
 	//Getting new planning position commanded
 	pair.pairPlanningStepGenerator(ang, linear, spair, n);
 	//Check whether the new positions are in the workspace. If not, caclculate the new feasible planning position
-	printf("before checkPairWorkSpace %d\n", spair);
-	pair.checkPairWorkSpace(spair, n);
+	//printf("before checkPairWorkSpace %d\n", spair);
+	//pair.checkPairWorkSpace(spair, n);
 	//Get discreted positions planned for legs, then converts it to angles
 	//Calculate servo angles for legs
 	printf("before pairAngleGenerator %d\n", spair);
@@ -308,8 +308,8 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 		
 		printf("set TrajectoryPlanning\n");
 		//Create desired trajectory for each legs
-		//thread th1(trajectoryPlanning, swinging_pair, rotation_command, translation_command, true, n);
-		thread th2(trajectoryPlanning, ref(*standing_pair), rotation_command, translation_command, false, n);
+		//thread th1(trajectoryPlanning, swinging_pair, rotation_command, translation_command, true, n_disc);
+		thread th2(trajectoryPlanning, ref(*standing_pair), rotation_command, translation_command, false, n_disc);
 
 		//th1.join();
 		th2.join();
@@ -338,8 +338,8 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 
 		printf("set TrajectoryPlanning\n");
 		//Create desired trajectory for each legs
-		//thread th1(trajectoryPlanning, ref(swinging_pair), rotation_command, translation_command, true, n);
-		thread th2(trajectoryPlanning, ref(*standing_pair), rotation_command, translation_command, false, n);
+		//thread th1(trajectoryPlanning, ref(swinging_pair), rotation_command, translation_command, true, n_disc);
+		thread th2(trajectoryPlanning, ref(*standing_pair), rotation_command, translation_command, false, n_disc);
 
 		//th1.join();
 		th2.join();
