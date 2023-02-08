@@ -274,6 +274,7 @@ void trajectoryPlanning(Hexapair& pair, Eigen::Vector3f ang, Eigen::Vector3f lin
 
 void moveLeg(Hexapair* pair)
 {
+	printf("in Moveleg\n");
 	//Move pairs to its desired positions
 	pair->movePair(portHandler, packetHandler);
 	//Check if all the legs are on the ground. If not, make it to the ground
@@ -321,6 +322,7 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 
 		//th3.join();
 		th4.join();
+		printf("Done moving\n");
 	}
 	else
 	{
@@ -351,5 +353,21 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 
 		//th3.join();
 		th4.join();
+		printf("Done moving\n");
 	}
+}
+int main(int argc, char* argv[])
+{
+	//Initialize hexapod configuration matrices
+	mat_init();
+	//Set up port connecting with Dynamixel
+	portSetup();
+	//Set up Hexapod before starting operation
+	Setup();
+
+	ros::init(argc, argv, "hexapod");
+	ros::NodeHandle n;
+	ros::Subscriber sub = n.subscribe("keyboard_control", 1, readCommand);
+	ros::spin();
+	return 0;
 }
