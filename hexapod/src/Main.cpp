@@ -3,8 +3,6 @@
 #include <iostream>
 #include "ros/ros.h"
 #include <geometry_msgs/Twist.h>
-#include <thread>
-#include <functional>
 
 // Setup Legs and Hexapod
 Hexaleg Leg_1(Servo_1, Servo_2, Servo_3, FS_Leg_1, leg1);
