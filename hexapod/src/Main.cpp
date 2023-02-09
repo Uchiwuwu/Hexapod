@@ -5,7 +5,6 @@
 #include <geometry_msgs/Twist.h>
 #include <thread>
 
-using std::ref;
 // Setup Legs and Hexapod
 Hexaleg Leg_1(Servo_1, Servo_2, Servo_3, FS_Leg_1, leg1);
 Hexaleg Leg_2(Servo_4, Servo_5, Servo_6, FS_Leg_2, leg2);
@@ -284,7 +283,7 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 		
 		printf("set TrajectoryPlanning\n");
 		//Create desired trajectory for each legs
-		thread th1(trajectoryPlanning, swinging_pair, rotation_command, translation_command, true, n_disc);
+		thread th1(trajectoryPlanning, ref(*swinging_pair), rotation_command, translation_command, true, n_disc);
 		thread th2(trajectoryPlanning, ref(*standing_pair), rotation_command, translation_command, false, n_disc);
 
 		th1.join();
