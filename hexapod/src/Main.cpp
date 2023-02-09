@@ -5,6 +5,7 @@
 #include <geometry_msgs/Twist.h>
 #include <thread>
 
+using std::ref;
 // Setup Legs and Hexapod
 Hexaleg Leg_1(Servo_1, Servo_2, Servo_3, FS_Leg_1, leg1);
 Hexaleg Leg_2(Servo_4, Servo_5, Servo_6, FS_Leg_2, leg2);
