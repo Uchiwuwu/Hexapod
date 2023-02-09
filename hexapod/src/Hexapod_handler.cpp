@@ -10,7 +10,7 @@ double rad2deg(double rad) {
 //Convert from relative degree to bit
 uint16_t servo_deg2bit(double deg)
 {
-    return (uint16_t)(1023 * (deg + 150)/ 300);
+    return (uint16_t)(1023 * (deg + 150) / 300);
 }
 //Convert bit to relative degree
 double servo_bit2deg(uint16_t bit)
@@ -20,16 +20,16 @@ double servo_bit2deg(uint16_t bit)
 //Convert from degree per second to rpm and then to bit
 uint16_t servo_dps_rpm_bit(double degs)
 {
-    return (uint16_t)(degs * 1023/ 684);
+    return (uint16_t)(degs * 1023 / 684);
 }
-Hexaleg::Hexaleg(const Hexaleg &L): first_Servo(L.first_Servo), second_Servo(L.second_Servo),
-                                    third_Servo(L.third_Servo), force_sensor(L.force_sensor),
-                                    desired_angle(L.desired_angle),desired_velocity(L.desired_velocity),
-                                    desired_relative_planning_position(L.desired_relative_planning_position),leg_configuration(L.leg_configuration),
-                                    relative_body_position(L.relative_body_position),relative_current_position(L.relative_current_position),
-                                    relative_planning_position(L.relative_planning_position),rotation_matrix(L.rotation_matrix),
-                                    phase(L.phase),name(L.name),dxl_comm_result(L.dxl_comm_result),q3(L.q3),q5(L.q5),
-                                    dxl_error(L.dxl_error),dxl_present_position(L.dxl_present_position) {}
+Hexaleg::Hexaleg(const Hexaleg& L) : first_Servo(L.first_Servo), second_Servo(L.second_Servo),
+third_Servo(L.third_Servo), force_sensor(L.force_sensor),
+desired_angle(L.desired_angle), desired_velocity(L.desired_velocity),
+desired_relative_planning_position(L.desired_relative_planning_position), leg_configuration(L.leg_configuration),
+relative_body_position(L.relative_body_position), relative_current_position(L.relative_current_position),
+relative_planning_position(L.relative_planning_position), rotation_matrix(L.rotation_matrix),
+phase(L.phase), name(L.name), dxl_comm_result(L.dxl_comm_result), q3(L.q3), q5(L.q5),
+dxl_error(L.dxl_error), dxl_present_position(L.dxl_present_position) {}
 
 void Hexaleg::matricesSetup(const Eigen::Vector3f& body_position, const Eigen::Matrix3f& rotation, Eigen::VectorXf configuration, int ang3, int ang5)
 {
@@ -43,23 +43,23 @@ void Hexaleg::matricesSetup(const Eigen::Vector3f& body_position, const Eigen::M
 
 void Hexaleg::speedSetup(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
 {
-    dxl_comm_result = packet->write2ByteTxRx(port, first_Servo, ADDR_MX_MOVING_SPEED, 200 , &dxl_error);
-    dxl_comm_result = packet->write2ByteTxRx(port, second_Servo, ADDR_MX_MOVING_SPEED, 200 , &dxl_error);
-    dxl_comm_result = packet->write2ByteTxRx(port, third_Servo, ADDR_MX_MOVING_SPEED, 200 , &dxl_error);
+    dxl_comm_result = packet->write2ByteTxRx(port, first_Servo, ADDR_MX_MOVING_SPEED, 200, &dxl_error);
+    dxl_comm_result = packet->write2ByteTxRx(port, second_Servo, ADDR_MX_MOVING_SPEED, 200, &dxl_error);
+    dxl_comm_result = packet->write2ByteTxRx(port, third_Servo, ADDR_MX_MOVING_SPEED, 200, &dxl_error);
 }
 
 bool Hexaleg::checkServoStatus(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo, uint16_t des_ang)
 {
     dxl_comm_result = packet->read2ByteTxRx(port, servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
     if (dxl_comm_result != COMM_SUCCESS)
-    { 
+    {
         printf("%s\n", packet->getTxRxResult(dxl_comm_result));
     }
     else if (dxl_error != 0)
     {
         printf("%s\n", packet->getRxPacketError(dxl_error));
     }
-    return (abs(dxl_present_position - des_ang) <= EPS ) ? true : false;
+    return (abs(dxl_present_position - des_ang) <= EPS) ? true : false;
 }
 
 bool Hexaleg::moveToDesiredPosition(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo, uint16_t position)
@@ -118,7 +118,7 @@ bool Hexaleg::moveToDesiredPosition(dynamixel::PortHandler* port, dynamixel::Pac
 bool Hexaleg::onGround()
 {
     //Read data from FSR. If 1 = touching ground, 0 = not touching ground
-    return (digitalRead(force_sensor)? true: false );
+    return (digitalRead(force_sensor) ? true : false);
 }
 
 void Hexaleg::stop(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
@@ -130,32 +130,32 @@ void Hexaleg::stop(dynamixel::PortHandler* port, dynamixel::PacketHandler* packe
     dxl_comm_result = packet->read2ByteTxRx(port, third_Servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
     moveToDesiredPosition(port, packet, third_Servo, dxl_present_position);
 }
-bool Hexaleg::isMoving(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo){
+bool Hexaleg::isMoving(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo) {
     uint16_t s;
-    if(servo == first_Servo){
+    if (servo == first_Servo) {
         dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_MOVING_STATUS, &s, &dxl_error);
         return s;
     }
-    else if(servo == second_Servo){
+    else if (servo == second_Servo) {
         dxl_comm_result = packet->read2ByteTxRx(port, second_Servo, ADDR_MX_MOVING_STATUS, &s, &dxl_error);
         return s;
     }
-    else if(servo == third_Servo){
+    else if (servo == third_Servo) {
         dxl_comm_result = packet->read2ByteTxRx(port, third_Servo, ADDR_MX_MOVING_STATUS, &s, &dxl_error);
         return s;
     }
-    else{
+    else {
         printf("isMoving: check servo!!\n");
         return false;
     }
-        
+
 
 }
 void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
 {
-    while(isMoving(port,packet,first_Servo) || isMoving(port,packet,second_Servo) || isMoving(port,packet,third_Servo)) {}
+    while (isMoving(port, packet, first_Servo) || isMoving(port, packet, second_Servo) || isMoving(port, packet, third_Servo)) {}
 
-    uint16_t s1,s2,s3;
+    uint16_t s1, s2, s3;
     dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &s1, &dxl_error);
     dxl_comm_result = packet->read2ByteTxRx(port, second_Servo, ADDR_MX_PRESENT_POSITION, &s2, &dxl_error);
     dxl_comm_result = packet->read2ByteTxRx(port, third_Servo, ADDR_MX_PRESENT_POSITION, &s3, &dxl_error);
@@ -163,16 +163,16 @@ void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* pac
     a1 = servo_bit2deg(s1);
     a2 = servo_bit2deg(s2);
     a3 = servo_bit2deg(s3);
-    
-    printf("%f \t %f \t %f \n", servo_bit2deg(s1),servo_bit2deg(s2),servo_bit2deg(s3));
-    
-    relative_current_position(0) = leg_configuration(0) * cos(deg2rad(a1)) + leg_configuration(3) * cos(deg2rad(a1)) * cos(deg2rad(a2)) + leg_configuration(4) 
-        * cos(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(q3)) + leg_configuration(5) * cos(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(a3)) 
+
+    printf("%f \t %f \t %f \n", servo_bit2deg(s1), servo_bit2deg(s2), servo_bit2deg(s3));
+
+    relative_current_position(0) = leg_configuration(0) * cos(deg2rad(a1)) + leg_configuration(3) * cos(deg2rad(a1)) * cos(deg2rad(a2)) + leg_configuration(4)
+        * cos(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(q3)) + leg_configuration(5) * cos(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(a3))
         + leg_configuration(6) * cos(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(a3) + deg2rad(q5));
     relative_current_position(1) = leg_configuration(0) * sin(deg2rad(a1)) + leg_configuration(3) * sin(deg2rad(a1)) * cos(deg2rad(a2)) + leg_configuration(4)
         * sin(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(q3)) + leg_configuration(5) * sin(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(a3))
         + leg_configuration(6) * sin(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(a3) + deg2rad(q5));
-    relative_current_position(2) = - leg_configuration(3) * sin(deg2rad(a2)) - leg_configuration(4) * sin(deg2rad(a2) + deg2rad(q3)) - leg_configuration(5) 
+    relative_current_position(2) = -leg_configuration(3) * sin(deg2rad(a2)) - leg_configuration(4) * sin(deg2rad(a2) + deg2rad(q3)) - leg_configuration(5)
         * sin(deg2rad(a2) + deg2rad(a3)) - leg_configuration(6) * sin(deg2rad(a2) + deg2rad(a3) + deg2rad(q5));
 
     printf("%f \t %f \t %f \n", relative_current_position(0), relative_current_position(1), relative_current_position(2));
@@ -214,7 +214,7 @@ void Hexaleg::checkWorkspace(bool pair, int n)
 
             Eigen::Vector3f distance_vector = relative_planning_position - relative_current_position;
             if (d < 0 && d >= -1)
-            {  
+            {
                 d = (-b - sqrt(pow(b, 2) - 4 * a * c)) / (2 * a);
             }
             relative_planning_position = d * distance_vector + relative_current_position;
@@ -223,8 +223,8 @@ void Hexaleg::checkWorkspace(bool pair, int n)
             //Current position will replace desired positions that passed it
             for (int a = 0; a < n - ceil(d * n) + 1; a++)
                 desired_relative_planning_position.col(a) = relative_current_position;
-            
-             //cout << desired_relative_planning_position.cols() << endl;
+
+            //cout << desired_relative_planning_position.cols() << endl;
         }
     }
     else
@@ -234,7 +234,7 @@ void Hexaleg::checkWorkspace(bool pair, int n)
         //cout << desired_relative_planning_position.col(i) << endl;
         while ((desired_relative_planning_position.col(i).norm() > LEG_MAX.norm()) || (i == desired_relative_planning_position.cols())) i++;
         Eigen::MatrixXf temp = desired_relative_planning_position;
-        if(i == 0) printf("checkWorkSpace: i == 0, invalid\n");
+        if (i == 0) printf("checkWorkSpace: i == 0, invalid\n");
         else
         {
             desired_relative_planning_position.resize(3, i);
@@ -264,23 +264,23 @@ void Hexaleg::angleGenerator(bool pair, int n)
             x = desired_relative_planning_position(0, i);
             y = desired_relative_planning_position(1, i);
             z = desired_relative_planning_position(2, i);
-            q1 = atan2(y, desired_relative_planning_position(0, desired_relative_planning_position.cols()-1));
+            q1 = atan2(y, desired_relative_planning_position(0, desired_relative_planning_position.cols() - 1));
             a = x / cos(q1) - leg_configuration(0);
-            q2 = abs(atan2(z, a)) - acos((pow(leg_configuration(1), 2) + pow(z, 2) + pow(a, 2) - pow(leg_configuration(2), 2)) / (2 * leg_configuration(1) * sqrt(pow(a, 2) + pow(z, 2)))) 
+            q2 = abs(atan2(z, a)) - acos((pow(leg_configuration(1), 2) + pow(z, 2) + pow(a, 2) - pow(leg_configuration(2), 2)) / (2 * leg_configuration(1) * sqrt(pow(a, 2) + pow(z, 2))))
                 - acos((pow(leg_configuration(1), 2) + pow(leg_configuration(3), 2) - pow(leg_configuration(4), 2)) / (2 * leg_configuration(1) * leg_configuration(3)))
                 - deg2rad(-120 / pow(desired_relative_planning_position.cols(), 2) * pow(i + 1, 2) + 120 / desired_relative_planning_position.cols() * (i + 1));        //Adding upside down parabola to make a upper swinging shape
-            q3 = acos((pow(a, 2) + pow(z, 2) - pow(leg_configuration(1), 2) - pow(leg_configuration(2), 2)) / (2 * leg_configuration(1) * leg_configuration(2))) - acos((pow(leg_configuration(5), 2) + pow(leg_configuration(2), 2) 
+            q3 = acos((pow(a, 2) + pow(z, 2) - pow(leg_configuration(1), 2) - pow(leg_configuration(2), 2)) / (2 * leg_configuration(1) * leg_configuration(2))) - acos((pow(leg_configuration(5), 2) + pow(leg_configuration(2), 2)
                 - pow(leg_configuration(6), 2)) / (2 * leg_configuration(5) * leg_configuration(2)));
             //Skip the first desired planning position because it is the current position
             if (i != 0)
             {
                 desired_angle(0, i - 1) = servo_deg2bit(rad2deg(q1));
-                desired_angle(1, i - 1) = servo_deg2bit(-1* rad2deg(q2));
-                desired_angle(2, i - 1) = servo_deg2bit(-1* rad2deg(q3));
+                desired_angle(1, i - 1) = servo_deg2bit(-1 * rad2deg(q2));
+                desired_angle(2, i - 1) = servo_deg2bit(-1 * rad2deg(q3));
                 desired_velocity(0, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q1 - q11)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(1, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q2 - q12)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(2, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q3 - q13)) / (n / desired_relative_planning_position.cols()));
-            cout << 150 + rad2deg(q1) << '\t' << 150 - rad2deg(q2) << '\t' << 150 - rad2deg(q3) << '\n';
+                cout << 150 + rad2deg(q1) << '\t' << 150 - rad2deg(q2) << '\t' << 150 - rad2deg(q3) << '\n';
             }
             q11 = q1;
             q12 = q2;
@@ -295,22 +295,22 @@ void Hexaleg::angleGenerator(bool pair, int n)
             x = desired_relative_planning_position(0, i);
             y = desired_relative_planning_position(1, i);
             z = desired_relative_planning_position(2, i);
-            q1 = atan2(y, desired_relative_planning_position(0, desired_relative_planning_position.cols()-1));
+            q1 = atan2(y, desired_relative_planning_position(0, desired_relative_planning_position.cols() - 1));
             a = x / cos(q1) - leg_configuration(0);
             q2 = abs(atan2(z, a)) - acos((pow(leg_configuration(1), 2) + pow(z, 2) + pow(a, 2) - pow(leg_configuration(2), 2)) / (2 * leg_configuration(1) * sqrt(pow(a, 2) + pow(z, 2))))
-                - acos((pow(leg_configuration(1), 2) + pow(leg_configuration(3), 2) - pow(leg_configuration(4), 2)) / (2 * leg_configuration(1) * leg_configuration(3)));  
+                - acos((pow(leg_configuration(1), 2) + pow(leg_configuration(3), 2) - pow(leg_configuration(4), 2)) / (2 * leg_configuration(1) * leg_configuration(3)));
             q3 = acos((pow(a, 2) + pow(z, 2) - pow(leg_configuration(1), 2) - pow(leg_configuration(2), 2)) / (2 * leg_configuration(1) * leg_configuration(2))) - acos((pow(leg_configuration(5), 2) + pow(leg_configuration(2), 2)
                 - pow(leg_configuration(6), 2)) / (2 * leg_configuration(5) * leg_configuration(2)));
             //Skip the first desired planning position because it is the current position
             if (i != 0)
             {
                 desired_angle(0, i - 1) = servo_deg2bit(rad2deg(q1));
-                desired_angle(1, i - 1) = servo_deg2bit(-1* rad2deg(q2));
-                desired_angle(2, i - 1) = servo_deg2bit(-1* rad2deg(q3));
+                desired_angle(1, i - 1) = servo_deg2bit(-1 * rad2deg(q2));
+                desired_angle(2, i - 1) = servo_deg2bit(-1 * rad2deg(q3));
                 desired_velocity(0, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q1 - q11)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(1, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q2 - q12)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(2, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q3 - q13)) / (n / desired_relative_planning_position.cols()));
-            cout << 150 + rad2deg(q1) << '\t' << 150 - rad2deg(q2) << '\t' << 150 - rad2deg(q3) << '\n';
+                cout << 150 + rad2deg(q1) << '\t' << 150 - rad2deg(q2) << '\t' << 150 - rad2deg(q3) << '\n';
             }
             q11 = q1;
             q12 = q2;
@@ -331,30 +331,30 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vect
     //printf("Use linear and angular command to calculate the desired relative planning position %d\n",pair);
     if (pair)
     {
-        for (int i = 0 ; i < n; i++)
+        for (int i = 0; i < n; i++)
         {
             temp_ang = ang * i / n;
             rpy = updateRollPitchYaw(temp_ang(0), temp_ang(1), temp_ang(2));
             desired_relative_planning_position.col(i) = rotation_matrix.transpose() * (linear * i / n + rpy * (relative_body_position + rotation_matrix * relative_current_position) - relative_body_position);
         }
-        relative_planning_position = desired_relative_planning_position.col(n-1);
+        relative_planning_position = desired_relative_planning_position.col(n - 1);
     }
     else
     {
         //printf("in false\n");
-        for (int i = 0 ; i < n; i++)
+        for (int i = 0; i < n; i++)
         {
             temp_ang = ang * i / n;
             rpy = updateRollPitchYaw(temp_ang(0), temp_ang(1), temp_ang(2));
             desired_relative_planning_position.col(i) = rotation_matrix.transpose() * (rpy.transpose() * (relative_body_position + rotation_matrix * relative_current_position - linear * i / n) - relative_body_position);
         }
-        relative_planning_position = desired_relative_planning_position.col(n-1);
+        relative_planning_position = desired_relative_planning_position.col(n - 1);
     }
     //printf("DOne planningStepGenerator %d %s\n",pair, name);
     cout << desired_relative_planning_position << '\n';
 }
 
-Hexapair::Hexapair(const Hexapair &L): fLeg(L.fLeg), sLeg(L.sLeg), tLeg(L.tLeg), pStatus(L.pStatus), tripod(L.tripod), tetrapod(L.tetrapod) {}
+Hexapair::Hexapair(const Hexapair& L) : fLeg(L.fLeg), sLeg(L.sLeg), tLeg(L.tLeg), pStatus(L.pStatus), tripod(L.tripod), tetrapod(L.tetrapod) {}
 
 void Hexapair::setTripod(Hexaleg& f, Hexaleg& s, Hexaleg& t)
 {
@@ -431,9 +431,9 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
 
         if (fLeg->checkServoStatus(port, packet, fLeg->first_Servo, fLeg->desired_angle(0, col1))
             && fLeg->checkServoStatus(port, packet, fLeg->second_Servo, fLeg->desired_angle(1, col1))
-            && fLeg->checkServoStatus(port, packet, fLeg->third_Servo, fLeg->desired_angle(2, col1)))                                             
+            && fLeg->checkServoStatus(port, packet, fLeg->third_Servo, fLeg->desired_angle(2, col1)))
         {
-            if(col1 < fLeg->desired_angle.cols()) 
+            if (col1 < fLeg->desired_angle.cols())
             {
                 col1++;
                 printf("fleg %d \n", col1);
@@ -499,7 +499,7 @@ void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHand
         leg3 = tLeg->onGround();
         if (!leg1)
         {
-            fLeg->moveToDesiredPosition(port, packet, fLeg->third_Servo, fLeg->desired_angle(2, fLeg->desired_angle.cols() - 1)+= 10);
+            fLeg->moveToDesiredPosition(port, packet, fLeg->third_Servo, fLeg->desired_angle(2, fLeg->desired_angle.cols() - 1) += 10);
         }
         else
         {
@@ -508,7 +508,7 @@ void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHand
 
         if (!leg2)
         {
-            sLeg->moveToDesiredPosition(port, packet, sLeg->third_Servo, sLeg->desired_angle(2, sLeg->desired_angle.cols() - 1)+=10);
+            sLeg->moveToDesiredPosition(port, packet, sLeg->third_Servo, sLeg->desired_angle(2, sLeg->desired_angle.cols() - 1) += 10);
         }
         else
         {
@@ -517,7 +517,7 @@ void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHand
 
         if (!leg3)
         {
-            tLeg->moveToDesiredPosition(port, packet, tLeg->third_Servo, tLeg->desired_angle(2, tLeg->desired_angle.cols() - 1)+=10);
+            tLeg->moveToDesiredPosition(port, packet, tLeg->third_Servo, tLeg->desired_angle(2, tLeg->desired_angle.cols() - 1) += 10);
         }
         else
         {
@@ -528,9 +528,9 @@ void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHand
     }
 }
 
-Hexapod::Hexapod(const Hexapod &L):firstPair(L.firstPair),secondPair(L.secondPair),thirdPair(L.thirdPair),firstRightLeg(L.firstRightLeg),
-                                    secondRightLeg(L.secondRightLeg),thirdRightLeg(L.thirdRightLeg),firstLeftLeg(L.firstLeftLeg),
-                                    secondLeftLeg(L.secondLeftLeg),thirdLeftLeg(L.thirdLeftLeg) {}
+Hexapod::Hexapod(const Hexapod& L) :firstPair(L.firstPair), secondPair(L.secondPair), thirdPair(L.thirdPair), firstRightLeg(L.firstRightLeg),
+secondRightLeg(L.secondRightLeg), thirdRightLeg(L.thirdRightLeg), firstLeftLeg(L.firstLeftLeg),
+secondLeftLeg(L.secondLeftLeg), thirdLeftLeg(L.thirdLeftLeg) {}
 
 void Hexapod::tripodMode()
 {
