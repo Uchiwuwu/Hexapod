@@ -73,11 +73,11 @@ public:
     void checkWorkspace(bool pair, int n);                                                                                                             //check if the desired position is in the workspace. Shift or modify the desired positions based on the pair
     void angleGenerator(bool pair, int n);                                                                                                             //Generate angle based on desired positions, using inverse kinematics
     void planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vector3f linear, bool pair, int n);                                                  //Generate desired positions with the commands
-bool checkServoStatus(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo, uint16_t des_ang);                                    //Check if servo reachs epsilon of desired positions
+    bool checkServoStatus(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo, uint16_t des_ang);                                    //Check if servo reachs epsilon of desired positions
     bool moveToDesiredPosition(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo, uint16_t position);                                                                               //Move servos to their desired position
     bool onGround();                                                                                                                            //If on ground, return angle of 3rd servo. If not, return -1
     void stop(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet);                                                                                                                                //Stop at the current state
-    bool Hexaleg::isMoving(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo);                                      //Check if servo is moving
+    bool isMoving(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo);                                      //Check if servo is moving
     void update(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet);                                                                //Update relative_current_position                                                                                                           //Update the relative current position
     void speedSetup(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet);
 
