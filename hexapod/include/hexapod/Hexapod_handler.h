@@ -86,7 +86,7 @@ private:
     Eigen::Vector3f relative_body_position;                 //The relative position of connecting joint
     Eigen::Matrix3f rotation_matrix;                        //the rotation matrix of the connecting joint between leg and body
     Eigen::Vector3f relative_planning_position;             //The relative position of the tip of the Leg, respected to the connencting joint with the body
-    Eigen::Vector3f relative_current_position;
+    Eigen::Vector3f relative_current_position;              //THe relative position of the leg EOF, respected to the joint attaching to the body
     bool phase = false;                             // Detecting the current of phase of swinging or standing. False = 1st half, True = 2nd half
     int dxl_comm_result = COMM_TX_FAIL;             // Communication result
     const char* name;

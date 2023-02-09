@@ -258,7 +258,7 @@ void Hexaleg::angleGenerator(bool pair, int n)
     //printf("done resizing %d\n", pair);
     if (pair)
     {
-        printf("in %d %s\n", pair, name);
+        printf("in pair %d %s\n", pair, name);
         for (int i = 0; i < desired_relative_planning_position.cols(); i++)
         {
             x = desired_relative_planning_position(0, i);
@@ -280,7 +280,7 @@ void Hexaleg::angleGenerator(bool pair, int n)
                 desired_velocity(0, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q1 - q11)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(1, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q2 - q12)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(2, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q3 - q13)) / (n / desired_relative_planning_position.cols()));
-                cout << 150 + rad2deg(q1) << '\t' << 150 - rad2deg(q2) << '\t' << 150 - rad2deg(q3) << '\n';
+                cout << desired_angle(0, i - 1) << '\t' << desired_angle(1, i - 1) << '\t' << desired_angle(2, i - 1) << '\n';
             }
             q11 = q1;
             q12 = q2;
@@ -310,7 +310,7 @@ void Hexaleg::angleGenerator(bool pair, int n)
                 desired_velocity(0, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q1 - q11)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(1, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q2 - q12)) / (n / desired_relative_planning_position.cols()));
                 desired_velocity(2, i - 1) = servo_dps_rpm_bit(rad2deg(abs(q3 - q13)) / (n / desired_relative_planning_position.cols()));
-                cout << 150 + rad2deg(q1) << '\t' << 150 - rad2deg(q2) << '\t' << 150 - rad2deg(q3) << '\n';
+                cout << desired_angle(0, i - 1) << '\t' << desired_angle(1, i - 1) << '\t' << desired_angle(2, i - 1) << '\n';
             }
             q11 = q1;
             q12 = q2;
@@ -351,7 +351,7 @@ void Hexaleg::planningStepGenerator(const Eigen::Vector3f ang, const Eigen::Vect
         relative_planning_position = desired_relative_planning_position.col(n - 1);
     }
     //printf("DOne planningStepGenerator %d %s\n",pair, name);
-    cout << desired_relative_planning_position << '\n';
+    cout << name << '\n'desired_relative_planning_position << '\n';
 }
 
 Hexapair::Hexapair(const Hexapair& L) : fLeg(L.fLeg), sLeg(L.sLeg), tLeg(L.tLeg), pStatus(L.pStatus), tripod(L.tripod), tetrapod(L.tetrapod) {}
@@ -407,15 +407,12 @@ void Hexapair::pairAngleGenerator(bool spair, int n)
 void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
 {
     //Reason for this code is to have it pseudo-concurrently move three legs due to the lack of thread;
-    bool leg1 = false;
-    bool leg2 = false;
-    bool leg3 = false;
     int col1 = 0;
     int col2 = 0;
     int col3 = 0;
     printf("Before movePair loop\n");
     //A loop of moving legs. Exit when all legs reach their final desired angles.
-    while (!leg1 && !leg2 && !leg3)
+    while (col1 < fLeg->desired_angle.cols() && col2 < sLeg->desired_angle.cols() && col3 < tLeg->desired_angle.cols())
     {
         fLeg->moveToDesiredPosition(port, packet, fLeg->first_Servo, fLeg->desired_angle(0, col1));
         fLeg->moveToDesiredPosition(port, packet, fLeg->second_Servo, fLeg->desired_angle(1, col1));
@@ -433,16 +430,8 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
             && fLeg->checkServoStatus(port, packet, fLeg->second_Servo, fLeg->desired_angle(1, col1))
             && fLeg->checkServoStatus(port, packet, fLeg->third_Servo, fLeg->desired_angle(2, col1)))
         {
-            if (col1 < fLeg->desired_angle.cols())
-            {
-                col1++;
-                printf("fleg %d \n", col1);
-            }
-            else
-            {
-                leg1 = true;
-                printf("fleg done\n");
-            }
+            col1++;
+            printf("fleg %d \n", col1);
         }
         else
             printf("Not meet the req yet fLeg\n");
@@ -451,16 +440,8 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
             && sLeg->checkServoStatus(port, packet, sLeg->second_Servo, sLeg->desired_angle(1, col2))
             && sLeg->checkServoStatus(port, packet, sLeg->third_Servo, sLeg->desired_angle(2, col2)))
         {
-            if (col2 < sLeg->desired_angle.cols())
-            {
-                col2++;
-                printf("sleg %d \n", col2);
-            }
-            else
-            {
-                leg2 = true;
-                printf("sleg done\n");
-            }
+            col2++;
+            printf("sleg %d \n", col2);
         }
         else
             printf("Not meet the req yet sLeg\n");
@@ -469,21 +450,13 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
             && tLeg->checkServoStatus(port, packet, tLeg->second_Servo, tLeg->desired_angle(1, col3))
             && tLeg->checkServoStatus(port, packet, tLeg->third_Servo, tLeg->desired_angle(2, col3)))
         {
-            if (col3 < tLeg->desired_angle.cols())
-            {
-                col3++;
-                printf("tleg %d \n", col3);
-            }
-            else
-            {
-                leg3 = true;
-                printf("tleg done\n");
-            }
+            col3++;
+            printf("tleg %d \n", col3);
         }
         else
             printf("Not meet the req yet tLeg\n");
     }
-    printf("Dont moving pair\n");
+    printf("Done moving pair\n");
 }
 
 void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
