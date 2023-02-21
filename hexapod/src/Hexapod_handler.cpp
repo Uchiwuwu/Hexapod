@@ -153,7 +153,7 @@ bool Hexaleg::isMoving(dynamixel::PortHandler* port, dynamixel::PacketHandler* p
 }
 void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
 {
-    while (isMoving(port, packet, first_Servo) || isMoving(port, packet, second_Servo) || isMoving(port, packet, third_Servo)) {}
+    while (isMoving(port, packet, first_Servo) || isMoving(port, packet, second_Servo) || isMoving(port, packet, third_Servo)) { delay(100); }
 
     uint16_t s1, s2, s3;
     dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &s1, &dxl_error);
@@ -407,12 +407,9 @@ void Hexapair::pairAngleGenerator(bool spair, int n)
 void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
 {
     //Reason for this code is to have it pseudo-concurrently move three legs due to the lack of thread;
-    int col1 = 0;
-    int col2 = 0;
-    int col3 = 0;
     printf("Before movePair loop\n");
     //A loop of moving legs. Exit when all legs reach their final desired angles.
-    while (col1 < fLeg->desired_angle.cols() && col2 < sLeg->desired_angle.cols() && col3 < tLeg->desired_angle.cols())
+    for (int col1 = 0, col 2 = 0, col3 = 0;col1 < fLeg->desired_angle.cols() && col2 < sLeg->desired_angle.cols() && col3 < tLeg->desired_angle.cols(); col1++, col2++, col3++)
     {
         fLeg->moveToDesiredPosition(port, packet, fLeg->first_Servo, fLeg->desired_angle(0, col1));
         fLeg->moveToDesiredPosition(port, packet, fLeg->second_Servo, fLeg->desired_angle(1, col1));
@@ -426,30 +423,21 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
         tLeg->moveToDesiredPosition(port, packet, tLeg->second_Servo, tLeg->desired_angle(1, col3));
         tLeg->moveToDesiredPosition(port, packet, tLeg->third_Servo, tLeg->desired_angle(2, col3));
 
-        if (fLeg->checkServoStatus(port, packet, fLeg->first_Servo, fLeg->desired_angle(0, col1))
+        while (fLeg->checkServoStatus(port, packet, fLeg->first_Servo, fLeg->desired_angle(0, col1))
             && fLeg->checkServoStatus(port, packet, fLeg->second_Servo, fLeg->desired_angle(1, col1))
-            && fLeg->checkServoStatus(port, packet, fLeg->third_Servo, fLeg->desired_angle(2, col1)))
-        {
-            col1++;
-            printf("fleg %d \n", col1);
-        }
-
-        if (sLeg->checkServoStatus(port, packet, sLeg->first_Servo, sLeg->desired_angle(0, col2))
+            && fLeg->checkServoStatus(port, packet, fLeg->third_Servo, fLeg->desired_angle(2, col1))
+            && sLeg->checkServoStatus(port, packet, sLeg->first_Servo, sLeg->desired_angle(0, col2))
             && sLeg->checkServoStatus(port, packet, sLeg->second_Servo, sLeg->desired_angle(1, col2))
-            && sLeg->checkServoStatus(port, packet, sLeg->third_Servo, sLeg->desired_angle(2, col2)))
-        {
-            col2++;
-            printf("sleg %d \n", col2);
-        }
-
-        if (tLeg->checkServoStatus(port, packet, tLeg->first_Servo, tLeg->desired_angle(0, col3))
+            && sLeg->checkServoStatus(port, packet, sLeg->third_Servo, sLeg->desired_angle(2, col2))
+            && tLeg->checkServoStatus(port, packet, tLeg->first_Servo, tLeg->desired_angle(0, col3))
             && tLeg->checkServoStatus(port, packet, tLeg->second_Servo, tLeg->desired_angle(1, col3))
             && tLeg->checkServoStatus(port, packet, tLeg->third_Servo, tLeg->desired_angle(2, col3)))
         {
-            col3++;
-            printf("tleg %d \n", col3);
+            delay(100);
         }
+        printf("leg %d \n", col1);
     }
+    this->onGroundCheck();
     printf("Done moving pair\n");
 }
 
@@ -490,8 +478,8 @@ void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHand
         {
             tLeg->stop(port, packet);
         }
-
         if (leg1 && leg2 && leg3) break;
+        delay(50);
     }
 }
 

@@ -5,6 +5,7 @@
 #include <wiringPi.h>
 #include <iostream>
 #include <eigen3/Eigen/Dense>
+#include <functional>
 
 // Control table address
 #define ADDR_MX_TORQUE_ENABLE           24                  // Control table address is different in Dynamixel model

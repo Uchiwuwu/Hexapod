@@ -313,10 +313,10 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 
 		printf("set TrajectoryPlanning\n");
 		//Create desired trajectory for each legs
-		//thread th1(trajectoryPlanning, ref(swinging_pair), rotation_command, translation_command, true, n_disc);
+		thread th1(trajectoryPlanning, ref(*swinging_pair), rotation_command, translation_command, true, n_disc);
 		thread th2(trajectoryPlanning, ref(*standing_pair), rotation_command, translation_command, false, n_disc);
 
-		//th1.join();
+		th1.join();
 		th2.join();
 
 		printf("Move leg\n");
@@ -324,7 +324,7 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 		//thread th3(moveLeg, swinging_pair);
 		thread th4(moveLeg, standing_pair);
 
-		//th3.join();
+		th3.join();
 		th4.join();
 	}
 }
