@@ -59,7 +59,7 @@ CTRL-C to quit
 )";
 
 // Init variables
-float lin_param(30);                                    // Linear parameter (mm)
+float lin_param(40);                                    // Linear parameter (mm)
 float ang_param(5);                                     // Angular parameter (deg)
 float x(0), y(0), z(0), roll(0), pitch(0), yaw(0); 
 char key(' ');
