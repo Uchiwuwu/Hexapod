@@ -71,7 +71,7 @@ bool Hexaleg::checkServoStatus(dynamixel::PortHandler* port, dynamixel::PacketHa
     {
         printf("%s\n", packet->getRxPacketError(dxl_error));
     }
-    return (abs(dxl_present_position - des_ang) <= EPS) ? true : false;
+    return (abs(dxl_present_position - des_ang) <= EPS || abs(dxl_present_position + des_ang) <= EPS) ? true : false;
 }
 
 bool Hexaleg::moveToDesiredPosition(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo, uint16_t position)
