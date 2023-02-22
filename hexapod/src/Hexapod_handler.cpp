@@ -43,9 +43,9 @@ void Hexaleg::matricesSetup(const Eigen::Vector3f& body_position, const Eigen::M
 
 void Hexaleg::speedSetup(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
 {
-    dxl_comm_result = packet->write2ByteTxRx(port, first_Servo, ADDR_MX_MOVING_SPEED, 200, &dxl_error);
-    dxl_comm_result = packet->write2ByteTxRx(port, second_Servo, ADDR_MX_MOVING_SPEED, 200, &dxl_error);
-    dxl_comm_result = packet->write2ByteTxRx(port, third_Servo, ADDR_MX_MOVING_SPEED, 200, &dxl_error);
+    dxl_comm_result = packet->write2ByteTxRx(port, first_Servo, ADDR_MX_MOVING_SPEED, 100, &dxl_error);
+    dxl_comm_result = packet->write2ByteTxRx(port, second_Servo, ADDR_MX_MOVING_SPEED, 100, &dxl_error);
+    dxl_comm_result = packet->write2ByteTxRx(port, third_Servo, ADDR_MX_MOVING_SPEED, 100, &dxl_error);
 }
 
 void Hexaleg::currentPosition(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
@@ -454,13 +454,20 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
                 tLeg->currentPosition(port, packet);
                 cout << "desired_angle fLeg\n";
                 cout << fLeg->desired_angle(0, col1) << "\t" << fLeg->desired_angle(1, col1) << "\t" << fLeg->desired_angle(2, col1) << "\n";
-                cout << fLeg->checkServoStatus(port, packet, fLeg->first_Servo, fLeg->desired_angle(0, col1)) << "\n";
+                cout << fLeg->checkServoStatus(port, packet, fLeg->first_Servo, fLeg->desired_angle(0, col1)) << "\t";
+                cout << fLeg->checkServoStatus(port, packet, fLeg->first_Servo, fLeg->desired_angle(1, col1)) << "\t";
+                cout << fLeg->checkServoStatus(port, packet, fLeg->first_Servo, fLeg->desired_angle(2, col1)) << "\n";
                 cout << "desired_angle sLeg\n";
                 cout << sLeg->desired_angle(0, col1) << "\t" << sLeg->desired_angle(1, col1) << "\t" << sLeg->desired_angle(2, col1) << "\n";
-                cout << sLeg->checkServoStatus(port, packet, sLeg->first_Servo, sLeg->desired_angle(0, col1)) << "\n";
+                cout << sLeg->checkServoStatus(port, packet, sLeg->first_Servo, sLeg->desired_angle(0, col2)) << "\t";
+                cout << sLeg->checkServoStatus(port, packet, sLeg->first_Servo, sLeg->desired_angle(1, col2)) << "\t";
+                cout << sLeg->checkServoStatus(port, packet, sLeg->first_Servo, sLeg->desired_angle(2, col2)) << "\n";
                 cout << "desired_angle tLeg\n";
                 cout << tLeg->desired_angle(0, col1) << "\t" << tLeg->desired_angle(1, col1) << "\t" << tLeg->desired_angle(2, col1) << "\n";
-                cout << tLeg->checkServoStatus(port, packet, tLeg->first_Servo, tLeg->desired_angle(0, col1)) << "\n";
+                cout << tLeg->checkServoStatus(port, packet, tLeg->first_Servo, tLeg->desired_angle(0, col3)) << "\n";
+                cout << tLeg->checkServoStatus(port, packet, tLeg->first_Servo, tLeg->desired_angle(1, col3)) << "\n";
+                cout << tLeg->checkServoStatus(port, packet, tLeg->first_Servo, tLeg->desired_angle(2, col3)) << "\n";
+                break;
             }
         }
         printf("after moving legs with col %d \n", col1);
