@@ -452,6 +452,15 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
                 fLeg->currentPosition(port, packet);
                 sLeg->currentPosition(port, packet);
                 tLeg->currentPosition(port, packet);
+                cout << "desired_angle fLeg\n";
+                cout << fLeg->desired_angle(0, col1) << "\t" << fLeg->desired_angle(1, col1) << "\t" << fLeg->desired_angle(2, col1) << "\n";
+                cout << fLeg->checkServoStatus(port, packet, fLeg->first_Servo, fLeg->desired_angle(0, col1));
+                cout << "desired_angle sLeg\n";
+                cout << sLeg->desired_angle(0, col1) << "\t" << sLeg->desired_angle(1, col1) << "\t" << sLeg->desired_angle(2, col1) << "\n";
+                cout << sLeg->checkServoStatus(port, packet, sLeg->first_Servo, sLeg->desired_angle(0, col1));
+                cout << "desired_angle tLeg\n";
+                cout << tLeg->desired_angle(0, col1) << "\t" << tLeg->desired_angle(1, col1) << "\t" << tLeg->desired_angle(2, col1) << "\n";
+                cout << tLeg->checkServoStatus(port, packet, tLeg->first_Servo, tLeg->desired_angle(0, col1));
             }
         }
         printf("after moving legs with col %d \n", col1);
