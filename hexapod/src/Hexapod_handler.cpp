@@ -175,8 +175,9 @@ void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* pac
     a1 = servo_bit2deg(s1);
     a2 = servo_bit2deg(s2);
     a3 = servo_bit2deg(s3);
-
+    cout << name << "\n";
     printf("%f \t %f \t %f \n", servo_bit2deg(s1), servo_bit2deg(s2), servo_bit2deg(s3));
+    cout << s1 << '\t' << s2 << '\t' << s3 << '\n';
 
     relative_current_position(0) = leg_configuration(0) * cos(deg2rad(a1)) + leg_configuration(3) * cos(deg2rad(a1)) * cos(deg2rad(a2)) + leg_configuration(4)
         * cos(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(q3)) + leg_configuration(5) * cos(deg2rad(a1)) * cos(deg2rad(a2) + deg2rad(a3))
@@ -187,7 +188,7 @@ void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* pac
     relative_current_position(2) = -leg_configuration(3) * sin(deg2rad(a2)) - leg_configuration(4) * sin(deg2rad(a2) + deg2rad(q3)) - leg_configuration(5)
         * sin(deg2rad(a2) + deg2rad(a3)) - leg_configuration(6) * sin(deg2rad(a2) + deg2rad(a3) + deg2rad(q5));
 
-    printf("%f \t %f \t %f \n", relative_current_position(0), relative_current_position(1), relative_current_position(2));
+    //printf("%f \t %f \t %f \n", relative_current_position(0), relative_current_position(1), relative_current_position(2));
 }
 
 Eigen::Matrix3f Hexaleg::updateRollPitchYaw(float& roll, float& pitch, float& yaw)
