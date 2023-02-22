@@ -29,7 +29,7 @@
 #define DXL_MOVING_STATUS_THRESHOLD     10                  // Dynamixel moving status threshold
 
 #define ESC_ASCII_VALUE                 0x1b
-#define EPS                             5                  //Epsilon
+#define EPS                             7                  //Epsilon
 
 using namespace std;
 

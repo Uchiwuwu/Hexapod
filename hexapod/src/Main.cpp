@@ -274,7 +274,7 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 	rotation_command(2) = vel_msg->angular.z;
 	printf("Input: \n");
 	cout << translation_command << '\t' << rotation_command << '\n';
-	if (rotation_command(2) == 1) {
+	if (rotation_command(2) != 0) {
 		//Ground check command
 		swinging_pair->onGroundCheck(portHandler, packetHandler);
 		standing_pair->onGroundCheck(portHandler, packetHandler);
