@@ -188,7 +188,7 @@ void Hexaleg::update(dynamixel::PortHandler* port, dynamixel::PacketHandler* pac
     relative_current_position(2) = -leg_configuration(3) * sin(deg2rad(a2)) - leg_configuration(4) * sin(deg2rad(a2) + deg2rad(q3)) - leg_configuration(5)
         * sin(deg2rad(a2) + deg2rad(a3)) - leg_configuration(6) * sin(deg2rad(a2) + deg2rad(a3) + deg2rad(q5));
 
-    //printf("%f \t %f \t %f \n", relative_current_position(0), relative_current_position(1), relative_current_position(2));
+    printf("%f \t %f \t %f \n", relative_current_position(0), relative_current_position(1), relative_current_position(2));
 }
 
 Eigen::Matrix3f Hexaleg::updateRollPitchYaw(float& roll, float& pitch, float& yaw)
@@ -480,9 +480,9 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
 void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
 {
     //Lower the leg until it reach the ground
-    bool leg1;
-    bool leg2;
-    bool leg3;
+    bool leg1 = false;
+    bool leg2 = false;
+    bool leg3 = false;
     while (true)
     {
         leg1 = fLeg->onGround();
@@ -514,7 +514,11 @@ void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHand
         {
             tLeg->stop(port, packet);
         }
-        if (leg1 && leg2 && leg3) break;
+        if (leg1 && leg2 && leg3) {
+            cout << "ground check \n";
+            cout << fLeg->onGround() << sLeg->onGround() << tLeg->onGround();
+            break;
+        }
         delay(50);
     }
 }

@@ -274,47 +274,54 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 	rotation_command(2) = vel_msg->angular.z;
 	printf("Input: \n");
 	cout << translation_command << '\t' << rotation_command << '\n';
-
-	if (swinging_pair == NULL || standing_pair == NULL)
-	{
-		printf("setup swinging_pair and standing_pair\n");
-		swinging_pair = &hexbot.firstPair;
-		standing_pair = &hexbot.secondPair;
-		
+	if (rotation_command(2) == 1) {
+		//Ground check command
+		swinging_pair->onGroundCheck(portHandler, packetHandler);
+		standing_pair->onGroundCheck(portHandler, packetHandler);
 	}
-	else
-	{
-		printf("check if all legs on ground\n");
-		//Double check if all of the legs are on the ground
-		if (!legOnGround())
+	else {
+		if (swinging_pair == NULL || standing_pair == NULL)
 		{
-			swinging_pair->onGroundCheck(portHandler, packetHandler);
-			standing_pair->onGroundCheck(portHandler, packetHandler);
+			printf("setup swinging_pair and standing_pair\n");
+			swinging_pair = &hexbot.firstPair;
+			standing_pair = &hexbot.secondPair;
+
 		}
+		else
+		{
+			printf("check if all legs on ground\n");
+			//Double check if all of the legs are on the ground
+			if (!legOnGround())
+			{
+				swinging_pair->onGroundCheck(portHandler, packetHandler);
+				standing_pair->onGroundCheck(portHandler, packetHandler);
+			}
 
-		printf("swap pairs\n");
-		//Swap pairs of legs assigned
-		swap(swinging_pair, standing_pair);
+			printf("swap pairs\n");
+			//Swap pairs of legs assigned
+			swap(swinging_pair, standing_pair);
+		}
+		printf("set TrajectoryPlanning\n");
+		//Create desired trajectory for each legs
+		trajectoryPlanning(*swinging_pair, rotation_command, translation_command, true, n_disc);
+		trajectoryPlanning(*standing_pair, rotation_command, translation_command, false, n_disc);
+		//thread th1(trajectoryPlanning, ref(*swinging_pair), rotation_command, translation_command, true, n_disc);
+		//thread th2(trajectoryPlanning, ref(*standing_pair), rotation_command, translation_command, false, n_disc);
+
+		//th1.join();
+		//th2.join();
+
+		printf("Move leg\n");
+		//Move leg along the trajectories
+		moveLeg(swinging_pair);
+		moveLeg(standing_pair);
+		//thread th3(moveLeg, swinging_pair);
+		//thread th4(moveLeg, standing_pair);
+
+		//th3.join();
+		//th4.join();
 	}
-	printf("set TrajectoryPlanning\n");
-	//Create desired trajectory for each legs
-	trajectoryPlanning(*swinging_pair, rotation_command, translation_command, true, n_disc);
-	trajectoryPlanning(*standing_pair, rotation_command, translation_command, false, n_disc);
-	//thread th1(trajectoryPlanning, ref(*swinging_pair), rotation_command, translation_command, true, n_disc);
-	//thread th2(trajectoryPlanning, ref(*standing_pair), rotation_command, translation_command, false, n_disc);
-
-	//th1.join();
-	//th2.join();
-
-	printf("Move leg\n");
-	//Move leg along the trajectories
-	moveLeg(swinging_pair);
-	moveLeg(standing_pair);
-	//thread th3(moveLeg, swinging_pair);
-	//thread th4(moveLeg, standing_pair);
-
-	//th3.join();
-	//th4.join();
+	
 }
 
 int main(int argc, char* argv[])
