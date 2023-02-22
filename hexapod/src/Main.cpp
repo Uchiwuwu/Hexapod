@@ -321,7 +321,7 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 
 		printf("Move leg\n");
 		//Move leg along the trajectories
-		//thread th3(moveLeg, swinging_pair);
+		thread th3(moveLeg, swinging_pair);
 		thread th4(moveLeg, standing_pair);
 
 		th3.join();
