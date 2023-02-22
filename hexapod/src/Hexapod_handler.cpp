@@ -48,6 +48,18 @@ void Hexaleg::speedSetup(dynamixel::PortHandler* port, dynamixel::PacketHandler*
     dxl_comm_result = packet->write2ByteTxRx(port, third_Servo, ADDR_MX_MOVING_SPEED, 200, &dxl_error);
 }
 
+void Hexaleg::currentPosition(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)
+{
+    cout << "Current " << name << " servos position\n";
+    dxl_comm_result = packet->read2ByteTxRx(port, first_Servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
+    cout << dxl_present_position << '\t';
+    dxl_comm_result = packet->read2ByteTxRx(port, second_Servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
+    cout << dxl_present_position << '\t';
+    dxl_comm_result = packet->read2ByteTxRx(port, third_Servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
+    cout << dxl_present_position << '\n';
+
+}
+
 bool Hexaleg::checkServoStatus(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo, uint16_t des_ang)
 {
     dxl_comm_result = packet->read2ByteTxRx(port, servo, ADDR_MX_PRESENT_POSITION, &dxl_present_position, &dxl_error);
@@ -423,7 +435,7 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
         tLeg->moveToDesiredPosition(port, packet, tLeg->first_Servo, tLeg->desired_angle(0, col3));
         tLeg->moveToDesiredPosition(port, packet, tLeg->second_Servo, tLeg->desired_angle(1, col3));
         tLeg->moveToDesiredPosition(port, packet, tLeg->third_Servo, tLeg->desired_angle(2, col3));
-
+        int count = 0;
         while (fLeg->checkServoStatus(port, packet, fLeg->first_Servo, fLeg->desired_angle(0, col1))
             && fLeg->checkServoStatus(port, packet, fLeg->second_Servo, fLeg->desired_angle(1, col1))
             && fLeg->checkServoStatus(port, packet, fLeg->third_Servo, fLeg->desired_angle(2, col1))
@@ -435,6 +447,12 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
             && tLeg->checkServoStatus(port, packet, tLeg->third_Servo, tLeg->desired_angle(2, col3)))
         {
             delay(100);
+            count++;
+            if (count == 20) {
+                fLeg->currentPosition(port, packet);
+                sLeg->currentPosition(port, packet);
+                tLeg->currentPosition(port, packet);
+            }
         }
         printf("after moving legs with col %d \n", col1);
     }
