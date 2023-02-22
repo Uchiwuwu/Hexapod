@@ -70,7 +70,7 @@ public:
     Hexaleg& operator=(const Hexaleg &L);
 
     Eigen::Matrix3f updateRollPitchYaw(float& roll, float& pitch, float& yaw);
-    void currentPosition(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet)                                                      //print out the current position of the leg
+    void currentPosition(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet);                                                      //print out the current position of the leg
     void matricesSetup(const Eigen::Vector3f& body_position, const Eigen::Matrix3f& rotation, Eigen::VectorXf configuration, int ang3, int ang5);      //Set up and initialize all of matrices
     void checkWorkspace(bool pair, int n);                                                                                                             //check if the desired position is in the workspace. Shift or modify the desired positions based on the pair
     void angleGenerator(bool pair, int n);                                                                                                             //Generate angle based on desired positions, using inverse kinematics
