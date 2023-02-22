@@ -482,7 +482,7 @@ void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHand
         leg3 = tLeg->onGround();
         if (!leg1)
         {
-            fLeg->moveToDesiredPosition(port, packet, fLeg->third_Servo, fLeg->desired_angle(2, fLeg->desired_angle.cols() - 1) += 10);
+            fLeg->moveToDesiredPosition(port, packet, fLeg->third_Servo, fLeg->desired_angle(2, fLeg->desired_angle.cols() - 1) -= 10);
         }
         else
         {
@@ -491,7 +491,7 @@ void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHand
 
         if (!leg2)
         {
-            sLeg->moveToDesiredPosition(port, packet, sLeg->third_Servo, sLeg->desired_angle(2, sLeg->desired_angle.cols() - 1) += 10);
+            sLeg->moveToDesiredPosition(port, packet, sLeg->third_Servo, sLeg->desired_angle(2, sLeg->desired_angle.cols() - 1) -= 10);
         }
         else
         {
@@ -500,7 +500,7 @@ void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHand
 
         if (!leg3)
         {
-            tLeg->moveToDesiredPosition(port, packet, tLeg->third_Servo, tLeg->desired_angle(2, tLeg->desired_angle.cols() - 1) += 10);
+            tLeg->moveToDesiredPosition(port, packet, tLeg->third_Servo, tLeg->desired_angle(2, tLeg->desired_angle.cols() - 1) -= 10);
         }
         else
         {
