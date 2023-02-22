@@ -71,7 +71,7 @@ bool Hexaleg::checkServoStatus(dynamixel::PortHandler* port, dynamixel::PacketHa
     {
         printf("%s\n", packet->getRxPacketError(dxl_error));
     }
-    return (abs(dxl_present_position - des_ang) <= EPS) ? true : false;
+    return (abs((int16_t)dxl_present_position - des_ang) <= EPS) ? true : false;
 }
 
 bool Hexaleg::moveToDesiredPosition(dynamixel::PortHandler* port, dynamixel::PacketHandler* packet, uint8_t servo, uint16_t position)
@@ -516,7 +516,7 @@ void Hexapair::onGroundCheck(dynamixel::PortHandler* port, dynamixel::PacketHand
         }
         if (leg1 && leg2 && leg3) {
             cout << "ground check \n";
-            cout << fLeg->onGround() << sLeg->onGround() << tLeg->onGround();
+            cout << fLeg->onGround() << sLeg->onGround() << tLeg->onGround() <<"\n";
             break;
         }
         delay(50);

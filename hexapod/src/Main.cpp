@@ -283,8 +283,8 @@ void readCommand(const geometry_msgs::Twist::ConstPtr& vel_msg)
 		if (swinging_pair == NULL || standing_pair == NULL)
 		{
 			printf("setup swinging_pair and standing_pair\n");
-			swinging_pair = &hexbot.firstPair;
-			standing_pair = &hexbot.secondPair;
+			swinging_pair = &hexbot.secondPair;
+			standing_pair = &hexbot.firstPair;
 
 		}
 		else
