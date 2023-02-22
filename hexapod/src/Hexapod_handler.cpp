@@ -411,6 +411,7 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
     //A loop of moving legs. Exit when all legs reach their final desired angles.
     for (int col1 = 0, col2 = 0, col3 = 0;col1 < fLeg->desired_angle.cols() && col2 < sLeg->desired_angle.cols() && col3 < tLeg->desired_angle.cols(); col1++, col2++, col3++)
     {
+        printf("before moving legs with col %d \n", col1);
         fLeg->moveToDesiredPosition(port, packet, fLeg->first_Servo, fLeg->desired_angle(0, col1));
         fLeg->moveToDesiredPosition(port, packet, fLeg->second_Servo, fLeg->desired_angle(1, col1));
         fLeg->moveToDesiredPosition(port, packet, fLeg->third_Servo, fLeg->desired_angle(2, col1));
@@ -435,7 +436,7 @@ void Hexapair::movePair(dynamixel::PortHandler* port, dynamixel::PacketHandler* 
         {
             delay(100);
         }
-        printf("leg %d \n", col1);
+        printf("after moving legs with col %d \n", col1);
     }
     this->onGroundCheck(port,packet);
     printf("Done moving pair\n");
