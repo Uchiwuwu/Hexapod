@@ -1,0 +1,549 @@
+<?xml version="1.0"?>
+<robot name="hexapod" xmlns:xacro="http://ros.org/wiki/xacro">
+<!-- <robot name="hexapod" > -->
+    <xacro:property name = "link1_x" value = "-24.7"/>
+    <xacro:property name = "link1_y" value = "-50.31"/>
+    <xacro:property name = "link1_z" value = "-38.92"/>
+
+    <xacro:property name = "joint1_x" value = "-75.91"/>
+    <xacro:property name = "joint1_y" value = "-140.91"/>
+    <xacro:property name = "joint1_z" value = "0"/>
+    
+    <xacro:property name = "link2_x" value = "-24.2"/>
+    <xacro:property name = "link2_y" value = "-11.5"/>
+    <xacro:property name = "link2_z" value = "-25.5"/>
+
+    <xacro:property name = "joint2_x" value = "0"/>
+    <xacro:property name = "joint2_y" value = "52"/>
+    <xacro:property name = "joint2_z" value = "0"/>
+
+    <xacro:property name = "link3_x" value = "-22"/>
+    <xacro:property name = "link3_y" value = "-11.5"/>
+    <xacro:property name = "link3_z" value = "-120.7"/>
+
+    <xacro:property name = "joint3_x" value = "0"/>
+    <xacro:property name = "joint3_y" value = "64.5"/>
+    <xacro:property name = "joint3_z" value = "-14.5"/>
+
+    <xacro:property name = "joint4_x" value = "-117"/>
+    <xacro:property name = "joint4_y" value = "0"/>
+    <xacro:property name = "joint4_z" value = "0"/>
+
+    <link name="body">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "-130 0 -19.75"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/body.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "-130 0 -19.75"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/body.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    
+    <!--Leg 1 front right-->
+    <link name="link1">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link1_x} ${link1_y} ${link1_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link1.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link1_x} ${link1_y} ${link1_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link1.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+      <origin rpy="0 0 0" xyz="0 0 1.0"/>
+      <mass value="1"/>
+      <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+    </inertial>
+    </link>
+    <joint name="joint1" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="0 0 ${3*pi/4}" xyz="${joint1_x} ${joint1_y} ${joint1_z} " />
+        <parent link="body" />
+        <child link="link1" />
+        <axis xyz="0 0 1" />
+        <limit effort="87" lower="${-pi/3}" upper="${pi/3}" velocity="2.3925" />
+    </joint>
+    <link name="link2">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link2_x} ${link2_y} ${link2_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link2.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link2_x} ${link2_y} ${link2_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link2.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint2" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="${pi/6} 0 0" xyz="${joint2_x} ${joint2_y} ${joint2_z}" />
+        <parent link="link1" />
+        <child link="link2" />
+        <axis xyz="1 0 0" />
+        <limit effort="87" lower="${-pi/2}" upper="${pi/3}" velocity="2.3925" />
+    </joint>
+    <link name="link3">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link3_x} ${link3_y} ${link3_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link3.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link3_x} ${link3_y} ${link3_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link3.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint3" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="${-pi/3} 0 0" xyz="${joint3_x} ${joint3_y} ${joint3_z}" />
+        <parent link="link2" />
+        <child link="link3" />
+        <axis xyz="1 0 0" />
+        <limit effort="87" lower="${-pi/6}" upper="${2*pi/3}" velocity="2.3925" />
+    </joint>
+    
+    <!--Leg 2 mid right-->
+    <link name="link4">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link1_x} ${link1_y} ${link1_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link1.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link1_x} ${link1_y} ${link1_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link1.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint4" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="0 0 ${pi/2}" xyz="${joint4_x} ${joint4_y} ${joint4_z} " />
+        <parent link="body" />
+        <child link="link4" />
+        <axis xyz="0 0 1" />
+        <limit effort="87" lower="${-pi/3}" upper="${pi/3}" velocity="2.3925" />
+    </joint>
+    <link name="link5">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link2_x} ${link2_y} ${link2_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link2.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link2_x} ${link2_y} ${link2_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link2.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint5" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="${pi/6} 0 0" xyz="${joint2_x} ${joint2_y} ${joint2_z}" />
+        <parent link="link4" />
+        <child link="link5" />
+        <axis xyz="1 0 0" />
+        <limit effort="87" lower="${-pi/2}" upper="${pi/3}" velocity="2.3925" />
+    </joint>
+    <link name="link6">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link3_x} ${link3_y} ${link3_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link3.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link3_x} ${link3_y} ${link3_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link3.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint6" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="${-pi/3} 0 0" xyz="${joint3_x} ${joint3_y} ${joint3_z}" />
+        <parent link="link5" />
+        <child link="link6" />
+        <axis xyz="1 0 0" />
+        <limit effort="87" lower="${-pi/6}" upper="${2*pi/3}" velocity="2.3925" />
+    </joint>
+    
+    <!--Leg 3 back right-->
+    <link name="link7">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link1_x} ${link1_y} ${link1_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link1.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link1_x} ${link1_y} ${link1_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link1.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint7" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="0 0 ${pi/4}" xyz="${joint1_x} ${-joint1_y} ${joint1_z} " />
+        <parent link="body" />
+        <child link="link7" />
+        <axis xyz="0 0 1" />
+        <limit effort="87" lower="${-pi/3}" upper="${pi/3}" velocity="2.3925" />
+    </joint>
+    <link name="link8">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link2_x} ${link2_y} ${link2_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link2.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link2_x} ${link2_y} ${link2_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link2.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint8" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="${pi/6} 0 0" xyz="${joint2_x} ${joint2_y} ${joint2_z}" />
+        <parent link="link7" />
+        <child link="link8" />
+        <axis xyz="1 0 0" />
+        <limit effort="87" lower="${-pi/2}" upper="${pi/3}" velocity="2.3925" />
+    </joint>
+    <link name="link9">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link3_x} ${link3_y} ${link3_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link3.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link3_x} ${link3_y} ${link3_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link3.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint9" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="${-pi/3} 0 0" xyz="${joint3_x} ${joint3_y} ${joint3_z}" />
+        <parent link="link8" />
+        <child link="link9" />
+        <axis xyz="1 0 0" />
+        <limit effort="87" lower="${-pi/6}" upper="${2*pi/3}" velocity="2.3925" />
+    </joint>
+    
+    <!--Leg 4 front left-->
+    <link name="link10">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link1_x} ${link1_y} ${link1_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link1.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link1_x} ${link1_y} ${link1_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link1.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint10" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="0 0 ${5*pi/4}" xyz="${-joint1_x} ${joint1_y} ${joint1_z} " />
+        <parent link="body" />
+        <child link="link10" />
+        <axis xyz="0 0 1" />
+        <limit effort="87" lower="${-pi/3}" upper="${pi/3}" velocity="2.3925" />
+    </joint>
+    <link name="link11">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link2_x} ${link2_y} ${link2_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link2.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link2_x} ${link2_y} ${link2_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link2.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint11" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="${pi/6} 0 0" xyz="${joint2_x} ${joint2_y} ${joint2_z}" />
+        <parent link="link10" />
+        <child link="link11" />
+        <axis xyz="1 0 0" />
+        <limit effort="87" lower="${-pi/2}" upper="${pi/3}" velocity="2.3925" />
+    </joint>
+    <link name="link12">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link3_x} ${link3_y} ${link3_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link3.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link3_x} ${link3_y} ${link3_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link3.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint12" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="${-pi/3} 0 0" xyz="${joint3_x} ${joint3_y} ${joint3_z}" />
+        <parent link="link11" />
+        <child link="link12" />
+        <axis xyz="1 0 0" />
+        <limit effort="87" lower="${-pi/6}" upper="${2*pi/3}" velocity="2.3925" />
+    </joint>
+        
+    <!--Leg 5 mid left-->
+    <link name="link13">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link1_x} ${link1_y} ${link1_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link1.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link1_x} ${link1_y} ${link1_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link1.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint13" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="0 0 ${3*pi/2}" xyz="${-joint4_x} ${joint4_y} ${joint4_z} " />
+        <parent link="body" />
+        <child link="link13" />
+        <axis xyz="0 0 1" />
+        <limit effort="87" lower="${-pi/3}" upper="${pi/3}" velocity="2.3925" />
+    </joint>
+    <link name="link14">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link2_x} ${link2_y} ${link2_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link2.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link2_x} ${link2_y} ${link2_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link2.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint14" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="${pi/6} 0 0" xyz="${joint2_x} ${joint2_y} ${joint2_z}" />
+        <parent link="link13" />
+        <child link="link14" />
+        <axis xyz="1 0 0" />
+        <limit effort="87" lower="${-pi/2}" upper="${pi/3}" velocity="2.3925" />
+    </joint>
+    <link name="link15">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link3_x} ${link3_y} ${link3_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link3.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link3_x} ${link3_y} ${link3_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link3.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint15" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="${-pi/3} 0 0" xyz="${joint3_x} ${joint3_y} ${joint3_z}" />
+        <parent link="link14" />
+        <child link="link15" />
+        <axis xyz="1 0 0" />
+        <limit effort="87" lower="${-pi/6}" upper="${2*pi/3}" velocity="2.3925" />
+    </joint>
+    
+    <!--Leg 6 back left-->
+    <link name="link16">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link1_x} ${link1_y} ${link1_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link1.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link1_x} ${link1_y} ${link1_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link1.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint16" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="0 0 ${-pi/4}" xyz="${-joint1_x} ${-joint1_y} ${joint1_z} " />
+        <parent link="body" />
+        <child link="link16" />
+        <axis xyz="0 0 1" />
+        <limit effort="87" lower="${-pi/3}" upper="${pi/3}" velocity="2.3925" />
+    </joint>
+    <link name="link17">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link2_x} ${link2_y} ${link2_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link2.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link2_x} ${link2_y} ${link2_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link2.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint17" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="${pi/6} 0 0" xyz="${joint2_x} ${joint2_y} ${joint2_z}" />
+        <parent link="link16" />
+        <child link="link17" />
+        <axis xyz="1 0 0" />
+        <limit effort="87" lower="${-pi/2}" upper="${pi/3}" velocity="2.3925" />
+    </joint>
+    <link name="link18">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "${link3_x} ${link3_y} ${link3_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link3.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy = "0 0 0" xyz = "${link3_x} ${link3_y} ${link3_z}"/>
+            <geometry>
+                <mesh filename="package://hexapod_description/mesh/link3.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="0.3341666666666666" ixy="0.0" ixz="0.0" iyy="0.3341666666666666" iyz="0.0" izz="0.001666666666666667"/>
+        </inertial>
+    </link>
+    <joint name="joint18" type="revolute">
+        <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+        <origin rpy="${-pi/3} 0 0" xyz="${joint3_x} ${joint3_y} ${joint3_z}" />
+        <parent link="link17" />
+        <child link="link18" />
+        <axis xyz="1 0 0" />
+        <limit effort="87" lower="${-pi/6}" upper="${2*pi/3}" velocity="2.3925" />
+    </joint>
+</robot>
