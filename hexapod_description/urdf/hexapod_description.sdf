@@ -1,0 +1,954 @@
+<sdf version='1.7'>
+  <model name='hexapod'>
+    <link name='body'>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='body_collision'>
+        <pose>-130 0 -19.75 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/body.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='body_visual'>
+        <pose>-130 0 -19.75 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/body.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint1' type='revolute'>
+      <pose relative_to='body'>-75.91 -140.91 0 0 -0 2.35619</pose>
+      <parent>body</parent>
+      <child>link1</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.0472</lower>
+          <upper>1.0472</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link1'>
+      <pose relative_to='joint1'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link1_collision'>
+        <pose>-24.7 -50.31 -38.92 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link1.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link1_visual'>
+        <pose>-24.7 -50.31 -38.92 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link1.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint2' type='revolute'>
+      <pose relative_to='link1'>0 52 0 0.523599 -0 0</pose>
+      <parent>link1</parent>
+      <child>link2</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.0472</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link2'>
+      <pose relative_to='joint2'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link2_collision'>
+        <pose>-24.2 -11.5 -25.5 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link2.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link2_visual'>
+        <pose>-24.2 -11.5 -25.5 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link2.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint3' type='revolute'>
+      <pose relative_to='link2'>0 64.5 -14.5 -1.0472 0 0</pose>
+      <parent>link2</parent>
+      <child>link3</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-0.523599</lower>
+          <upper>2.0944</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link3'>
+      <pose relative_to='joint3'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link3_collision'>
+        <pose>-22 -11.5 -120.7 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link3.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link3_visual'>
+        <pose>-22 -11.5 -120.7 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link3.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint10' type='revolute'>
+      <pose relative_to='body'>75.91 -140.91 0 0 0 -2.35619</pose>
+      <parent>body</parent>
+      <child>link10</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.0472</lower>
+          <upper>1.0472</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link10'>
+      <pose relative_to='joint10'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link10_collision'>
+        <pose>-24.7 -50.31 -38.92 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link1.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link10_visual'>
+        <pose>-24.7 -50.31 -38.92 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link1.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint11' type='revolute'>
+      <pose relative_to='link10'>0 52 0 0.523599 -0 0</pose>
+      <parent>link10</parent>
+      <child>link11</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.0472</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link11'>
+      <pose relative_to='joint11'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link11_collision'>
+        <pose>-24.2 -11.5 -25.5 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link2.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link11_visual'>
+        <pose>-24.2 -11.5 -25.5 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link2.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint12' type='revolute'>
+      <pose relative_to='link11'>0 64.5 -14.5 -1.0472 0 0</pose>
+      <parent>link11</parent>
+      <child>link12</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-0.523599</lower>
+          <upper>2.0944</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link12'>
+      <pose relative_to='joint12'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link12_collision'>
+        <pose>-22 -11.5 -120.7 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link3.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link12_visual'>
+        <pose>-22 -11.5 -120.7 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link3.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint13' type='revolute'>
+      <pose relative_to='body'>117 0 0 0 0 -1.5708</pose>
+      <parent>body</parent>
+      <child>link13</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.0472</lower>
+          <upper>1.0472</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link13'>
+      <pose relative_to='joint13'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link13_collision'>
+        <pose>-24.7 -50.31 -38.92 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link1.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link13_visual'>
+        <pose>-24.7 -50.31 -38.92 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link1.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint14' type='revolute'>
+      <pose relative_to='link13'>0 52 0 0.523599 -0 0</pose>
+      <parent>link13</parent>
+      <child>link14</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.0472</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link14'>
+      <pose relative_to='joint14'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link14_collision'>
+        <pose>-24.2 -11.5 -25.5 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link2.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link14_visual'>
+        <pose>-24.2 -11.5 -25.5 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link2.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint15' type='revolute'>
+      <pose relative_to='link14'>0 64.5 -14.5 -1.0472 0 0</pose>
+      <parent>link14</parent>
+      <child>link15</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-0.523599</lower>
+          <upper>2.0944</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link15'>
+      <pose relative_to='joint15'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link15_collision'>
+        <pose>-22 -11.5 -120.7 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link3.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link15_visual'>
+        <pose>-22 -11.5 -120.7 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link3.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint16' type='revolute'>
+      <pose relative_to='body'>75.91 140.91 0 0 0 -0.785398</pose>
+      <parent>body</parent>
+      <child>link16</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.0472</lower>
+          <upper>1.0472</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link16'>
+      <pose relative_to='joint16'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link16_collision'>
+        <pose>-24.7 -50.31 -38.92 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link1.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link16_visual'>
+        <pose>-24.7 -50.31 -38.92 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link1.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint17' type='revolute'>
+      <pose relative_to='link16'>0 52 0 0.523599 -0 0</pose>
+      <parent>link16</parent>
+      <child>link17</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.0472</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link17'>
+      <pose relative_to='joint17'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link17_collision'>
+        <pose>-24.2 -11.5 -25.5 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link2.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link17_visual'>
+        <pose>-24.2 -11.5 -25.5 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link2.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint18' type='revolute'>
+      <pose relative_to='link17'>0 64.5 -14.5 -1.0472 0 0</pose>
+      <parent>link17</parent>
+      <child>link18</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-0.523599</lower>
+          <upper>2.0944</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link18'>
+      <pose relative_to='joint18'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link18_collision'>
+        <pose>-22 -11.5 -120.7 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link3.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link18_visual'>
+        <pose>-22 -11.5 -120.7 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link3.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint4' type='revolute'>
+      <pose relative_to='body'>-117 0 0 0 -0 1.5708</pose>
+      <parent>body</parent>
+      <child>link4</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.0472</lower>
+          <upper>1.0472</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link4'>
+      <pose relative_to='joint4'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link4_collision'>
+        <pose>-24.7 -50.31 -38.92 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link1.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link4_visual'>
+        <pose>-24.7 -50.31 -38.92 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link1.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint5' type='revolute'>
+      <pose relative_to='link4'>0 52 0 0.523599 -0 0</pose>
+      <parent>link4</parent>
+      <child>link5</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.0472</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link5'>
+      <pose relative_to='joint5'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link5_collision'>
+        <pose>-24.2 -11.5 -25.5 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link2.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link5_visual'>
+        <pose>-24.2 -11.5 -25.5 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link2.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint6' type='revolute'>
+      <pose relative_to='link5'>0 64.5 -14.5 -1.0472 0 0</pose>
+      <parent>link5</parent>
+      <child>link6</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-0.523599</lower>
+          <upper>2.0944</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link6'>
+      <pose relative_to='joint6'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link6_collision'>
+        <pose>-22 -11.5 -120.7 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link3.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link6_visual'>
+        <pose>-22 -11.5 -120.7 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link3.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint7' type='revolute'>
+      <pose relative_to='body'>-75.91 140.91 0 0 -0 0.785398</pose>
+      <parent>body</parent>
+      <child>link7</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.0472</lower>
+          <upper>1.0472</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link7'>
+      <pose relative_to='joint7'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link7_collision'>
+        <pose>-24.7 -50.31 -38.92 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link1.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link7_visual'>
+        <pose>-24.7 -50.31 -38.92 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link1.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint8' type='revolute'>
+      <pose relative_to='link7'>0 52 0 0.523599 -0 0</pose>
+      <parent>link7</parent>
+      <child>link8</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.0472</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link8'>
+      <pose relative_to='joint8'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link8_collision'>
+        <pose>-24.2 -11.5 -25.5 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link2.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link8_visual'>
+        <pose>-24.2 -11.5 -25.5 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link2.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='joint9' type='revolute'>
+      <pose relative_to='link8'>0 64.5 -14.5 -1.0472 0 0</pose>
+      <parent>link8</parent>
+      <child>link9</child>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>-0.523599</lower>
+          <upper>2.0944</upper>
+          <effort>87</effort>
+          <velocity>2.3925</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='link9'>
+      <pose relative_to='joint9'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 1 0 -0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.334167</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.334167</iyy>
+          <iyz>0</iyz>
+          <izz>0.00166667</izz>
+        </inertia>
+      </inertial>
+      <collision name='link9_collision'>
+        <pose>-22 -11.5 -120.7 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link3.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='link9_visual'>
+        <pose>-22 -11.5 -120.7 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://hexapod_description/mesh/link3.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
